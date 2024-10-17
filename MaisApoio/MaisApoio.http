@@ -1,0 +1,6 @@
+@MaisApoio_HostAddress = http://localhost:5233
+
+GET {{MaisApoio_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

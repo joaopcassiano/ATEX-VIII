@@ -8,45 +8,45 @@ public class Doacao
     private float _quantidade;
     private DateTime _dataDoacao;
     private int _beneficiarioID;
-    private bool _ativoDoacao;
+    private bool _ativo;
 
     public int ID
     {
-        get{return _id;}
-        set{_id = value;}
+        get { return _id; }
+        set { _id = value; }
     }
     public string TipoDoacao
     {
-        get{return _tipoDoacao;}
-        set{_tipoDoacao = value;}
+        get { return _tipoDoacao; }
+        set { _tipoDoacao = value; }
     }
     public string DescricaoDoacao
     {
-        get{return _descricaoDoacao;}
-        set{_descricaoDoacao = value;}
+        get { return _descricaoDoacao; }
+        set { _descricaoDoacao = value; }
     }
     public float Quantidade
     {
-        get{return _quantidade;}
-        set{_quantidade = value;}
+        get { return _quantidade; }
+        set { _quantidade = value; }
     }
     public DateTime DataDoacao
     {
-        get{return _dataDoacao;}
-        set{_dataDoacao = value;}
+        get { return _dataDoacao; }
+        set { _dataDoacao = value; }
     }
     public int beneficarioID
     {
-        get{return _beneficiarioID;}
-        set{_beneficiarioID = value;}
+        get { return _beneficiarioID; }
+        set { _beneficiarioID = value; }
     }
-    public bool AtivoDoacao
+    public bool Ativo
     {
-        get{return _ativoDoacao;}
-        set{_ativoDoacao = value;}
+        get { return _ativo; }
+        set { _ativo = value; }
     }
 
-    public Doacao(){}
+    public Doacao() { }
 
     public Doacao(string tipoDoacao, string descricaoDoacao, float quantidade, DateTime dataDoacao, int beneficarioID)
     {
@@ -55,15 +55,15 @@ public class Doacao
         _quantidade = quantidade;
         _dataDoacao = dataDoacao;
         _beneficiarioID = beneficarioID;
-        _ativoDoacao = true;
+        _ativo = true;
     }
     public void Deletar()
     {
-        _ativoDoacao = false;
+        _ativo = false;
     }
     public void Restaurar()
     {
-        _ativoDoacao = true;
+        _ativo = true;
     }
 
 }

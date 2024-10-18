@@ -9,7 +9,7 @@ public class Endereco
     private string _complemento;
     private string _cidade;
     private string _cep;
-    private bool _ativoEndereco;
+    private bool _ativo;
 
     public int ID
     {
@@ -46,10 +46,10 @@ public class Endereco
         get{return _cep;}
         set{_cep = value;}
     }
-    public bool AtivoEndereco
+    public bool Ativo
     {
-        get{return _ativoEndereco;}
-        set{_ativoEndereco = value;}
+        get{return _ativo;}
+        set{_ativo = value;}
     }
 
     public Endereco(){}
@@ -62,18 +62,16 @@ public class Endereco
         _complemento = complemento;
         _cidade = cidade;
         _cep = cep;
-        _ativoEndereco = true;
+        _ativo = true;
     }
 
     public void Deletar()
     {
-        _ativoEndereco = false;
+        _ativo = false;
     }
     public void Restaurar()
     {
-        _ativoEndereco = true;
+        _ativo = true;
     }
-
-
 
 }

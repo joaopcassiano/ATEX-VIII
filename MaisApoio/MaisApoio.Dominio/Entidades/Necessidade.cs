@@ -1,68 +1,64 @@
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
-public class Necessidade{
+public class Necessidade
+{
 
     private int _id;
     private string _descricao;
     private DateTime _dataRegistro;
     private string _prioridade;
     private int _beneficiarioID;
-    private bool _ativoNecessidade;
+    private bool _ativo;
 
     public int ID
     {
-        get{return _id;}
-        set{_id = value;}
+        get { return _id; }
+        set { _id = value; }
     }
     public string Descricao
     {
-        get{return _descricao;}
-        set{_descricao = value;}
+        get { return _descricao; }
+        set { _descricao = value; }
     }
     public DateTime DataRegistro
     {
-        get{return _dataRegistro;}
-        set{_dataRegistro = value;}
+        get { return _dataRegistro; }
+        set { _dataRegistro = value; }
     }
     public string Prioridade
     {
-        get{return _prioridade;}
-        set{_prioridade = value;}
+        get { return _prioridade; }
+        set { _prioridade = value; }
     }
     public int _BeneficiarioID
     {
-        get{return _beneficiarioID;}
-        set{_beneficiarioID = value;}
+        get { return _beneficiarioID; }
+        set { _beneficiarioID = value; }
     }
-    public bool AtivoNecessidade
+    public bool Ativo
     {
-        get{return _ativoNecessidade;}
-        set{_ativoNecessidade = value;}
+        get { return _ativo; }
+        set { _ativo = value; }
     }
-    public Necessidade(){}
+    public Necessidade() { }
 
     public Necessidade(string descricao, DateTime dataRegistro, string prioridade, int beneficarioID)
-    {   
+    {
         _descricao = descricao;
         _dataRegistro = dataRegistro;
         _prioridade = prioridade;
         _beneficiarioID = beneficarioID;
-        _ativoNecessidade = true;
+        _ativo = true;
     }
 
     public void Deletar()
     {
-        _ativoNecessidade = false;
+        _ativo = false;
     }
 
     public void Restaurar()
     {
-        _ativoNecessidade = true;
+        _ativo = true;
     }
-
-
-
-
-
 
 }

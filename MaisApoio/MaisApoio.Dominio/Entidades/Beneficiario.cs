@@ -54,7 +54,7 @@ public class Beneficiario
 
     public Beneficiario()
     {
-        
+    
     }
 
     public Beneficiario(string nome, string email, string situacaoEconomica, DateTime dataNascimento, int enderecoID)

@@ -25,25 +25,49 @@ public class Emprego
     public string DescricaoVaga 
     {
         get { return _descricaoVaga; }
-        set { _descricaoVaga = value; }
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A Descrição não pode ser vaia.");
+
+            _descricaoVaga = value;
+        }
     }
 
     public double Salario
     {
         get { return _salario; }
-        set { _salario = value; }
+        set
+        {
+            if(value <= 0)
+                throw new Exception("O Salário não pode ser zero ou negativo.");
+                
+            _salario = value;
+        }
     }
 
     public int EnderecoID
     {
         get { return _enderecoID; }
-        set { _enderecoID = value; }
+        set
+        {
+            if (value <= 0)
+                throw new ArgumentException("Endereço inválido.");
+
+            _enderecoID = value;
+        }
     }
 
     public int BeneficiarioID
     {
         get { return _beneficiarioID; }
-        set { _beneficiarioID = value; }
+        set 
+        {
+            if(value <= 0)
+                throw new Exception("O ID do Beneficiário não pode ser zero ou negativo.");
+                
+            _beneficiarioID = value;
+        }
     }
 
     public bool Ativo 

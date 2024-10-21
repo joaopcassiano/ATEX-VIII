@@ -1,0 +1,144 @@
+body{
+    margin: 0;
+}
+
+.corpo{
+    width: 100vw;
+    height: 100vh;
+}
+
+.top-bar{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 3.5rem;
+    background-color: #16567c;
+}
+
+.conteudo{
+    position: absolute;
+    top: 3.5rem;
+    width: 100vw ;
+    height: calc(100vh - 3.5rem);
+    overflow-y: auto;
+    
+}
+
+.fundo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap:20rem;
+    background: linear-gradient(
+        45deg, 
+        #b7e0f2 50%, /* Azul claro */
+        #0c5775 50%, /* Azul escuro */
+        #87969c 100%
+    );
+}
+
+.conteudo::-webkit-scrollbar{
+    width: 10px;
+    
+}
+.conteudo::-webkit-scrollbar-thumb{
+    width: 10px;
+    background-color: #16567c;
+    border-radius: 5px;
+}
+
+.bloco-1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 5rem;
+    width: 90%;
+    height: 30rem;
+}
+
+.bloco-1-texto{
+    text-align: center;
+    font-size: 1.4rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 0 5rem;
+}
+
+.capa{
+    height: 100%;
+    border-radius: 5rem;
+}
+
+.logo{
+    width: 10rem;
+}
+
+.bloco-2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    gap: 2rem;
+}
+
+.boxs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 4rem;
+}
+
+.box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #ceebfc;
+    border-radius: 2rem;
+    width: 15rem;
+    height: 15rem;
+}
+
+.imagem{
+    width: 4rem;
+}
+
+.descricao{
+    font-size: 1.1rem;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.final{
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    padding: 3rem 0;
+    margin-bottom: 0;
+    background-color: #297099;
+    gap: 7rem;
+}
+
+.infos{
+    width: 30rem;
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+}
+
+.combate{
+    width: 10rem;
+}
+
+.unifenas{
+    width: 10rem;
+}
+
+

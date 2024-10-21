@@ -18,7 +18,13 @@ public class Necessidade
     public string Descricao
     {
         get { return _descricao; }
-        set { _descricao = value; }
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A Descrição não pode ser vaia.");
+
+            _descricao = value;
+        }
     }
     public DateTime DataRegistro
     {
@@ -28,12 +34,24 @@ public class Necessidade
     public string Prioridade
     {
         get { return _prioridade; }
-        set { _prioridade = value; }
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A Prioridade não pode ser vaia.");
+
+            _prioridade = value;
+        }
     }
     public int _BeneficiarioID
     {
         get { return _beneficiarioID; }
-        set { _beneficiarioID = value; }
+        set 
+        {
+            if(value <= 0)
+                throw new Exception("O ID do Beneficiário não pode ser zero ou negativo.");
+                
+            _beneficiarioID = value;
+        }
     }
     public bool Ativo
     {
@@ -44,21 +62,21 @@ public class Necessidade
 
     public Necessidade(string descricao, DateTime dataRegistro, string prioridade, int beneficarioID)
     {
-        _descricao = descricao;
-        _dataRegistro = dataRegistro;
-        _prioridade = prioridade;
-        _beneficiarioID = beneficarioID;
-        _ativo = true;
+        Descricao = descricao;
+        DataRegistro = dataRegistro;
+        Prioridade = prioridade;
+        BeneficiarioID = beneficarioID;
+        Ativo = true;
     }
 
     public void Deletar()
     {
-        _ativo = false;
+        Ativo = false;
     }
 
     public void Restaurar()
     {
-        _ativo = true;
+        Ativo = true;
     }
 
 }

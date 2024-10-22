@@ -42,7 +42,7 @@ public class Necessidade
             _prioridade = value;
         }
     }
-    public int _BeneficiarioID
+    public int BeneficiarioID
     {
         get { return _beneficiarioID; }
         set 

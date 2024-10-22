@@ -32,8 +32,8 @@ body{
     background: linear-gradient(
         45deg, 
         #b7e0f2 50%, /* Azul claro */
-        #0c5775 50%, /* Azul escuro */
-        #87969c 100%
+        #0c5775 25%, /* Azul escuro */
+        #87969c 25% /* Azul medio */
     );
 }
 

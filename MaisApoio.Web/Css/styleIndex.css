@@ -1,53 +1,145 @@
-body{
+body {
     margin: 0;
 }
 
-.corpo{
+.corpo {
     width: 100vw;
     height: 100vh;
 }
 
-.top-bar{
+.top-bar {
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: end;
     top: 0;
     width: 100%;
     height: 3.5rem;
     background-color: #16567c;
+    z-index: 1;
 }
 
-.conteudo{
+.opcoes {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    transform-origin: top;
+    font-family: Arial, sans-serif;
+    z-index: 10;
+
+    &:hover {
+        .texto-opcao {
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+        .opcao {
+            transition: 1s;
+            width: 8rem;
+            height: 2rem;
+            z-index: 10;
+        }
+
+        .opcao-principal{
+            z-index: 10;
+        }
+    }
+}
+
+.corda1{
+    position: absolute;
+    background-color: maroon;
+    width: 7px;
+    height: 13rem;
+    top: 0.5rem;
+    right: 6rem;
+    z-index: 1;
+}
+
+.corda2{
+    position: absolute;
+    background-color: maroon;
+    width: 7px;
+    height: 13rem;
+    top: 0.5rem;
+    right: 1.4rem;
+    z-index: 1;
+}
+
+.opcao-principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    height: 2rem;
+    background-color: #3aa0db;
+    border-radius: 7px;
+    z-index: 10;
+}
+
+.texto-login {
+    margin: 0;
+    z-index: 10;
+}
+
+.opcao-usuario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 1rem 0;
+    gap: 1rem;
+    height: auto;
+}
+
+.opcao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5bacdb;
+    height: 0;
+    transition: 1s;
+    border-radius: 0.3px;
+
+}
+
+.texto-opcao {
+    font-size: 0px;
+}
+
+.conteudo {
     position: absolute;
     top: 3.5rem;
-    width: 100vw ;
+    width: 100vw;
     height: calc(100vh - 3.5rem);
     overflow-y: auto;
-    
 }
 
-.fundo{
+.fundo {
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap:20rem;
-    background: linear-gradient(
-        45deg, 
-        #b7e0f2 50%, /* Azul claro */
-        #0c5775 50%, /* Azul escuro */
-        #87969c 100%
-    );
+    gap: 20rem;
+    background: linear-gradient(45deg,
+            #b7e0f2 50%,
+            /* Azul claro */
+            #0c5775 50%,
+            /* Azul escuro */
+            #87969c 100%);
 }
 
-.conteudo::-webkit-scrollbar{
+.conteudo::-webkit-scrollbar {
     width: 10px;
-    
+
 }
-.conteudo::-webkit-scrollbar-thumb{
+
+.conteudo::-webkit-scrollbar-thumb {
     width: 10px;
     background-color: #16567c;
     border-radius: 5px;
 }
 
-.bloco-1{
+.bloco-1 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,23 +149,23 @@ body{
     height: 30rem;
 }
 
-.bloco-1-texto{
+.bloco-1-texto {
     text-align: center;
     font-size: 1.4rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding: 0 5rem;
 }
 
-.capa{
+.capa {
     height: 100%;
     border-radius: 5rem;
 }
 
-.logo{
+.logo {
     width: 10rem;
 }
 
-.bloco-2{
+.bloco-2 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,7 +174,7 @@ body{
     gap: 2rem;
 }
 
-.boxs{
+.boxs {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,7 +182,7 @@ body{
     gap: 4rem;
 }
 
-.box{
+.box {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,20 +192,21 @@ body{
     border-radius: 2rem;
     width: 15rem;
     height: 15rem;
+    border: #16567c 2px solid;
 }
 
-.imagem{
+.imagem {
     width: 4rem;
 }
 
-.descricao{
+.descricao {
     font-size: 1.1rem;
     font-family: 'Arial Narrow', Arial, sans-serif;
     text-align: center;
     padding: 0 1rem;
 }
 
-.final{
+.final {
     bottom: 0;
     display: flex;
     align-items: center;
@@ -126,19 +219,17 @@ body{
     gap: 7rem;
 }
 
-.infos{
+.infos {
     width: 30rem;
     text-align: center;
     font-size: 1.2rem;
     font-family: 'Arial Narrow', Arial, sans-serif;
 }
 
-.combate{
+.combate {
     width: 10rem;
 }
 
-.unifenas{
+.unifenas {
     width: 10rem;
 }
-
-

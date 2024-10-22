@@ -1,0 +1,182 @@
+.corpo{
+    width: 100vw;
+    height: 100vh;
+}
+
+.conteudo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    height: calc( 100% - 8.5rem );
+    overflow-x: hidden;
+    overflow-y: auto;
+
+}
+
+.conteudo::-webkit-scrollbar{
+    width: 10px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.conteudo::-webkit-scrollbar-thumb{
+    background-color: #007BFF;
+    border-radius: 10px;
+}
+
+.bannerImagem{
+    width: 90%;
+    height: auto;
+    object-fit: cover;
+}
+
+.botoesConteudo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 90%;
+    gap: 3rem;
+}
+
+.infos{
+    font-family: 'Poppins';
+    min-width: 90%;
+    max-width: 90%;
+}
+
+.tituloInfo{
+    color: #007BFF;
+    font-size: 1.7rem;
+    margin: 0.2rem 0 0.3rem 0;
+}
+
+.boxs{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    flex-direction: row;
+    gap: 3rem;
+    min-width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+}
+
+.box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: auto;
+    height: 10rem;
+    background-color: rgb(255, 255, 255);
+    border: #007BFF solid 2px;
+    border-radius: 7px;
+}
+
+.textoInfo{
+    width: auto;
+    margin: 0 1rem;
+}
+
+.textoTextoInfo{
+    font-family: 'Poppins';
+    font-size: 0.8rem;
+    color: #007BFF;
+    margin: 0 0 0.5rem 0;
+}
+
+
+.imagemBox{
+    width: 5rem;
+    margin: 0 0 0 1rem;
+}
+
+.textoBannerSobreApoio{
+    background-image: url('../../assets/bannerSobreApoio.png');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    min-height: 24rem;
+    z-index: 2;
+}
+
+.tituloTextoBannerSobreApoio{
+    color: white;
+    font-family: 'Poppins';
+    font-size: 5.5rem;
+    margin: 0;
+}
+
+.textoTextoBannerSobreApoio{
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+    width: 80%;
+}
+
+.texts{
+    display: flex;
+    align-items:first baseline;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 80%;
+    height: auto;
+}
+
+.text{
+    display: flex;
+    text-align: end;
+    justify-items: right;
+    flex-direction: column;
+    width: 22rem;
+}
+
+.tituloText1{
+    color: rgb(0, 0, 0);
+    font-family: 'Poppins';
+    font-size: 5.5rem;
+    margin: 0 0 -40px 0;
+}
+
+.tituloText2{
+    color: rgb(0, 0, 0);
+    font-family: 'PoppinsSimples';
+    font-size: 3rem;
+    margin: -10px 0 0 0;
+}
+
+.textoText{
+    color: rgb(0, 0, 0);
+    font-family: 'PoppinsSimples';
+    font-size: 1rem;
+    padding-left: 4rem;
+    width: auto;
+}
+
+.descricaoSobre{
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-family: 'PoppinsSimples';
+    margin-top: 3rem;
+    width: 80%;
+    height: 10rem;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }

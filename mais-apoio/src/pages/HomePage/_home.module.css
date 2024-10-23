@@ -452,6 +452,14 @@
     gap: 0.5rem;
 }
 
+.labelCadastro{
+    color: #007BFF;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+
 .inputCadastro {
     all: unset; 
     border: #007BFF solid;
@@ -462,6 +470,8 @@
 .iconeCadastro {
     color: #007BFF;
     font-size: 2rem;
+    padding: 0;
+    margin: 0;
 }
 
 @font-face {

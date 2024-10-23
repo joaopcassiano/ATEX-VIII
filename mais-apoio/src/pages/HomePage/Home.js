@@ -331,7 +331,7 @@ const Home = () => {
                                                                             Cadastro
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label><BsPerson className={styles.iconeCadastro}/></label>
+                                                                            <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro}/></label>
                                                                             <InputMask type='text' placeholder='Nome Completo' className={styles.inputCadastro}></InputMask>
                                                                         </div>
                                                                     </form>

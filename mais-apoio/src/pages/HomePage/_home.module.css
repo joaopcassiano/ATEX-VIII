@@ -1,38 +1,38 @@
-.corpo{
+.corpo {
     width: 100vw;
     height: 99vh;
 }
 
-.conteudo{
+.conteudo {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
     width: 100%;
-    height: calc( 100% - 8.5rem );
+    height: calc(100% - 8.5rem);
     overflow-x: hidden;
     overflow-y: auto;
 
 }
 
-.conteudo::-webkit-scrollbar{
+.conteudo::-webkit-scrollbar {
     width: 10px;
     background-color: rgba(255, 255, 255, 0);
 }
 
-.conteudo::-webkit-scrollbar-thumb{
+.conteudo::-webkit-scrollbar-thumb {
     background-color: #007BFF;
     border-radius: 10px;
 }
 
-.bannerImagem{
+.bannerImagem {
     width: 90%;
     height: auto;
     object-fit: cover;
-    margin: 3rem 0 ;
+    margin: 3rem 0;
 }
 
-.botoesConteudo{
+.botoesConteudo {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,22 +42,22 @@
     gap: 3rem;
 }
 
-.infos{
+.infos {
     font-family: 'Poppins';
     min-width: 90%;
     max-width: 90%;
 }
 
-.tituloInfo{
+.tituloInfo {
     color: #007BFF;
     font-size: 1.7rem;
     margin: 0.2rem 0 0.3rem 0;
 }
 
-.boxs{
+.boxs {
     display: flex;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
     flex-direction: row;
     gap: 3rem;
     min-width: 100%;
@@ -65,7 +65,7 @@
     margin-bottom: 1rem;
 }
 
-.box{
+.box {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,12 +77,12 @@
     border-radius: 7px;
 }
 
-.textoInfo{
+.textoInfo {
     width: auto;
     margin: 0 1rem;
 }
 
-.textoTextoInfo{
+.textoTextoInfo {
     font-family: 'Poppins';
     font-size: 0.8rem;
     color: #007BFF;
@@ -90,12 +90,12 @@
 }
 
 
-.imagemBox{
+.imagemBox {
     width: 5rem;
     margin: 0 0 0 1rem;
 }
 
-.textoBannerSobreApoio{
+.textoBannerSobreApoio {
     background-image: url('../../assets/bannerSobreApoio.png');
     background-size: cover;
     display: flex;
@@ -107,23 +107,23 @@
     z-index: 2;
 }
 
-.tituloTextoBannerSobreApoio{
+.tituloTextoBannerSobreApoio {
     color: white;
     font-family: 'Poppins';
     font-size: 5.5rem;
     margin: 0;
 }
 
-.textoTextoBannerSobreApoio{
+.textoTextoBannerSobreApoio {
     color: white;
     text-align: center;
     font-size: 1.1rem;
     width: 80%;
 }
 
-.texts{
+.texts {
     display: flex;
-    align-items:first baseline;
+    align-items: first baseline;
     justify-content: space-between;
     flex-direction: row;
     width: 80%;
@@ -131,7 +131,7 @@
     margin: 2rem 0 0 0;
 }
 
-.text{
+.text {
     display: flex;
     text-align: end;
     justify-items: right;
@@ -139,21 +139,21 @@
     width: 22rem;
 }
 
-.tituloText1{
+.tituloText1 {
     color: rgb(0, 0, 0);
     font-family: 'Poppins';
     font-size: 5.5rem;
     margin: 0 0 -40px 0;
 }
 
-.tituloText2{
+.tituloText2 {
     color: rgb(0, 0, 0);
     font-family: 'PoppinsSimples';
     font-size: 3rem;
     margin: -10px 0 0 0;
 }
 
-.textoText{
+.textoText {
     color: rgb(0, 0, 0);
     font-family: 'PoppinsSimples';
     font-size: 1rem;
@@ -161,7 +161,7 @@
     width: auto;
 }
 
-.descricaoSobre{
+.descricaoSobre {
     text-align: center;
     color: rgb(0, 0, 0);
     font-family: 'PoppinsSimples';
@@ -170,16 +170,310 @@
     height: 10rem;
 }
 
+.carrosel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin: 2rem 0 0 0;
+}
+
+.imagens {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    overflow: hidden;
+}
+
+.imagensCarrosel {
+    width: 100%;
+    height: auto;
+    transition: transform 0.5s ease;
+    object-fit: cover;
+}
+
+.bolas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    height: 2rem;
+    gap: 0.5rem
+}
+
+.bola {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+}
+
+.bola1 {
+    all: unset;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #c6c6c9;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 100px;
+    border: none;
+}
+
+.bola2 {
+    all: unset;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #c6c6c9;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+}
+
+.bola3 {
+    all: unset;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #c6c6c9;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+}
+
+.bola1:hover {
+    transform: scale(1.3);
+    background-color: #616161;
+}
+
+.bola2:hover {
+    transform: scale(1.3);
+    background-color: #616161;
+}
+
+.bola3:hover {
+    transform: scale(1.3);
+    background-color: #616161;
+}
+
+.escuro {
+    transform: scale(1.3);
+    background-color: #616161;
+}
+
+.claro {
+    background-color: #c6c6c9;
+}
+
+.linkAjuda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 80%;
+    margin: 3rem 0 1rem 0;
+
+}
+
+.tituloAjuda {
+    width: 100%;
+    text-align: left;
+    font-family: 'Poppins';
+    font-size: 2.5rem;
+    color: #007BFF;
+}
+
+.boxsAjuda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 3rem;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 2rem 0 0 0;
+}
+
+.boxAjuda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border: #007BFF solid 2px;
+    width: 100%;
+    border-radius: 7px;
+    height: 13rem;
+}
+
+.imagemAjuda {
+    width: 8.5rem;
+}
+
+.textoAjuda {
+    font-family: 'Poppins';
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.ajudado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    gap: 3rem;
+    padding: 3rem 0;
+}
+
+.fotoAjudado {
+    width: 26%;
+}
+
+.blocoAjudado {
+    width: 50%
+}
+
+.tituloAjudado {
+    font-family: 'Poppins';
+    font-size: 4rem;
+    margin: 0;
+    color: #007BFF;
+}
+
+.subtituloAjudado {
+    font-family: 'PoppinsSimples';
+    font-size: 1.2rem;
+    margin: 0 0 2rem 0;
+    color: #000000;
+}
+
+.textoAjudado {
+    display: flex;
+    align-items: center;
+    justify-content: first baseline;
+    flex-direction: row;
+    font-family: 'PoppinsSimples';
+    font-size: 1rem;
+    margin: 1rem 0;
+    color: #000000;
+    gap: 0.4rem;
+}
+
+.iconeTextoAjudado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.descricaoAjudado {
+    font-family: 'PoppinsSimples';
+    font-size: 1.2rem;
+    margin: 0 0 1rem 0;
+    color: #007BFF;
+}
+
+.botaoAjudado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.conteudoCadastro {
+    display: flex;
+    align-items: center;
+    justify-content: first baseline;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.tituloCadastro {
+    font-family: 'Poppins';
+    font-size: 3.8rem;
+    color: #007BFF;
+    padding: 1rem 0 2rem 0;
+}
+
+.boxsCadastro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 3rem;
+    width: 80%;
+}
+
+.imagemCadastro {
+    width: 100%;
+    height: auto;
+}
+
+.conteudoCadastroBeneficiario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.cadastroBeneficiario {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 70%;
+    height: 90%;
+    border: #007BFF 2px solid;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.formsCadastro {
+    width: 100%;
+    height: 100%;
+}
+
+.fotoCadastro {
+    height: 105%;
+}
+
+.cadaInput{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.inputCadastro {
+    all: unset; 
+    border: #007BFF solid;
+    border-width: 0 0 2px 0;
+    padding: 5px ;
+}
+
+.iconeCadastro {
+    color: #007BFF;
+    font-size: 2rem;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
     font-weight: 400;
     font-style: normal;
-  }
+}
 
-  @font-face {
+@font-face {
     font-family: 'PoppinsSimples';
     src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
     font-weight: 400;
     font-style: normal;
-  }
+}

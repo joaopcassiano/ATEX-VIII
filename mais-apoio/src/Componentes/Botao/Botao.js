@@ -8,8 +8,13 @@ const Botao = ({ children, estilo , onClick}) => {
         cadastrarHome: styles.cadastrarHome,
         botaoAzulHome: styles.botaoAzulHome,
         botaoBrancoHome: styles.botaoBrancoHome,
-        logoHome: styles.logoHome
+        logoHome: styles.logoHome,
+        setaDireita: styles.setaDireita,
+        setaEsquerda: styles.setaEsquerda,
+        cadastrarAjudado : styles.cadastrarAjudado,
+        imagemCadastro: styles.imagemCadastro
     }
+
     return (
         <>
             <button onClick={onClick} className={`${Estilo[estilo]}`}>{children}</button>

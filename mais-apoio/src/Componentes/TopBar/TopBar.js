@@ -9,11 +9,11 @@ const TopBar = ({ valor }) => {
             <div className={styles.funcionalidades}>
                 <Botao estilo='funcionalidadeHome' onClick={() => { valor(2)}}>Quem Somos</Botao>
                 <Botao estilo='funcionalidadeHome' onClick={() => { valor(3)}}>Quem Ajudar</Botao>
-                <Botao estilo='funcionalidadeHome' >Preciso de Ajuda</Botao>
+                <Botao estilo='funcionalidadeHome' onClick={() => { valor(4)}}>Preciso de Ajuda</Botao>
             </div>
             <div className={styles.botoesDirecionamento}>
                 <Botao estilo='entrarHome' >Entrar</Botao>
-                <Botao estilo='cadastrarHome' >Cadastre-se</Botao>
+                <Botao estilo='cadastrarHome' onClick={() => { valor(6)}}>Cadastre-se</Botao>
             </div>
         </div>
     </>)

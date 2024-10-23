@@ -129,6 +129,11 @@ const Home = () => {
                                     </div>
                                 </>
                                 :
+                                opcao === 3 ?
+                                <>
+                                to aqui
+                                </>
+                                :
                                 <>
                                 </>
                     }

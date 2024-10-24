@@ -24,6 +24,14 @@ import beneficiarioCadastro from '../../assets/beneficiarioCadastro.png';
 import imagemCadastro from '../../assets/imagemCadastro.png';
 import InputMask from 'react-input-mask';
 import { BsPerson } from "react-icons/bs";
+import { BsPersonPlus } from "react-icons/bs";
+import { FiAtSign } from "react-icons/fi";
+import { GoLock } from "react-icons/go";
+import { CiCalendar } from "react-icons/ci";
+import { PiHouseLight } from "react-icons/pi";
+import { IoCallOutline } from "react-icons/io5";
+import { LuDollarSign } from "react-icons/lu";
+import { NumericFormat } from 'react-number-format';
 
 const Home = () => {
 
@@ -323,17 +331,46 @@ const Home = () => {
                                                 :
                                                 opcao === 7 ?
                                                     <>
-                                                        <div className={styles.conteudoCadastroBeneficiario}>
-                                                            <div className={styles.cadastroBeneficiario}>
+                                                        <div className={styles.conteudoCadastroUsuario}>
+                                                            <div className={styles.cadastroUsuario}>
                                                                 <div className={styles.formsCadastro}>
-                                                                    <form>
-                                                                        <div>
+                                                                    <form className={styles.formularioCadastro}>
+                                                                        <div className={styles.cadastroForms}>
                                                                             Cadastro
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro}/></label>
                                                                             <InputMask type='text' placeholder='Nome Completo' className={styles.inputCadastro}></InputMask>
                                                                         </div>
+                                                                        <div className={styles.cadaInput}>
+                                                                            <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro}/></label>
+                                                                            <InputMask mask='999-999-999-99' type='text' placeholder='CPF' className={styles.inputCadastro}></InputMask>
+                                                                        </div>
+                                                                        <div className={styles.cadaInput}>
+                                                                            <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro}/></label>
+                                                                            <InputMask type='email' placeholder='Digite seu E-mail' className={styles.inputCadastro}></InputMask>
+                                                                        </div>
+                                                                        <div className={styles.cadaInput}>
+                                                                            <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro}/></label>
+                                                                            <InputMask type='password' placeholder='Digite sua Senha' className={styles.inputCadastro}></InputMask>
+                                                                        </div>
+                                                                        <div className={styles.cadaInput}>
+                                                                            <label className={styles.labelCadastro}><CiCalendar className={styles.iconeCadastro}/></label>
+                                                                            <InputMask type='date' placeholder='Data de Nascimento' className={styles.inputCadastro}></InputMask>
+                                                                        </div>
+                                                                        <div className={styles.cadaInput}>
+                                                                            <label className={styles.labelCadastro}><PiHouseLight className={styles.iconeCadastro}/></label>
+                                                                            <InputMask type='text' placeholder='Endereço' className={styles.inputCadastro}></InputMask>
+                                                                        </div>
+                                                                        <div className={styles.cadaInput}>
+                                                                            <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro}/></label>
+                                                                            <InputMask mask='(99) 99999-9999' type='text' placeholder='telefone' className={styles.inputCadastro}></InputMask>
+                                                                        </div>
+                                                                        <div className={styles.cadaInput}>
+                                                                            <label className={styles.labelCadastro}><LuDollarSign className={styles.iconeCadastro}/></label>
+                                                                            <NumericFormat thousandSeparator="." decimalSeparator="," prefix="R$ " decimalScale={2} fixedDecimalScale={true} allowNegative={false} placeholder='Situação econômica' className={styles.inputCadastro}/>
+                                                                        </div>
+                                                                        <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
                                                                     </form>
                                                                 </div>
                                                                 <img className={styles.fotoCadastro} src={imagemCadastro} alt='imagemCadastro'></img>

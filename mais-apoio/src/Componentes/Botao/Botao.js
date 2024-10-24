@@ -12,7 +12,8 @@ const Botao = ({ children, estilo , onClick}) => {
         setaDireita: styles.setaDireita,
         setaEsquerda: styles.setaEsquerda,
         cadastrarAjudado : styles.cadastrarAjudado,
-        imagemCadastro: styles.imagemCadastro
+        imagemCadastro: styles.imagemCadastro,
+        cadastrarConfirma : styles.cadastrarConfirma
     }
 
     return (

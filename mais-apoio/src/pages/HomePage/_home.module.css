@@ -413,7 +413,7 @@
     height: auto;
 }
 
-.conteudoCadastroBeneficiario {
+.conteudoCadastroUsuario {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -422,13 +422,13 @@
     height: 100%;
 }
 
-.cadastroBeneficiario {
+.cadastroUsuario {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
     width: 70%;
-    height: 90%;
+    height: 91%;
     border: #007BFF 2px solid;
     border-radius: 15px;
     overflow: hidden;
@@ -438,6 +438,18 @@
 .formsCadastro {
     width: 100%;
     height: 100%;
+}
+
+.formularioCadastro{
+    margin: 0 0 0 4rem;
+}
+
+.cadastroForms{
+    font-family: 'Poppins';
+    font-size: 4rem;
+    color: #007BFF;
+    width: auto;
+    padding: auto 0;
 }
 
 .fotoCadastro {
@@ -450,6 +462,9 @@
     justify-content: center;
     flex-direction: row;
     gap: 0.5rem;
+    padding: 0 0 0.6rem 0;
+    width: 60%;
+
 }
 
 .labelCadastro{
@@ -463,15 +478,18 @@
 .inputCadastro {
     all: unset; 
     border: #007BFF solid;
+    font-size: 0.9rem;
     border-width: 0 0 2px 0;
     padding: 5px ;
+    width: 100%;
 }
 
 .iconeCadastro {
     color: #007BFF;
-    font-size: 2rem;
+    font-size: 1.5rem;
     padding: 0;
     margin: 0;
+    font-style: normal;
 }
 
 @font-face {

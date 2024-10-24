@@ -1,6 +1,6 @@
 import styles from './_botao.module.css';
 
-const Botao = ({ children, estilo , onClick}) => {
+const Botao = ({ children, estilo , onClick, referencia}) => {
 
     const Estilo = {
         funcionalidadeHome: styles.funcionalidadeHome,
@@ -13,12 +13,16 @@ const Botao = ({ children, estilo , onClick}) => {
         setaEsquerda: styles.setaEsquerda,
         cadastrarAjudado : styles.cadastrarAjudado,
         imagemCadastro: styles.imagemCadastro,
-        cadastrarConfirma : styles.cadastrarConfirma
+        cadastrarConfirma : styles.cadastrarConfirma,
+        inputCadastro: styles.inputCadastro,
+        boxAjuda: styles.boxAjuda,
+        bolinhaLogin: styles.bolinhaLogin,
+        confirmarLogin: styles.confirmarLogin
     }
 
     return (
         <>
-            <button onClick={onClick} className={`${Estilo[estilo]}`}>{children}</button>
+            <button ref={referencia} onClick={onClick} className={`${Estilo[estilo]}`}>{children}</button>
         </>
     )
 }

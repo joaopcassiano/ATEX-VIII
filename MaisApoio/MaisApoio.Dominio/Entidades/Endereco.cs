@@ -8,6 +8,7 @@ public class Endereco
     private int _numero;
     private string _complemento;
     private string _cidade;
+    private string _estado;
     private string _cep;
     private bool _ativo;
 
@@ -71,6 +72,19 @@ public class Endereco
             _cidade = value;
         }
     }
+
+    public string Estado
+    {
+        get{return _estado;}
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("O estado não pode ser vazio.");
+
+            _estado = value;
+        }
+    }
+
     public string Cep
     {
         get{return _cep;}
@@ -90,13 +104,14 @@ public class Endereco
 
     public Endereco(){}
 
-    public Endereco(string rua, string bairro, int numero, string complemento, string cidade, string cep)
+    public Endereco(string rua, string bairro, int numero, string complemento, string cidade, string estado, string cep)
     {
         Rua = rua;
         Bairro = bairro;
         Numero = numero;
         Complemento = complemento;
         Cidade = cidade;
+        Estado = estado;
         Cep = cep;
         Ativo = true;
     }

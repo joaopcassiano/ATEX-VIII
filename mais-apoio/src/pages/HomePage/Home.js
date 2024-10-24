@@ -1,4 +1,5 @@
 import Botao from '../../Componentes/Botao/Botao';
+import logo from '../../assets/logo.png';
 import styles from './_home.module.css';
 import bannerHome from '../../assets/bannerHome.png';
 import empresaCarrosel from '../../assets/empresaCarrosel.png';
@@ -12,7 +13,7 @@ import voluntarioAjuda from '../../assets/voluntarioAjuda.png';
 import empresaAjuda from '../../assets/empresaAjuda.png';
 import fotoAjudado from '../../assets/fotoAjudado.png';
 import TopBar from '../../Componentes/TopBar/TopBar';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BsChevronLeft } from "react-icons/bs";
 import { BsChevronRight } from "react-icons/bs";
 import { useSwipeable } from 'react-swipeable';
@@ -32,11 +33,37 @@ import { PiHouseLight } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
 import { LuDollarSign } from "react-icons/lu";
 import { NumericFormat } from 'react-number-format';
+import { BsArrowReturnRight } from "react-icons/bs";
+import AcharCep from '../../Services/Endereco'
+import { FaNetworkWired } from "react-icons/fa";
+import { BiDonateHeart } from "react-icons/bi";
+import { IoIosStarOutline } from "react-icons/io";
+import { BsX } from "react-icons/bs";
 
 const Home = () => {
-
+    const [visivelEndereco, setVisivelEndereco] = useState(false)
+    const [visivelLogin, setVisivelLogin] = useState(false)
     const [opcao, setOpcao] = useState(1);
     const [indice, setIndice] = useState(0);
+    const campoEnderecoRef = useRef(null);
+    const botaoEnderecoRef = useRef(null);
+    const xRef = useRef(null);
+    const [cep, setCep] = useState('');
+    const [temRua, setTemRua] = useState(true);
+    const [temBairro, setTemBairro] = useState(true);
+    const [placeEndereco, setPlaceEndereco] = useState('Endereço');
+    const escuroRef = useRef(null);
+    const boxLoginRef = useRef(null);
+
+    const [endereco, setEndereco] = useState({
+        rua: '',
+        bairro: '',
+        numero: '',
+        complemento: '',
+        cidade: '',
+        estado: '',
+        cep: ''
+    });
 
     const Cor = {
         escuro: styles.escuro,
@@ -49,21 +76,127 @@ const Home = () => {
         voluntarioCarrosel
     ]
 
+    useEffect(() => {
+        if (endereco.cep === '') {
+            setPlaceEndereco('Endereço')
+        }
+        else if (endereco.bairro === '' || endereco.numero === '' || endereco.complemento === '' || endereco.rua === '' || endereco.cidade === '' || endereco.estado === '') {
+            if (endereco.cep === undefined) {
+                setPlaceEndereco('Endereço')
+            }
+            else {
+                setPlaceEndereco('Preencha todos os dados')
+            }
+            console.log("aaaaaaaaaaaaaaaaaaaaa   " + endereco.cep)
+
+        } else if (endereco.bairro !== '' && endereco.numero !== '' && endereco.complemento !== '' && endereco.rua !== '' && endereco.cidade !== '' && endereco.estado !== '' && endereco.cep !== '') {
+
+            setPlaceEndereco(endereco.rua + ' - ' + endereco.numero + ', ' + endereco.bairro + ', ' + endereco.cidade + '-' + endereco.estado)
+
+        }
+        else {
+            setPlaceEndereco('Endereço')
+        }
+    }, [endereco])
+
+    useEffect(() => {
+        const intervalo = setInterval(proximaImagem, 5000);
+        return () => clearInterval(intervalo);
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickFora);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickFora);
+        };
+    }, []);
+
+    const handleCepChange = async (e) => {
+        const cepDigitado = e.target.value.replace(/\D/g, '');
+        setCep(cepDigitado);
+        console.log(cepDigitado.length)
+        if (cepDigitado.length === 8) {
+            try {
+                const response = await AcharCep(cepDigitado)
+                if (response.data.erro) {
+                    setTemRua(true);
+                    setTemBairro(true);
+                    setEndereco({
+                        rua: '',
+                        bairro: '',
+                        cidade: '',
+                        estado: '',
+                        numero: '',
+                        complemento: ''
+                    });
+                } else {
+                    setEndereco({
+                        ...endereco,
+                        rua: response.data.logradouro || '',
+                        bairro: response.data.bairro || '',
+                        cidade: response.data.localidade || '',
+                        estado: response.data.uf,
+                        numero: '',
+                        complemento: '',
+                        cep: cepDigitado
+                    });
+                    setTemBairro(false);
+                    setTemRua(false);
+                }
+            } catch (error) {
+                setTemRua(true);
+                setTemBairro(true);
+                console.error('Erro na consulta do CEP:', error);
+            }
+        } else {
+            setEndereco({
+                rua: '',
+                bairro: '',
+                cidade: '',
+                estado: '',
+                numero: '',
+                complemento: ''
+            });
+            setTemRua(true);
+            setTemBairro(true);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEndereco({ ...endereco, [name]: value });
+    };
+
+    const enderecoVisivel = () => {
+        setVisivelEndereco((prev) => !prev);
+    };
+
+    const handleClickFora = (e) => {
+        if (
+            campoEnderecoRef.current &&
+            !campoEnderecoRef.current.contains(e.target) &&
+            !botaoEnderecoRef.current.contains(e.target)
+        ) {
+            setVisivelEndereco(false);
+        }
+    };
+
+    const fecharBoxLogin = (event) => {
+        if (boxLoginRef.current && !boxLoginRef.current.contains(event.target)) {
+            setVisivelLogin(false);
+        }
+    };
+
     const proximaImagem = () => {
         setIndice((indiceAtual) => (indiceAtual + 1) % imagensCarrosel.length);
     };
-
 
     const imagemAnterior = () => {
         setIndice((indiceAtual) =>
             indiceAtual === 0 ? imagensCarrosel.length - 1 : indiceAtual - 1
         );
     };
-
-    useEffect(() => {
-        const intervalo = setInterval(proximaImagem, 5000);
-        return () => clearInterval(intervalo);
-    }, []);
 
     const handlers = useSwipeable({
         onSwipedLeft: proximaImagem,
@@ -73,15 +206,15 @@ const Home = () => {
     return (
         <>
             <div className={styles.corpo}>
-                <TopBar valor={(x) => { setOpcao(x) }} />
+                <TopBar valor={(x) => { setOpcao(x) }} valorLogin={(y) => { setVisivelLogin(y) }} />
                 <div className={styles.conteudo}>
                     {
                         opcao === 1 ?
                             <>
                                 <img className={styles.bannerImagem} src={bannerHome} alt='BannerApoio' />
                                 <div className={styles.botoesConteudo}>
-                                    <Botao estilo='botaoBrancoHome' >Quero Ajudar</Botao>
-                                    <Botao estilo='botaoAzulHome' >Preciso de ajuda</Botao>
+                                    <Botao onClick={() => setOpcao(3)} estilo='botaoBrancoHome' >Quero Ajudar</Botao>
+                                    <Botao onClick={() => setOpcao(4)} estilo='botaoAzulHome' >Preciso de ajuda</Botao>
                                 </div>
                                 <div className={styles.infos}>
                                     <p className={styles.tituloInfo}>
@@ -215,18 +348,18 @@ const Home = () => {
                                                 Quero me candidatar como:
                                             </div>
                                             <div className={styles.boxsAjuda}>
-                                                <div className={styles.boxAjuda}>
+                                                <Botao onClick={() => setOpcao(10)} estilo='boxAjuda'>
                                                     <img className={styles.imagemAjuda} src={empresaAjuda} alt='empresaAjuda'></img>
                                                     <div className={styles.textoAjuda}>Empresa</div>
-                                                </div>
-                                                <div className={styles.boxAjuda}>
+                                                </Botao>
+                                                <Botao onClick={() => setOpcao(8)} estilo='boxAjuda'>
                                                     <img className={styles.imagemAjuda} src={voluntarioAjuda} alt='voluntarioAjuda'></img>
                                                     <div className={styles.textoAjuda}>Voluntário</div>
-                                                </div>
-                                                <div className={styles.boxAjuda}>
+                                                </Botao>
+                                                <Botao onClick={() => setOpcao(7)} estilo='boxAjuda'>
                                                     <img className={styles.imagemAjuda} src={doadorAjuda} alt='doadorAjuda'></img>
                                                     <div className={styles.textoAjuda}>Doadores</div>
-                                                </div>
+                                                </Botao>
                                             </div>
                                         </div>
                                     </>
@@ -296,7 +429,7 @@ const Home = () => {
                                                     </div>
                                                     <div className={styles.descricaoAjudado}>Se você se enquadra em algum desses requisitos,  cadastre-se como beneficiário:</div>
                                                     <div className={styles.botaoAjudado}>
-                                                        <Botao onClick={() => { setOpcao(6) }} estilo='cadastrarAjudado'>Quero me cadastrar como beneficiário</Botao>
+                                                        <Botao onClick={() => { setOpcao(9) }} estilo='cadastrarAjudado'>Quero me cadastrar como beneficiário</Botao>
                                                     </div>
                                                 </div>
                                             </div>
@@ -304,6 +437,7 @@ const Home = () => {
                                         :
                                         opcao === 5 ?
                                             <>
+
                                             </>
                                             :
                                             opcao === 6 ?
@@ -316,13 +450,13 @@ const Home = () => {
                                                             <Botao onClick={() => setOpcao(7)} estilo='imagemCadastro'>
                                                                 <img src={beneficiarioCadastro} alt='beneficiarioCadastro' className={styles.imagemCadastro}></img>
                                                             </Botao>
-                                                            <Botao estilo='imagemCadastro'>
+                                                            <Botao onClick={() => setOpcao(8)} estilo='imagemCadastro'>
                                                                 <img src={voluntarioCadastro} alt='voluntarioCadastro' className={styles.imagemCadastro}></img>
                                                             </Botao>
-                                                            <Botao estilo='imagemCadastro'>
+                                                            <Botao onClick={() => setOpcao(9)} estilo='imagemCadastro'>
                                                                 <img src={doadorCadastro} alt='doadorCadastro' className={styles.imagemCadastro}></img>
                                                             </Botao>
-                                                            <Botao estilo='imagemCadastro'>
+                                                            <Botao onClick={() => setOpcao(10)} estilo='imagemCadastro'>
                                                                 <img src={empresaCadastro} alt='empresaCadastro' className={styles.imagemCadastro}></img>
                                                             </Botao>
                                                         </div>
@@ -334,41 +468,131 @@ const Home = () => {
                                                         <div className={styles.conteudoCadastroUsuario}>
                                                             <div className={styles.cadastroUsuario}>
                                                                 <div className={styles.formsCadastro}>
-                                                                    <form className={styles.formularioCadastro}>
+                                                                    <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
                                                                         <div className={styles.cadastroForms}>
                                                                             Cadastro
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro}/></label>
+                                                                            <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
                                                                             <InputMask type='text' placeholder='Nome Completo' className={styles.inputCadastro}></InputMask>
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro}/></label>
-                                                                            <InputMask mask='999-999-999-99' type='text' placeholder='CPF' className={styles.inputCadastro}></InputMask>
+                                                                            <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro} /></label>
+                                                                            <InputMask mask='999.999.999-99' type='text' placeholder='CPF' className={styles.inputCadastro}></InputMask>
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro}/></label>
+                                                                            <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro} /></label>
                                                                             <InputMask type='email' placeholder='Digite seu E-mail' className={styles.inputCadastro}></InputMask>
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro}/></label>
+                                                                            <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro} /></label>
                                                                             <InputMask type='password' placeholder='Digite sua Senha' className={styles.inputCadastro}></InputMask>
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><CiCalendar className={styles.iconeCadastro}/></label>
+                                                                            <label className={styles.labelCadastro}><CiCalendar className={styles.iconeCadastro} /></label>
                                                                             <InputMask type='date' placeholder='Data de Nascimento' className={styles.inputCadastro}></InputMask>
                                                                         </div>
-                                                                        <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><PiHouseLight className={styles.iconeCadastro}/></label>
-                                                                            <InputMask type='text' placeholder='Endereço' className={styles.inputCadastro}></InputMask>
+                                                                        <div className={styles.inputEndereco}>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><PiHouseLight className={styles.iconeCadastro} /></label>
+                                                                                <Botao referencia={botaoEnderecoRef} onClick={enderecoVisivel} estilo='inputCadastro'>{placeEndereco}</Botao>
+                                                                            </div>
+                                                                            {
+                                                                                visivelEndereco &&
+                                                                                (
+                                                                                    <div ref={campoEnderecoRef} className={styles.boxEndereco}>
+                                                                                        <div className={styles.maiorBoxEndereco}>
+                                                                                            <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                            <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                <InputMask
+                                                                                                    maxLength="8"
+                                                                                                    type="text"
+                                                                                                    placeholder='CEP'
+                                                                                                    className={styles.inputBoxEndereco}
+                                                                                                    value={cep}
+                                                                                                    onChange={handleCepChange}
+                                                                                                />
+                                                                                                <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                <InputMask
+                                                                                                    placeholder='Número'
+                                                                                                    className={styles.inputBoxEndereco}
+                                                                                                    value={endereco.numero}
+                                                                                                    name="numero"
+                                                                                                    type="number"
+                                                                                                    onChange={handleInputChange}
+                                                                                                />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div className={styles.maiorBoxEndereco}>
+                                                                                            <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                            <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                <InputMask
+                                                                                                    placeholder='Rua'
+                                                                                                    className={styles.inputBoxEndereco}
+                                                                                                    value={endereco.rua}
+                                                                                                    name="rua"
+                                                                                                    onChange={handleInputChange}
+                                                                                                    type="text"
+                                                                                                    readOnly={(temRua === true && endereco.cep !== '')}
+                                                                                                />
+                                                                                                <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                <InputMask
+                                                                                                    placeholder='Complemento'
+                                                                                                    className={styles.inputBoxEndereco}
+                                                                                                    value={endereco.complemento}
+                                                                                                    name="complemento"
+                                                                                                    onChange={handleInputChange}
+                                                                                                    type="text"
+                                                                                                />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div className={styles.maiorBoxEndereco}>
+                                                                                            <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                            <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                <InputMask
+                                                                                                    placeholder='Cidade'
+                                                                                                    className={styles.inputBoxEndereco}
+                                                                                                    value={endereco.cidade}
+                                                                                                    name="cidade"
+                                                                                                    readOnly
+                                                                                                    type="text"
+                                                                                                />
+                                                                                                <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                <InputMask
+                                                                                                    placeholder='Bairro'
+                                                                                                    className={styles.inputBoxEndereco}
+                                                                                                    value={endereco.bairro}
+                                                                                                    name="bairro"
+                                                                                                    type="text"
+                                                                                                    onChange={handleInputChange}
+                                                                                                    readOnly={(temBairro === true && endereco.cep !== '')}
+                                                                                                />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div className={styles.maiorBoxEndereco}>
+                                                                                            <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                            <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                <InputMask
+                                                                                                    placeholder='Estado'
+                                                                                                    className={styles.inputBoxEndereco}
+                                                                                                    value={endereco.estado}
+                                                                                                    name="estado"
+                                                                                                    readOnly
+                                                                                                    type="text"
+                                                                                                />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                )
+                                                                            }
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro}/></label>
+                                                                            <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro} /></label>
                                                                             <InputMask mask='(99) 99999-9999' type='text' placeholder='telefone' className={styles.inputCadastro}></InputMask>
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
-                                                                            <label className={styles.labelCadastro}><LuDollarSign className={styles.iconeCadastro}/></label>
-                                                                            <NumericFormat thousandSeparator="." decimalSeparator="," prefix="R$ " decimalScale={2} fixedDecimalScale={true} allowNegative={false} placeholder='Situação econômica' className={styles.inputCadastro}/>
+                                                                            <label className={styles.labelCadastro}><LuDollarSign className={styles.iconeCadastro} /></label>
+                                                                            <NumericFormat thousandSeparator="." decimalSeparator="," prefix="R$ " decimalScale={2} fixedDecimalScale={true} allowNegative={false} placeholder='Situação econômica' className={styles.inputCadastro} />
                                                                         </div>
                                                                         <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
                                                                     </form>
@@ -378,12 +602,507 @@ const Home = () => {
                                                         </div>
                                                     </>
                                                     :
-                                                    <>
-                                                    </>
+                                                    opcao === 8 ?
+                                                        <>
+                                                            <div className={styles.conteudoCadastroUsuario}>
+                                                                <div className={styles.cadastroUsuario}>
+                                                                    <div className={styles.formsCadastro}>
+                                                                        <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
+                                                                            <div className={styles.cadastroForms}>
+                                                                                Cadastro
+                                                                            </div>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
+                                                                                <InputMask type='text' placeholder='Nome Completo' className={styles.inputCadastro}></InputMask>
+                                                                            </div>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro} /></label>
+                                                                                <InputMask mask='999.999.999-99' type='text' placeholder='CPF' className={styles.inputCadastro}></InputMask>
+                                                                            </div>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro} /></label>
+                                                                                <InputMask type='email' placeholder='Digite seu E-mail' className={styles.inputCadastro}></InputMask>
+                                                                            </div>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro} /></label>
+                                                                                <InputMask type='password' placeholder='Digite sua Senha' className={styles.inputCadastro}></InputMask>
+                                                                            </div>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><CiCalendar className={styles.iconeCadastro} /></label>
+                                                                                <InputMask type='date' placeholder='Data de Nascimento' className={styles.inputCadastro}></InputMask>
+                                                                            </div>
+                                                                            <div className={styles.inputEndereco}>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><PiHouseLight className={styles.iconeCadastro} /></label>
+                                                                                    <Botao referencia={botaoEnderecoRef} onClick={enderecoVisivel} estilo='inputCadastro'>{placeEndereco}</Botao>
+                                                                                </div>
+                                                                                {
+                                                                                    visivelEndereco &&
+                                                                                    (
+                                                                                        <div ref={campoEnderecoRef} className={styles.boxEndereco}>
+                                                                                            <div className={styles.maiorBoxEndereco}>
+                                                                                                <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                                <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                    <InputMask
+                                                                                                        maxLength="8"
+                                                                                                        type="text"
+                                                                                                        placeholder='CEP'
+                                                                                                        className={styles.inputBoxEndereco}
+                                                                                                        value={cep}
+                                                                                                        onChange={handleCepChange}
+                                                                                                    />
+                                                                                                    <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                    <InputMask
+                                                                                                        placeholder='Número'
+                                                                                                        className={styles.inputBoxEndereco}
+                                                                                                        value={endereco.numero}
+                                                                                                        name="numero"
+                                                                                                        type="number"
+                                                                                                        onChange={handleInputChange}
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div className={styles.maiorBoxEndereco}>
+                                                                                                <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                                <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                    <InputMask
+                                                                                                        placeholder='Rua'
+                                                                                                        className={styles.inputBoxEndereco}
+                                                                                                        value={endereco.rua}
+                                                                                                        name="rua"
+                                                                                                        onChange={handleInputChange}
+                                                                                                        type="text"
+                                                                                                        readOnly={(temRua === true && endereco.cep !== '')}
+                                                                                                    />
+                                                                                                    <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                    <InputMask
+                                                                                                        placeholder='Complemento'
+                                                                                                        className={styles.inputBoxEndereco}
+                                                                                                        value={endereco.complemento}
+                                                                                                        name="complemento"
+                                                                                                        onChange={handleInputChange}
+                                                                                                        type="text"
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div className={styles.maiorBoxEndereco}>
+                                                                                                <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                                <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                    <InputMask
+                                                                                                        placeholder='Cidade'
+                                                                                                        className={styles.inputBoxEndereco}
+                                                                                                        value={endereco.cidade}
+                                                                                                        name="cidade"
+                                                                                                        readOnly
+                                                                                                        type="text"
+                                                                                                    />
+                                                                                                    <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                    <InputMask
+                                                                                                        placeholder='Bairro'
+                                                                                                        className={styles.inputBoxEndereco}
+                                                                                                        value={endereco.bairro}
+                                                                                                        name="bairro"
+                                                                                                        type="text"
+                                                                                                        onChange={handleInputChange}
+                                                                                                        readOnly={(temBairro === true && endereco.cep !== '')}
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div className={styles.maiorBoxEndereco}>
+                                                                                                <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                                <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                    <InputMask
+                                                                                                        placeholder='Estado'
+                                                                                                        className={styles.inputBoxEndereco}
+                                                                                                        value={endereco.estado}
+                                                                                                        name="estado"
+                                                                                                        readOnly
+                                                                                                        type="text"
+                                                                                                    />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )
+                                                                                }
+                                                                            </div>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro} /></label>
+                                                                                <InputMask mask='(99) 99999-9999' type='text' placeholder='telefone' className={styles.inputCadastro}></InputMask>
+                                                                            </div>
+                                                                            <div className={styles.cadaInput}>
+                                                                                <label className={styles.labelCadastro}><FaNetworkWired className={styles.iconeCadastro} /></label>
+                                                                                <InputMask type='text' placeholder='Área de atuação' className={styles.inputCadastro}></InputMask>
+                                                                            </div>
+                                                                            <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
+                                                                        </form>
+                                                                    </div>
+                                                                    <img className={styles.fotoCadastro} src={imagemCadastro} alt='imagemCadastro'></img>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                        :
+                                                        opcao === 9 ?
+                                                            <>
+                                                                <div className={styles.conteudoCadastroUsuario}>
+                                                                    <div className={styles.cadastroUsuario}>
+                                                                        <div className={styles.formsCadastro}>
+                                                                            <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
+                                                                                <div className={styles.cadastroForms}>
+                                                                                    Cadastro
+                                                                                </div>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
+                                                                                    <InputMask type='text' placeholder='Nome Completo' className={styles.inputCadastro}></InputMask>
+                                                                                </div>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro} /></label>
+                                                                                    <InputMask mask='999.999.999-99' type='text' placeholder='CPF' className={styles.inputCadastro}></InputMask>
+                                                                                </div>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro} /></label>
+                                                                                    <InputMask type='email' placeholder='Digite seu E-mail' className={styles.inputCadastro}></InputMask>
+                                                                                </div>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro} /></label>
+                                                                                    <InputMask type='password' placeholder='Digite sua Senha' className={styles.inputCadastro}></InputMask>
+                                                                                </div>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><CiCalendar className={styles.iconeCadastro} /></label>
+                                                                                    <InputMask type='date' placeholder='Data de Nascimento' className={styles.inputCadastro}></InputMask>
+                                                                                </div>
+                                                                                <div className={styles.inputEndereco}>
+                                                                                    <div className={styles.cadaInput}>
+                                                                                        <label className={styles.labelCadastro}><PiHouseLight className={styles.iconeCadastro} /></label>
+                                                                                        <Botao referencia={botaoEnderecoRef} onClick={enderecoVisivel} estilo='inputCadastro'>{placeEndereco}</Botao>
+                                                                                    </div>
+                                                                                    {
+                                                                                        visivelEndereco &&
+                                                                                        (
+                                                                                            <div ref={campoEnderecoRef} className={styles.boxEndereco}>
+                                                                                                <div className={styles.maiorBoxEndereco}>
+                                                                                                    <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                                    <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                        <InputMask
+                                                                                                            maxLength="8"
+                                                                                                            type="text"
+                                                                                                            placeholder='CEP'
+                                                                                                            className={styles.inputBoxEndereco}
+                                                                                                            value={cep}
+                                                                                                            onChange={handleCepChange}
+                                                                                                        />
+                                                                                                        <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                        <InputMask
+                                                                                                            placeholder='Número'
+                                                                                                            className={styles.inputBoxEndereco}
+                                                                                                            value={endereco.numero}
+                                                                                                            name="numero"
+                                                                                                            type="number"
+                                                                                                            onChange={handleInputChange}
+                                                                                                        />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div className={styles.maiorBoxEndereco}>
+                                                                                                    <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                                    <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                        <InputMask
+                                                                                                            placeholder='Rua'
+                                                                                                            className={styles.inputBoxEndereco}
+                                                                                                            value={endereco.rua}
+                                                                                                            name="rua"
+                                                                                                            onChange={handleInputChange}
+                                                                                                            type="text"
+                                                                                                            readOnly={(temRua === true && endereco.cep !== '')}
+                                                                                                        />
+                                                                                                        <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                        <InputMask
+                                                                                                            placeholder='Complemento'
+                                                                                                            className={styles.inputBoxEndereco}
+                                                                                                            value={endereco.complemento}
+                                                                                                            name="complemento"
+                                                                                                            onChange={handleInputChange}
+                                                                                                            type="text"
+                                                                                                        />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div className={styles.maiorBoxEndereco}>
+                                                                                                    <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                                    <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                        <InputMask
+                                                                                                            placeholder='Cidade'
+                                                                                                            className={styles.inputBoxEndereco}
+                                                                                                            value={endereco.cidade}
+                                                                                                            name="cidade"
+                                                                                                            readOnly
+                                                                                                            type="text"
+                                                                                                        />
+                                                                                                        <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                        <InputMask
+                                                                                                            placeholder='Bairro'
+                                                                                                            className={styles.inputBoxEndereco}
+                                                                                                            value={endereco.bairro}
+                                                                                                            name="bairro"
+                                                                                                            type="text"
+                                                                                                            onChange={handleInputChange}
+                                                                                                            readOnly={(temBairro === true && endereco.cep !== '')}
+                                                                                                        />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div className={styles.maiorBoxEndereco}>
+                                                                                                    <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                                    <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                        <InputMask
+                                                                                                            placeholder='Estado'
+                                                                                                            className={styles.inputBoxEndereco}
+                                                                                                            value={endereco.estado}
+                                                                                                            name="estado"
+                                                                                                            readOnly
+                                                                                                            type="text"
+                                                                                                        />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        )
+                                                                                    }
+                                                                                </div>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro} /></label>
+                                                                                    <InputMask mask='(99) 99999-9999' type='text' placeholder='telefone' className={styles.inputCadastro}></InputMask>
+                                                                                </div>
+                                                                                <div className={styles.cadaInput}>
+                                                                                    <label className={styles.labelCadastro}><BiDonateHeart className={styles.iconeCadastro} /></label>
+                                                                                    <InputMask type='text' placeholder='Tipo de doação' className={styles.inputCadastro}></InputMask>
+
+                                                                                </div>
+                                                                                <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
+                                                                            </form>
+                                                                        </div>
+                                                                        <img className={styles.fotoCadastro} src={imagemCadastro} alt='imagemCadastro'></img>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                            :
+                                                            opcao === 10 ?
+                                                                <>
+                                                                    <div className={styles.conteudoCadastroUsuario}>
+                                                                        <div className={styles.cadastroUsuario}>
+                                                                            <div className={styles.formsCadastro}>
+                                                                                <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
+                                                                                    <div className={styles.cadastroForms} style={{ margin: '1rem 0' }}>
+                                                                                        Cadastro
+                                                                                    </div>
+                                                                                    <div className={styles.cadaInput}>
+                                                                                        <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
+                                                                                        <InputMask type='text' placeholder='Nome da empresa' className={styles.inputCadastro}></InputMask>
+                                                                                    </div>
+                                                                                    <div className={styles.cadaInput}>
+                                                                                        <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro} /></label>
+                                                                                        <InputMask mask='99.999.999/9999-99' type='text' placeholder='CNPJ' className={styles.inputCadastro}></InputMask>
+                                                                                    </div>
+                                                                                    <div className={styles.cadaInput}>
+                                                                                        <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro} /></label>
+                                                                                        <InputMask type='email' placeholder='Digite seu E-mail' className={styles.inputCadastro}></InputMask>
+                                                                                    </div>
+                                                                                    <div className={styles.cadaInput}>
+                                                                                        <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro} /></label>
+                                                                                        <InputMask type='password' placeholder='Digite sua Senha' className={styles.inputCadastro}></InputMask>
+                                                                                    </div>
+                                                                                    <div className={styles.cadaInput}>
+                                                                                        <label className={styles.labelCadastro}><IoIosStarOutline className={styles.iconeCadastro} /></label>
+                                                                                        <InputMask type='text' placeholder='Segmento de mercado' className={styles.inputCadastro}></InputMask>
+                                                                                    </div>
+                                                                                    <div className={styles.inputEndereco}>
+                                                                                        <div className={styles.cadaInput}>
+                                                                                            <label className={styles.labelCadastro}><PiHouseLight className={styles.iconeCadastro} /></label>
+                                                                                            <Botao referencia={botaoEnderecoRef} onClick={enderecoVisivel} estilo='inputCadastro'>{placeEndereco}</Botao>
+                                                                                        </div>
+                                                                                        {
+                                                                                            visivelEndereco &&
+                                                                                            (
+                                                                                                <div ref={campoEnderecoRef} className={styles.boxEndereco}>
+                                                                                                    <div className={styles.maiorBoxEndereco}>
+                                                                                                        <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                                        <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                            <InputMask
+                                                                                                                maxLength="8"
+                                                                                                                type="text"
+                                                                                                                placeholder='CEP'
+                                                                                                                className={styles.inputBoxEndereco}
+                                                                                                                value={cep}
+                                                                                                                onChange={handleCepChange}
+                                                                                                            />
+                                                                                                            <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                            <InputMask
+                                                                                                                placeholder='Número'
+                                                                                                                className={styles.inputBoxEndereco}
+                                                                                                                value={endereco.numero}
+                                                                                                                name="numero"
+                                                                                                                type="number"
+                                                                                                                onChange={handleInputChange}
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className={styles.maiorBoxEndereco}>
+                                                                                                        <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                                        <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                            <InputMask
+                                                                                                                placeholder='Rua'
+                                                                                                                className={styles.inputBoxEndereco}
+                                                                                                                value={endereco.rua}
+                                                                                                                name="rua"
+                                                                                                                onChange={handleInputChange}
+                                                                                                                type="text"
+                                                                                                                readOnly={(temRua === true && endereco.cep !== '')}
+                                                                                                            />
+                                                                                                            <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                            <InputMask
+                                                                                                                placeholder='Complemento'
+                                                                                                                className={styles.inputBoxEndereco}
+                                                                                                                value={endereco.complemento}
+                                                                                                                name="complemento"
+                                                                                                                onChange={handleInputChange}
+                                                                                                                type="text"
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className={styles.maiorBoxEndereco}>
+                                                                                                        <BsArrowReturnRight className={styles.iconeBoxEndereco}> </BsArrowReturnRight>
+                                                                                                        <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                            <InputMask
+                                                                                                                placeholder='Cidade'
+                                                                                                                className={styles.inputBoxEndereco}
+                                                                                                                value={endereco.cidade}
+                                                                                                                name="cidade"
+                                                                                                                readOnly
+                                                                                                                type="text"
+                                                                                                            />
+                                                                                                            <BsArrowReturnRight className={styles.iconeMenorBoxEndereco}></BsArrowReturnRight>
+                                                                                                            <InputMask
+                                                                                                                placeholder='Bairro'
+                                                                                                                className={styles.inputBoxEndereco}
+                                                                                                                value={endereco.bairro}
+                                                                                                                name="bairro"
+                                                                                                                type="text"
+                                                                                                                onChange={handleInputChange}
+                                                                                                                readOnly={(temBairro === true && endereco.cep !== '')}
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div className={styles.maiorBoxEndereco}>
+                                                                                                        <BsArrowReturnRight className={styles.iconeBoxEndereco}></BsArrowReturnRight>
+                                                                                                        <div className={styles.inputMaiorBoxEndereco}>
+                                                                                                            <InputMask
+                                                                                                                placeholder='Estado'
+                                                                                                                className={styles.inputBoxEndereco}
+                                                                                                                value={endereco.estado}
+                                                                                                                name="estado"
+                                                                                                                readOnly
+                                                                                                                type="text"
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            )
+                                                                                        }
+                                                                                    </div>
+                                                                                    <div className={styles.cadaInput} style={{ margin: '0 0 1rem 0' }}>
+                                                                                        <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro} /></label>
+                                                                                        <InputMask mask='(99) 99999-9999' type='text' placeholder='telefone' className={styles.inputCadastro}></InputMask>
+                                                                                    </div>
+                                                                                    <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
+                                                                                </form>
+                                                                            </div>
+                                                                            <img className={styles.fotoCadastro} src={imagemCadastro} alt='imagemCadastro'></img>
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                                :
+                                                                <>
+                                                                </>
                     }
 
                 </div>
             </div >
+
+            {
+                visivelLogin &&
+                <div onClick={fecharBoxLogin} ref={escuroRef} className={styles.escuro}>
+                    <div ref={boxLoginRef} className={styles.boxLogin}>
+                        <div className={styles.x}>
+                            <Botao onClick={fecharBoxLogin} referencia={xRef}><BsX></BsX></Botao>
+                        </div>
+                        <div className={styles.boxMenorLogin}>
+                            <div className={styles.painel}>
+                                <img className={styles.logoPainel} src={logo} alt='logo'></img>
+                                <div className={styles.tituloPainel}>
+                                    Faça seu login
+                                </div>
+                                <div className={styles.textoPainel}>
+                                    Para ajudar ou solicitar ajuda, você precisa ter um cadastro
+                                </div>
+                            </div>
+                            <div className={styles.botoesPainel}>
+                                <div className={styles.botaoPainel}>
+                                    <Botao estilo='bolinhaLogin'>
+                                        <div className={styles.bolalogin1}>
+
+                                        </div>
+                                    </Botao>
+                                    <div className={styles.descricaoLogin}>
+                                        Voluntário
+                                    </div>
+                                </div>
+                                <div className={styles.botaoPainel}>
+                                    <Botao estilo='bolinhaLogin'>
+                                        <div className={styles.bolalogin2}>
+
+                                        </div>
+                                    </Botao >
+                                    <div className={styles.descricaoLogin}>
+                                        Doador
+                                    </div>
+                                </div>
+                                <div className={styles.botaoPainel}>
+                                    <Botao estilo='bolinhaLogin'>
+                                        <div className={styles.bolalogin3}>
+
+                                        </div>
+                                    </Botao>
+                                    <div className={styles.descricaoLogin}>
+                                        Empresa
+                                    </div>
+                                </div>
+                                <div className={styles.botaoPainel}>
+                                    <Botao estilo='bolinhaLogin'>
+                                        <div className={styles.bolalogin4}>
+
+                                        </div>
+                                    </Botao>
+                                    <div className={styles.descricaoLogin}>
+                                        Beneficiário
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={styles.inputsLogin}>
+                                <div className={styles.inputLogin}>
+                                    <FiAtSign className={styles.iconeLogin} />
+                                    <InputMask type='email' className={styles.inputL} placeholder='Digite seu email'></InputMask>
+                                </div>
+                                <div className={styles.inputLogin}>
+                                    <GoLock className={styles.iconeLogin} />
+                                    <InputMask type='password' className={styles.inputL} placeholder='Digite sua senha'></InputMask>
+                                </div>
+                                <div className={styles.esqueceuLogin}>
+                                    Esqueceu sua senha?
+                                </div>
+                            </div>
+                            <Botao estilo='confirmarLogin'>Entrar</Botao>
+                            <div className={styles.cadastrarLogin}>
+                                Não possui um cadastro ainda?  <p className={styles.cadastroLogin}>Cadastre-se</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </>
     )
 }

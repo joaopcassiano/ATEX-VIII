@@ -206,7 +206,7 @@ const Home = () => {
     return (
         <>
             <div className={styles.corpo}>
-                <TopBar valor={(x) => { setOpcao(x) }} valorLogin={(y) => { setVisivelLogin(y) }} />
+                <TopBar valor={(x) => { setOpcao(x) }} valorLogin={(a) => { setVisivelLogin(a) }} />
                 <div className={styles.conteudo}>
                     {
                         opcao === 1 ?
@@ -324,7 +324,7 @@ const Home = () => {
                                 opcao === 3 ?
                                     <>
                                         <div className={styles.carrosel}>
-                                            <div className={styles.imagens} {...handlers}>
+                                            <div className={styles.imagens}>
                                                 <img src={imagensCarrosel[indice]} alt={`Imagem ${indice + 1}`} className={styles.imagensCarrosel} />
                                                 <Botao onClick={imagemAnterior} estilo='setaEsquerda'><BsChevronLeft style={{ fontSize: '3rem', margin: '0', padding: '0', color: '#ffffff', cursor: 'pointer' }} /></Botao>
                                                 <Botao onClick={proximaImagem} estilo='setaDireita'><BsChevronRight style={{ fontSize: '3rem', margin: '0', padding: '0', color: '#ffffff', cursor: 'pointer' }} /></Botao>
@@ -1025,7 +1025,7 @@ const Home = () => {
 
             {
                 visivelLogin &&
-                <div onClick={fecharBoxLogin} ref={escuroRef} className={styles.escuro}>
+                <div onClick={fecharBoxLogin} ref={escuroRef} className={styles.escuroTela}>
                     <div ref={boxLoginRef} className={styles.boxLogin}>
                         <div className={styles.x}>
                             <Botao onClick={fecharBoxLogin} referencia={xRef}><BsX></BsX></Botao>

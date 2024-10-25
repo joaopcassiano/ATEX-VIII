@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Beneficiario
@@ -9,6 +11,7 @@ public class Beneficiario
     private string _situacaoEconomica;
     private string _email;
     private string _senha;
+    private byte[]? _imagemPerfil;
     private bool _ativo;
 
     public int ID 
@@ -91,6 +94,12 @@ public class Beneficiario
                 
             _senha = value;
         }
+    }
+
+    public byte[]? ImagemPerfil
+    {
+        get { return _imagemPerfil; }
+        set { _imagemPerfil = value; }
     }
     
     public bool Ativo

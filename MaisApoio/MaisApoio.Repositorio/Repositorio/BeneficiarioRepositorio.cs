@@ -26,6 +26,22 @@ public class BeneficiarioRepositorio
         return beneficiarios.ToList();
     }
 
+    public async Task CarregarImagem(IFormFile file, int id)
+    {
+        var ms = new MemoryStream();
+        await file.CopyToAsync(ms);
+
+        string sql = "Insert into Beneficiario(ImagemPerfil) velues (@arquivo) WHERE BebeficiarioID = @id";
+
+        var conexao = _banco.ConectarSqlServer();
+
+        conexao.Open();
+
+        await conexao.ExecuteAsync(sql, new { id = id, arquivo = ms.ToArray() });
+
+        conexao.Close();
+    }
+
     public async Task CriarBeneficiarioNeo4j(Beneficiario beneficiario)
     {
         var conexao = _banco.ConectarNeo4j();

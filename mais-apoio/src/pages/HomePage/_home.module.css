@@ -545,7 +545,7 @@
     color:#007BFF
 }
 
-.escuro{
+.escuroTela{
     position: fixed;
     display: flex;
     justify-content: center;
@@ -560,12 +560,12 @@
 
 }
 
-.escuro::-webkit-scrollbar {
+.escuroTela::-webkit-scrollbar {
     width: 10px;
     background-color: rgba(255, 255, 255, 0);
 }
 
-.escuro::-webkit-scrollbar-thumb {
+.escuroTela::-webkit-scrollbar-thumb {
     background-color: #007BFF;
     border-radius: 10px;
 }

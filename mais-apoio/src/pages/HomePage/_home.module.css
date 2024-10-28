@@ -119,9 +119,10 @@
     text-align: center;
     font-size: 1.1rem;
     width: 80%;
+    font-family: 'PoppinsSimples';
 }
 
-.texts {
+.texts { 
     display: flex;
     align-items: first baseline;
     justify-content: space-between;
@@ -650,6 +651,7 @@ border-radius: 90px;
 border: #007BFF 1px solid;
 margin: 0;
 padding: 0;
+cursor: pointer;
 }
 
 .descricaoLogin{
@@ -686,6 +688,16 @@ padding: 0;
     width: 100%;
 }
 
+.inputTrocarSenha{
+    all: unset;
+    border: #007BFF solid;
+    text-align: center;
+    font-size: 1.2rem;
+    border-width: 2px ;
+    border-radius: 7px;
+    padding: 5px;
+}
+
 .iconeLogin{
     color: #007BFF;
     font-size: 1.3rem;
@@ -693,6 +705,26 @@ padding: 0;
     margin: 0;
     font-style: normal;
     min-width: 1.3rem;
+}
+
+.iconeFecharLogin{
+    color: #4b4b4b;
+    font-size: 1.3rem;
+    padding: 0;
+    margin: 0;
+    font-style: normal;
+    min-width: 1.3rem;
+    cursor: pointer;
+}
+
+.iconeFecharLogin:hover{
+    color: #007BFF;
+    font-size: 1.3rem;
+    padding: 0;
+    margin: 0;
+    font-style: normal;
+    min-width: 1.3rem;
+    cursor: pointer;
 }
 
 .esqueceuLogin{
@@ -704,6 +736,27 @@ padding: 0;
     font-size: 0.6rem;
     color: #4b4b4b;
     width: 100%;
+    cursor: pointer;
+}
+
+.esqueceuLogin:hover{   
+    color: #007BFF;
+}
+
+.mandarEmail{
+    margin: 0.5rem 0 0 0;
+    font-family: 'PoppinsSimples';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #4b4b4b;
+    width: 100%;
+    cursor: pointer;
+}
+
+.mandarEmail:hover{   
+    color: #007BFF;
 }
 
 .cadastrarLogin{
@@ -722,8 +775,24 @@ padding: 0;
 .cadastroLogin{
     color: #007BFF;
     margin-left: 5px;
+    cursor: pointer;
 
 }
+
+.cadastroLogin:hover{
+    color: #4b4b4b;
+    margin-left: 5px;
+
+}
+
+.bolaClara{
+    background-color: #ffffff;
+}
+
+.bolaEscura{
+    background-color: #c6c6c9;
+}
+
 
 @font-face {
     font-family: 'Poppins';

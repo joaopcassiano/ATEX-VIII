@@ -54,6 +54,8 @@ const Home = () => {
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
     const escuroRef = useRef(null);
     const boxLoginRef = useRef(null);
+    const [tipoUsuario, setTipoUsuario] = useState(1);
+    const [trocarSenha, setTrocarSenha] = useState(1);
 
     const [endereco, setEndereco] = useState({
         rua: '',
@@ -67,7 +69,9 @@ const Home = () => {
 
     const Cor = {
         escuro: styles.escuro,
-        claro: styles.claro
+        claro: styles.claro,
+        bolaEscura: styles.bolaEscura,
+        bolaClara: styles.bolaClara
     }
 
     const imagensCarrosel = [
@@ -185,6 +189,7 @@ const Home = () => {
     const fecharBoxLogin = (event) => {
         if (boxLoginRef.current && !boxLoginRef.current.contains(event.target)) {
             setVisivelLogin(false);
+            setTrocarSenha(1);
         }
     };
 
@@ -206,7 +211,7 @@ const Home = () => {
     return (
         <>
             <div className={styles.corpo}>
-                <TopBar valor={(x) => { setOpcao(x) }} valorLogin={(a) => { setVisivelLogin(a) }} />
+                <TopBar valor={(x) => { setOpcao(x) }} valorLogin={(a) => { setVisivelLogin(a); setTrocarSenha(1); }} />
                 <div className={styles.conteudo}>
                     {
                         opcao === 1 ?
@@ -1028,7 +1033,7 @@ const Home = () => {
                 <div onClick={fecharBoxLogin} ref={escuroRef} className={styles.escuroTela}>
                     <div ref={boxLoginRef} className={styles.boxLogin}>
                         <div className={styles.x}>
-                            <Botao onClick={fecharBoxLogin} referencia={xRef}><BsX></BsX></Botao>
+                            <BsX className={styles.iconeFecharLogin} onClick={() => { setVisivelLogin(false); setTrocarSenha(1); }}></BsX>
                         </div>
                         <div className={styles.boxMenorLogin}>
                             <div className={styles.painel}>
@@ -1042,8 +1047,8 @@ const Home = () => {
                             </div>
                             <div className={styles.botoesPainel}>
                                 <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin'>
-                                        <div className={styles.bolalogin1}>
+                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(1) }}>
+                                        <div className={`${styles.bolalogin1} ${tipoUsuario === 1 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
 
                                         </div>
                                     </Botao>
@@ -1052,8 +1057,8 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin'>
-                                        <div className={styles.bolalogin2}>
+                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(2) }}>
+                                        <div className={`${styles.bolalogin2} ${tipoUsuario === 2 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
 
                                         </div>
                                     </Botao >
@@ -1062,8 +1067,8 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin'>
-                                        <div className={styles.bolalogin3}>
+                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(3) }}>
+                                        <div className={`${styles.bolalogin3} ${tipoUsuario === 3 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
 
                                         </div>
                                     </Botao>
@@ -1072,8 +1077,8 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin'>
-                                        <div className={styles.bolalogin4}>
+                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(4) }}>
+                                        <div className={`${styles.bolalogin4} ${tipoUsuario === 4 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
 
                                         </div>
                                     </Botao>
@@ -1083,21 +1088,52 @@ const Home = () => {
                                 </div>
                             </div>
                             <div className={styles.inputsLogin}>
-                                <div className={styles.inputLogin}>
-                                    <FiAtSign className={styles.iconeLogin} />
-                                    <InputMask type='email' className={styles.inputL} placeholder='Digite seu email'></InputMask>
-                                </div>
-                                <div className={styles.inputLogin}>
-                                    <GoLock className={styles.iconeLogin} />
-                                    <InputMask type='password' className={styles.inputL} placeholder='Digite sua senha'></InputMask>
-                                </div>
-                                <div className={styles.esqueceuLogin}>
-                                    Esqueceu sua senha?
-                                </div>
+                                {
+                                    trocarSenha === 1 ?
+                                        <>
+                                            <div className={styles.inputLogin}>
+                                                <FiAtSign className={styles.iconeLogin} />
+                                                <InputMask type='email' className={styles.inputL} placeholder='Digite seu email'></InputMask>
+                                            </div>
+                                            <div className={styles.inputLogin}>
+                                                <GoLock className={styles.iconeLogin} />
+                                                <InputMask type='password' className={styles.inputL} placeholder='Digite sua senha'></InputMask>
+                                            </div>
+                                            <div onClick={() => { setTrocarSenha(2) }} className={styles.esqueceuLogin}>
+                                                Esqueceu sua senha?
+                                            </div>
+                                            <Botao estilo='confirmarLogin'>Entrar</Botao>
+                                        </>
+                                        :
+                                        trocarSenha === 2 ?
+                                            <>
+                                                <div className={styles.inputLogin}>
+                                                    <FiAtSign className={styles.iconeLogin} />
+                                                    <InputMask type='email' className={styles.inputL} placeholder='Digite seu email'></InputMask>
+                                                </div>
+                                                <div onClick={() => { setTrocarSenha(3) }} className={styles.mandarEmail}>
+                                                    Enviar código
+                                                </div>
+                                            </>
+                                            :
+                                            trocarSenha === 3 ?
+                                                <>
+                                                    <InputMask type='text' mask="9 - 9 - 9 - 9 - 9 - 9" className={styles.inputTrocarSenha} placeholder='0 0 0 0 0 0'></InputMask>
+                                                    <div onClick={() => { setTrocarSenha(3) }} className={styles.mandarEmail}>
+                                                        Reenviar código
+                                                    </div>
+                                                    <Botao onClick={() => {setTrocarSenha(1)}} estilo='confirmarLogin'>Confirmar código</Botao>
+                                                </>
+                                                :
+                                                <>
+                                                </>
+                                }
+
+
                             </div>
-                            <Botao estilo='confirmarLogin'>Entrar</Botao>
+
                             <div className={styles.cadastrarLogin}>
-                                Não possui um cadastro ainda?  <p className={styles.cadastroLogin}>Cadastre-se</p>
+                                Não possui um cadastro ainda?  <p className={styles.cadastroLogin} onClick={() => { setOpcao(6); setVisivelLogin(false) }}>Cadastre-se</p>
                             </div>
                         </div>
                     </div>
@@ -1106,5 +1142,4 @@ const Home = () => {
         </>
     )
 }
-
 export default Home;

@@ -1045,48 +1045,52 @@ const Home = () => {
                                     Para ajudar ou solicitar ajuda, você precisa ter um cadastro
                                 </div>
                             </div>
-                            <div className={styles.botoesPainel}>
-                                <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(1) }}>
-                                        <div className={`${styles.bolalogin1} ${tipoUsuario === 1 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
+                            {
+                                (trocarSenha === 1 || trocarSenha == 2) &&
 
+                                <div className={styles.botoesPainel}>
+                                    <div className={styles.botaoPainel}>
+                                        <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(1) }}>
+                                            <div className={`${styles.bolalogin1} ${tipoUsuario === 1 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
+
+                                            </div>
+                                        </Botao>
+                                        <div className={styles.descricaoLogin}>
+                                            Voluntário
                                         </div>
-                                    </Botao>
-                                    <div className={styles.descricaoLogin}>
-                                        Voluntário
+                                    </div>
+                                    <div className={styles.botaoPainel}>
+                                        <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(2) }}>
+                                            <div className={`${styles.bolalogin2} ${tipoUsuario === 2 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
+
+                                            </div>
+                                        </Botao >
+                                        <div className={styles.descricaoLogin}>
+                                            Doador
+                                        </div>
+                                    </div>
+                                    <div className={styles.botaoPainel}>
+                                        <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(3) }}>
+                                            <div className={`${styles.bolalogin3} ${tipoUsuario === 3 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
+
+                                            </div>
+                                        </Botao>
+                                        <div className={styles.descricaoLogin}>
+                                            Empresa
+                                        </div>
+                                    </div>
+                                    <div className={styles.botaoPainel}>
+                                        <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(4) }}>
+                                            <div className={`${styles.bolalogin4} ${tipoUsuario === 4 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
+
+                                            </div>
+                                        </Botao>
+                                        <div className={styles.descricaoLogin}>
+                                            Beneficiário
+                                        </div>
                                     </div>
                                 </div>
-                                <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(2) }}>
-                                        <div className={`${styles.bolalogin2} ${tipoUsuario === 2 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
-
-                                        </div>
-                                    </Botao >
-                                    <div className={styles.descricaoLogin}>
-                                        Doador
-                                    </div>
-                                </div>
-                                <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(3) }}>
-                                        <div className={`${styles.bolalogin3} ${tipoUsuario === 3 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
-
-                                        </div>
-                                    </Botao>
-                                    <div className={styles.descricaoLogin}>
-                                        Empresa
-                                    </div>
-                                </div>
-                                <div className={styles.botaoPainel}>
-                                    <Botao estilo='bolinhaLogin' onClick={() => { setTipoUsuario(4) }}>
-                                        <div className={`${styles.bolalogin4} ${tipoUsuario === 4 ? Cor['bolaEscura'] : Cor['bolaClara']}`}>
-
-                                        </div>
-                                    </Botao>
-                                    <div className={styles.descricaoLogin}>
-                                        Beneficiário
-                                    </div>
-                                </div>
-                            </div>
+                            }
                             <div className={styles.inputsLogin}>
                                 {
                                     trocarSenha === 1 ?
@@ -1122,7 +1126,7 @@ const Home = () => {
                                                     <div onClick={() => { setTrocarSenha(3) }} className={styles.mandarEmail}>
                                                         Reenviar código
                                                     </div>
-                                                    <Botao onClick={() => {setTrocarSenha(1)}} estilo='confirmarLogin'>Confirmar código</Botao>
+                                                    <Botao onClick={() => { setTrocarSenha(1) }} estilo='confirmarLogin'>Confirmar código</Botao>
                                                 </>
                                                 :
                                                 <>

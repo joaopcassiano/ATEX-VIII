@@ -14,10 +14,13 @@ public class CodigoValidacaoUsuarioRepositorio
 
     public CodigoValidacaoUsuarioRepositorio()
     {
+        string smtpChave = Environment.GetEnvironmentVariable("xsmtpsib-cf49abc39306c4beef18c7ad2b597056fb3a27a3767ccf5f5ef085a712c33433-gsrFKnbwAJ7QR23P");
+
+
         _smtpClient = new SmtpClient("smtp-relay.brevo.com")
         {
-            Port = 587, // Use 465 se preferir SSL
-            Credentials = new NetworkCredential("7ed5e6003@smtp-brevo.com", "xsmtpsib-cf49abc39306c4beef18c7ad2b597056fb3a27a3767ccf5f5ef085a712c33433-gsrFKnbwAJ7QR23P"),
+            Port = 587,
+            Credentials = new NetworkCredential("7ed5e6003@smtp-brevo.com", smtpChave),
             EnableSsl = true,
         };
     }
@@ -88,7 +91,7 @@ public class CodigoValidacaoUsuarioRepositorio
 
         conexao.Open();
 
-        var usuarioCodigo = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new {tipoUsuario = tipoUsuario, email = email, codigo = codigo});
+        var usuarioCodigo = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { tipoUsuario = tipoUsuario, email = email, codigo = codigo });
 
         conexao.Close();
 
@@ -97,8 +100,8 @@ public class CodigoValidacaoUsuarioRepositorio
             return false;
         }
 
-       return true;
-        
+        return true;
+
     }
 
 

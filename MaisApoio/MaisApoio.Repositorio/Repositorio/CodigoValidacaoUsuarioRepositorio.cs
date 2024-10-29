@@ -10,26 +10,13 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
 public class CodigoValidacaoUsuarioRepositorio
 {
     private MaisApoioContexto _banco = new MaisApoioContexto();
-    private SmtpClient _smtpClient;
-
-    public CodigoValidacaoUsuarioRepositorio()
-    {
-        string smtpChave = Environment.GetEnvironmentVariable("xsmtpsib-cf49abc39306c4beef18c7ad2b597056fb3a27a3767ccf5f5ef085a712c33433-gsrFKnbwAJ7QR23P");
-
-
-        _smtpClient = new SmtpClient("smtp-relay.brevo.com")
-        {
-            Port = 587,
-            Credentials = new NetworkCredential("7ed5e6003@smtp-brevo.com", smtpChave),
-            EnableSsl = true,
-        };
-    }
-
-
+    public CodigoValidacaoUsuarioRepositorio() { }
     public async Task CriarCodigoAsync(string email, TipoUsuario tipoUsuario)
     {
         var aleatoria = new Random().Next(100000, 999999);
         string sql = "";
+
+        Console.WriteLine((int)tipoUsuario);
 
         if ((int)tipoUsuario == 1)
         {
@@ -52,7 +39,7 @@ public class CodigoValidacaoUsuarioRepositorio
 
         conexao.Open();
 
-        var usuario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, email);
+        var usuario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { email = email });
 
         if (usuario == null)
         {
@@ -63,12 +50,19 @@ public class CodigoValidacaoUsuarioRepositorio
 
         string sqlCodigo = "Insert into CodigoValidacaoUsuario(tipoUsuario,email,codigo,dataExpiracao) VALUES (@tipoUsuario, @email, @codigo, @dataExpiracao)";
 
-        await conexao.ExecuteAsync(sqlCodigo, codigo);
+        await conexao.ExecuteAsync(sqlCodigo, new { tipoUsuario = codigo.TipoUsuario, email = codigo.Email, codigo = codigo.Codigo, dataExpiracao = codigo.DataExpiracao });
 
+        var _smtpClient = new SmtpClient("smtp-relay.brevo.com")
+        {
+            Port = 587,
+            Credentials = new NetworkCredential("7ed5e6003@smtp-brevo.com", "6kFIJjbxmhcnZOLW"),
+            EnableSsl = true,
+        };
+        
         var mailMessage = new MailMessage
         {
             From = new MailAddress("mais.apoio.suporte@gmail.com"),
-            Subject = "Teste de Envio via Brevo",
+            Subject = "Mudar de senha",
             Body = GetHtmlBody(aleatoria.ToString()),
             IsBodyHtml = true,
         };
@@ -83,21 +77,21 @@ public class CodigoValidacaoUsuarioRepositorio
         conexao.Close();
     }
 
-    public async Task<bool> VerificarCodigoAsync(string email, TipoUsuario tipoUsuario, string codigo)
+    public async Task<bool> VerificarCodigoAsync(string email, TipoUsuario tipoUsuario, int codigo)
     {
-        string sql = "SELECT * FROM CodigoValidacaoUsuario WHERE Email LIKE @email AND TipoUsuario = @tipoUsuario AND codigo LIKE @codigo";
+        string sql = "SELECT TOP 1 * FROM CodigoValidacaoUsuario WHERE Email LIKE @email AND TipoUsuario = @tipoUsuario AND DataExpiracao > GETDATE() ORDER BY DataExpiracao DESC;";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
-        var usuarioCodigo = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { tipoUsuario = tipoUsuario, email = email, codigo = codigo });
+        var usuarioCodigo = await conexao.QueryFirstOrDefaultAsync<CodigoValidacaoUsuario>(sql, new { tipoUsuario = tipoUsuario, email = email });
 
         conexao.Close();
 
-        if (usuarioCodigo == null)
+        if ((usuarioCodigo == null) || (usuarioCodigo.Codigo != codigo))
         {
-            return false;
+            throw new Exception("Código invalido");
         }
 
         return true;

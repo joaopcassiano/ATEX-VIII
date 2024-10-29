@@ -38,6 +38,8 @@ public class CodigoValidacaoUsuario
         set { _dataExpiracao = value; }
     }
 
+    public CodigoValidacaoUsuario() { }
+
     public CodigoValidacaoUsuario(TipoUsuario tipoUsuario, string email, int codigo)
     {
         TipoUsuario = tipoUsuario;

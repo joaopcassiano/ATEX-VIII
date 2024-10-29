@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Endereco

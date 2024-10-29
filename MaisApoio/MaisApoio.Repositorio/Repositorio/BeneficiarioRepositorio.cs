@@ -31,7 +31,7 @@ public class BeneficiarioRepositorio
         var ms = new MemoryStream();
         await file.CopyToAsync(ms);
 
-        string sql = "Insert into Beneficiario(ImagemPerfil) velues (@arquivo) WHERE BebeficiarioID = @id";
+        string sql = "Insert into Beneficiario(ImagemPerfil) values (@arquivo) WHERE BebeficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -41,6 +41,21 @@ public class BeneficiarioRepositorio
 
         conexao.Close();
     }
+
+    public async Task CriarBeneficiario(Beneficiario beneficiario)
+    {
+
+        string sql = "Insert into Beneficiario(nome,email,senha,dataNascimento,situacaoEconomica,ativo) values (@nome,@email,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
+
+        var conexao = _banco.ConectarSqlServer();
+
+        conexao.Open();
+
+        await conexao.ExecuteAsync(sql, new { id = beneficiario.ID,nome = beneficiario.Nome, email = beneficiario.Email, senha = beneficiario.Senha, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica, ativo = beneficiario.Ativo});
+
+        conexao.Close();
+
+}
 
     public async Task CriarBeneficiarioNeo4j(Beneficiario beneficiario)
     {
@@ -76,7 +91,7 @@ public class BeneficiarioRepositorio
             ID = bene["Id"].As<int>(),
             Nome = bene["Nome"].As<string>(),
             Email = bene["Email"].As<string>(),
-            SituacaoEconomica = bene["SituacaoEconomica"].As<string>(),
+            SituacaoEconomica = bene["SituacaoEconomica"].As<decimal>(),
             DataNascimento = DateTime.Parse(bene["DataNascimento"].As<string>()),
             EnderecoID = bene["EnderecoID"].As<int>(),
             Ativo = bene["Ativo"].As<bool>()

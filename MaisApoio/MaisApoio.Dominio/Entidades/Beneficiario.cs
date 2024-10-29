@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
@@ -8,13 +9,14 @@ public class Beneficiario
     private string _nome;
     private DateTime _dataNascimento;
     private int _enderecoID;
-    private string _situacaoEconomica;
+    private decimal _situacaoEconomica;
     private string _email;
     private string _senha;
     private byte[]? _imagemPerfil;
     private bool _ativo;
 
-    public int ID 
+    [JsonIgnore]
+    public int ID
     {
         get { return _id; }
         set { _id = value; }
@@ -44,6 +46,7 @@ public class Beneficiario
         }
     }
 
+    [JsonIgnore]
     public int EnderecoID
     {
         get { return _enderecoID; }
@@ -56,14 +59,11 @@ public class Beneficiario
         }
     }
 
-    public string SituacaoEconomica
+    public decimal SituacaoEconomica
     {
         get { return _situacaoEconomica; }
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Situação econômica não pode ser vazia.");
-
             _situacaoEconomica = value;
         }
     }
@@ -87,21 +87,16 @@ public class Beneficiario
         get { return _senha; }
         set
         {
-            var senhaRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$");
-
-            if (!senhaRegex.IsMatch(value))
-                throw new ArgumentException("A senha deve ter pelo menos 8 caracteres, com pelo menos uma letra maiúscula, uma minúscula e um número.");
-                
             _senha = value;
         }
     }
-
+    [JsonIgnore]
     public byte[]? ImagemPerfil
     {
         get { return _imagemPerfil; }
         set { _imagemPerfil = value; }
     }
-    
+
     public bool Ativo
     {
         get { return _ativo; }
@@ -110,10 +105,10 @@ public class Beneficiario
 
     public Beneficiario()
     {
-    
+
     }
 
-    public Beneficiario(string nome, string email, string situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
+    public Beneficiario(string nome, string email, decimal situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
     {
         Nome = nome;
         Email = email;

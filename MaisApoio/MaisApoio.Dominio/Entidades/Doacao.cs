@@ -53,7 +53,7 @@ public class Doacao
         get { return _dataDoacao; }
         set { _dataDoacao = value; }
     }
-    public int beneficarioID
+    public int BeneficiarioID
     {
         get { return _beneficiarioID; }
         set 

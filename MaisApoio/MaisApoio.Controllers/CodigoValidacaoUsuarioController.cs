@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]/api")]
 public class CodigoValidacaoUsuarioController : ControllerBase
 {
+    private CodigoValidacaoUsuarioRepositorio _codigoValidacaoUsuarioRepositorio;
 
-    public CodigoValidacaoUsuarioController() { }
-    private CodigoValidacaoUsuarioRepositorio codigos = new CodigoValidacaoUsuarioRepositorio();
+    public CodigoValidacaoUsuarioController(CodigoValidacaoUsuarioRepositorio codigoValidacaoUsuarioRepositorio) 
+    { 
+        _codigoValidacaoUsuarioRepositorio = codigoValidacaoUsuarioRepositorio;
+    }
 
     [HttpGet]
     public IActionResult teste()
@@ -20,7 +23,7 @@ public class CodigoValidacaoUsuarioController : ControllerBase
     [Route("criar")]
     public async Task<IActionResult> criar([FromBody] string email,TipoUsuario tipoUsuario)
     {
-        await codigos.CriarCodigoAsync(email,tipoUsuario);
+        await _codigoValidacaoUsuarioRepositorio.CriarCodigoAsync(email,tipoUsuario);
 
         return Ok();
     }

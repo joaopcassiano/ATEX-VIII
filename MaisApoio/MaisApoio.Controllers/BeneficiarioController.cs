@@ -6,15 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]/api")]
 public class BeneficiarioController : ControllerBase
 {
+    private BeneficiarioRepositorio _beneficiarioRepositorio;
 
-    public BeneficiarioController() { }
-    private BeneficiarioRepositorio beneficiarioRepositorio = new BeneficiarioRepositorio();
+    public BeneficiarioController(BeneficiarioRepositorio beneficiarioRepositorio)
+    {
+        _beneficiarioRepositorio = beneficiarioRepositorio;
+    }
 
     [HttpPost]
     [Route("criar")]
     public async Task<IActionResult> criar([FromBody] Beneficiario beneficiario)
     {
-        await beneficiarioRepositorio.CriarBeneficiario(beneficiario);
+        await _beneficiarioRepositorio.CriarBeneficiario(beneficiario);
 
         return Ok(beneficiario);
     }

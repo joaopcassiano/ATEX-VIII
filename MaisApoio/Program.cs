@@ -1,6 +1,12 @@
+using MaisApoio.MaisApoio.Repositorio.Repositorio;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddScoped<BeneficiarioRepositorio>();
+builder.Services.AddScoped<CodigoValidacaoUsuarioRepositorio>();
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
@@ -13,8 +19,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
 
 app.UseAuthorization();
 

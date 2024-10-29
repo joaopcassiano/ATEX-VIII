@@ -5,9 +5,10 @@ public class Endereco
     private int _id;
     private string _rua;
     private string _bairro;
-    private float _numero;
+    private int _numero;
     private string _complemento;
     private string _cidade;
+    private string _estado;
     private string _cep;
     private bool _ativo;
 
@@ -19,32 +20,81 @@ public class Endereco
     public string Rua
     {
         get{return _rua;}
-        set{_rua = value;}
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A rua não pode ser vaia.");
+
+            _rua = value;
+        }
     }
     public string Bairro
     {
         get{return _bairro;}
-        set{_bairro = value;}
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("O Bairro não pode ser vazio.");
+
+            _bairro = value;
+        }
     }
-    public float Numero
+    public int Numero
     {
         get{return _numero;}
-        set{_numero = value;}
+        set
+        {
+            if(value < 0)
+                throw new Exception("O Número não pode ser negativo.");
+                
+            _numero = value;
+        }
     }
     public string Complemento
     {
         get{return _complemento;}
-        set{_complemento = value;}
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("O Complemento não pode ser vazio.");
+
+            _complemento = value;
+        }
     }
     public string Cidade
     {
         get{return _cidade;}
-        set{_cidade = value;}
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A Cidade não pode ser vaia.");
+
+            _cidade = value;
+        }
     }
+
+    public string Estado
+    {
+        get{return _estado;}
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("O estado não pode ser vazio.");
+
+            _estado = value;
+        }
+    }
+
     public string Cep
     {
         get{return _cep;}
-        set{_cep = value;}
+        set
+        {
+            var cepRegex = new Regex(@"^\d{2}\.\d{3}-\d{3}$");
+            if (!cepRegex.IsMatch(value))
+                throw new ArgumentException("CEP inválido. O formato deve ser 99.999-000.");
+            _cep = value;
+        }
     }
     public bool Ativo
     {
@@ -54,24 +104,25 @@ public class Endereco
 
     public Endereco(){}
 
-    public Endereco(string rua, string bairro, float numero, string complemento, string cidade, string cep)
+    public Endereco(string rua, string bairro, int numero, string complemento, string cidade, string estado, string cep)
     {
-        _rua = rua;
-        _bairro = bairro;
-        _numero = numero;
-        _complemento = complemento;
-        _cidade = cidade;
-        _cep = cep;
-        _ativo = true;
+        Rua = rua;
+        Bairro = bairro;
+        Numero = numero;
+        Complemento = complemento;
+        Cidade = cidade;
+        Estado = estado;
+        Cep = cep;
+        Ativo = true;
     }
 
     public void Deletar()
     {
-        _ativo = false;
+        Ativo = false;
     }
     public void Restaurar()
     {
-        _ativo = true;
+        Ativo = true;
     }
 
 }

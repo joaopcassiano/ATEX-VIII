@@ -7,9 +7,9 @@ namespace MaisApoio.MaisApoio.Repositorio.Contexto;
 public class MaisApoioContexto
 {
     private readonly string _conexaoSql = "SERVER=.\\SQLEXPRESS;Database=MaisApoio;UID=sa;PWD=t2e4x6h1";
-    private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "senha_do_neo4j"));
+    private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver("neo4j+s://652c81ae.databases.neo4j.io", AuthTokens.Basic("neo4j", "t2e4x6h1"));
     //Alterar                                                            localhost e porta                       Altere a senha
-
+    //Alteração Realizada
     public DbConnection ConectarSqlServer()
     {
         return new SqlConnection(_conexaoSql);

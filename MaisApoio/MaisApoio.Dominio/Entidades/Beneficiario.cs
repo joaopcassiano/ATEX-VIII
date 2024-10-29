@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Beneficiario
@@ -8,6 +10,8 @@ public class Beneficiario
     private int _enderecoID;
     private string _situacaoEconomica;
     private string _email;
+    private string _senha;
+    private byte[]? _imagemPerfil;
     private bool _ativo;
 
     public int ID 
@@ -16,34 +20,86 @@ public class Beneficiario
         set { _id = value; }
     }
 
-    public string Nome 
+    public string Nome
     {
         get { return _nome; }
-        set { _nome = value; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Nome não pode ser vazio.");
+
+            _nome = value;
+        }
     }
 
     public DateTime DataNascimento
     {
         get { return _dataNascimento; }
-        set { _dataNascimento = value; }
+        set
+        {
+            if (value >= DateTime.Now)
+                throw new ArgumentException("Data de nascimento inválida.");
+
+            _dataNascimento = value;
+        }
     }
-    
+
     public int EnderecoID
     {
         get { return _enderecoID; }
-        set { _enderecoID = value; }
+        set
+        {
+            if (value <= 0)
+                throw new ArgumentException("Endereço inválido.");
+
+            _enderecoID = value;
+        }
     }
-    
+
     public string SituacaoEconomica
     {
         get { return _situacaoEconomica; }
-        set { _situacaoEconomica = value; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Situação econômica não pode ser vazia.");
+
+            _situacaoEconomica = value;
+        }
     }
-    
+
     public string Email
     {
         get { return _email; }
-        set { _email = value; }
+        set
+        {
+            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+            if (!emailRegex.IsMatch(value))
+                throw new ArgumentException("Email inválido.");
+
+            _email = value;
+        }
+    }
+
+    public string Senha
+    {
+        get { return _senha; }
+        set
+        {
+            var senhaRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$");
+
+            if (!senhaRegex.IsMatch(value))
+                throw new ArgumentException("A senha deve ter pelo menos 8 caracteres, com pelo menos uma letra maiúscula, uma minúscula e um número.");
+                
+            _senha = value;
+        }
+    }
+
+    public byte[]? ImagemPerfil
+    {
+        get { return _imagemPerfil; }
+        set { _imagemPerfil = value; }
     }
     
     public bool Ativo
@@ -57,14 +113,15 @@ public class Beneficiario
     
     }
 
-    public Beneficiario(string nome, string email, string situacaoEconomica, DateTime dataNascimento, int enderecoID)
+    public Beneficiario(string nome, string email, string situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
     {
-        _nome = nome;
-        _email = email;
-        _situacaoEconomica = situacaoEconomica;
-        _dataNascimento = dataNascimento;
-        _enderecoID = enderecoID;
-        _ativo = true;
+        Nome = nome;
+        Email = email;
+        Senha = senha;
+        SituacaoEconomica = situacaoEconomica;
+        DataNascimento = dataNascimento;
+        EnderecoID = enderecoID;
+        Ativo = true;
     }
 
     public void Deletar()

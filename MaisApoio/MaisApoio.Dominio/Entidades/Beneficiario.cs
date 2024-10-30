@@ -63,9 +63,7 @@ public class Beneficiario
     {
         get { return _situacaoEconomica; }
         set
-        {
-            _situacaoEconomica = value;
-        }
+        { _situacaoEconomica = value; }
     }
 
     public string Email
@@ -75,7 +73,7 @@ public class Beneficiario
         {
             var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
 
-            if (!emailRegex.IsMatch(value))
+            if (!emailRegex.IsMatch(value) || string.IsNullOrEmpty(value))
                 throw new ArgumentException("Email inválido.");
 
             _email = value;
@@ -87,9 +85,13 @@ public class Beneficiario
         get { return _senha; }
         set
         {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentException("Senha inválida.");
+
             _senha = value;
         }
     }
+    
     [JsonIgnore]
     public byte[]? ImagemPerfil
     {

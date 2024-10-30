@@ -9,11 +9,13 @@ create table CodigoValidacaoUsuario(
 CREATE TABLE Beneficiario(
 	BenefiarioID int identity(1,1) primary key,
 	Nome varchar(120) not null,
+	CPF varchar(20) not null,
+	Telefone varchar(20) not null,
 	Email varchar(245) not null,
-	Sennha Varchar(200) not null,
+	Senha Varchar(200) not null,
 	DataNascimento Datetime not null,
-	EnderecoID int null,
-	SiteuacaoEconomica Decimal(18,2) not null,
+	EnderecoID int not null,
+	SituacaoEconomica Decimal(18,2) not null,
 	ImagemPerfil Varbinary(max) null,
 	Ativo Bit not null
 );

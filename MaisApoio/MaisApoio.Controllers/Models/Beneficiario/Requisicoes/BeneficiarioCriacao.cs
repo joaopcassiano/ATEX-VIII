@@ -1,19 +1,22 @@
-namespace MaisApoio.MaisApoio.Dominio.Entidades;
+namespace MaisApoio.Models.Beneficiario.Requisicao;
 
 public class BeneficiarioCriacao
 {
-    public int ID;
-    public string Nome;
-    public DateTime DataNascimento;
-    public decimal SituacaoEconomica;
-    public string Email;
-    public string Senha;
-    public string Rua;
-    public string Bairro;
-    public int Numero;
-    public string Complemento;
-    public string Cidade;
-    public string Estado;
-    public string Cep;
+    public string Nome { get; set; }
+    public string Cpf { get; set; }
+    public string Telefone { get; set; }
+    public DateTime DataNascimento { get; set; }
+    public decimal SituacaoEconomica { get; set; }
+    public string Email { get; set; }
+    public string Senha { get; set; }
+    public string Rua { get; set; }
+    public string Bairro { get; set; }
+    public int Numero { get; set; }
+    public string Complemento { get; set; }
+    public string Cidade { get; set; }
+    public string Estado { get; set; }
+    public string Cep { get; set; }
+
+    public BeneficiarioCriacao() { }
 
 }

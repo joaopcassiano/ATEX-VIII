@@ -20,15 +20,33 @@ public class EnderecoRepositorio
     {
         string sql = @"
             INSERT INTO Endereco (Rua, Bairro, Numero, Complemento, Cidade, Estado, Cep, Ativo)
-            OUTPUT INSERTED.BeneficiarioID as ID
+            OUTPUT INSERTED.EnderecoID as ID
             VALUES (@Rua, @Bairro, @Numero, @Complemento, @Cidade, @Estado, @Cep, @Ativo)
+        ";
+
+        string sqlObter = @"
+            Select EnderecoID as ID 
+            FROM Endereco
+            WHERE Rua = @Rua 
+            AND Bairro = @Bairro 
+            AND Numero = @Numero 
+            AND Estado = @Estado 
+            AND Complemento = @Complemento 
+            AND Cidade = @Cidade 
+            AND Cep = @Cep 
+            AND Ativo = @Ativo;
         ";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
-        var id = await conexao.QuerySingleAsync<int>(sql, new { Rua = endereco.Rua, Bairro = endereco.Bairro, Numero = endereco.Numero, Complemento = endereco.Complemento, Cidade = endereco.Cidade, Estado = endereco.Estado, Cep = endereco.Cep, Ativo = endereco.Ativo });
+        var id = await conexao.QueryFirstOrDefaultAsync<int>(sqlObter, new { Rua = endereco.Rua, Bairro = endereco.Bairro, Numero = endereco.Numero, Complemento = endereco.Complemento, Cidade = endereco.Cidade, Estado = endereco.Estado, Cep = endereco.Cep, Ativo = endereco.Ativo });
+
+        if (id == 0)
+        {
+            id = await conexao.QueryFirstOrDefaultAsync<int>(sql, new { Rua = endereco.Rua, Bairro = endereco.Bairro, Numero = endereco.Numero, Complemento = endereco.Complemento, Cidade = endereco.Cidade, Estado = endereco.Estado, Cep = endereco.Cep, Ativo = endereco.Ativo });
+        }
 
         conexao.Close();
 
@@ -37,7 +55,8 @@ public class EnderecoRepositorio
 
     public async Task<Endereco> ObterEnderecoAsync(int id)
     {
-        string sql = "SELECT * FROM Endereco WHERE EnderecoID = @ID";
+        string sql = @"SELECT EnderecoID AS ID, *
+        FROM Endereco WHERE EnderecoID = @ID";
 
         var conexao = _banco.ConectarSqlServer();
 

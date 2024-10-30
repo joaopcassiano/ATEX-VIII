@@ -39,6 +39,8 @@ import { FaNetworkWired } from "react-icons/fa";
 import { BiDonateHeart } from "react-icons/bi";
 import { IoIosStarOutline } from "react-icons/io";
 import { BsX } from "react-icons/bs";
+import BeneficiarioService from '../../Services/BeneficiarioService';
+
 
 const Home = () => {
     const [visivelEndereco, setVisivelEndereco] = useState(false)
@@ -56,7 +58,6 @@ const Home = () => {
     const boxLoginRef = useRef(null);
     const [tipoUsuario, setTipoUsuario] = useState(1);
     const [trocarSenha, setTrocarSenha] = useState(1);
-
     const [endereco, setEndereco] = useState({
         rua: '',
         bairro: '',
@@ -66,6 +67,23 @@ const Home = () => {
         estado: '',
         cep: ''
     });
+
+    const [beneficiario, setBeneficiario] = useState({
+        nome: '',
+        cpf: '',
+        telefone: '',
+        dataNascimento: '',
+        situacaoEconomica: '',
+        email: '',
+        senha: '',
+        rua: '',
+        bairro: '',
+        numero: '',
+        complemento: '',
+        cidade: '',
+        estado: '',
+        cep: ''
+    })
 
     const Cor = {
         escuro: styles.escuro,
@@ -81,6 +99,36 @@ const Home = () => {
     ]
 
     useEffect(() => {
+        {
+            setEndereco({
+                rua: '',
+                bairro: '',
+                cidade: '',
+                estado: '',
+                numero: '',
+                complemento: '',
+                cep: ''
+            });
+            setBeneficiario({
+                nome: '',
+                cpf: '',
+                telefone: '',
+                dataNascimento: '',
+                situacaoEconomica: '',
+                email: '',
+                senha: '',
+                rua: '',
+                bairro: '',
+                numero: '',
+                complemento: '',
+                cidade: '',
+                estado: '',
+                cep: ''
+            });
+        }
+    }, [opcao])
+
+    useEffect(() => {
         if (endereco.cep === '') {
             setPlaceEndereco('Endereço')
         }
@@ -91,7 +139,6 @@ const Home = () => {
             else {
                 setPlaceEndereco('Preencha todos os dados')
             }
-            console.log("aaaaaaaaaaaaaaaaaaaaa   " + endereco.cep)
 
         } else if (endereco.bairro !== '' && endereco.numero !== '' && endereco.complemento !== '' && endereco.rua !== '' && endereco.cidade !== '' && endereco.estado !== '' && endereco.cep !== '') {
 
@@ -134,6 +181,24 @@ const Home = () => {
                         numero: '',
                         complemento: ''
                     });
+
+                    if (opcao === 7) {
+                        setBeneficiario({
+                            nome: beneficiario.nome,
+                            cpf: beneficiario.cpf,
+                            telefone: beneficiario.telefone,
+                            dataNascimento: beneficiario.dataNascimento,
+                            situacaoEconomica: beneficiario.situacaoEconomica,
+                            email: beneficiario.email,
+                            senha: beneficiario.senha,
+                            rua: '',
+                            bairro: '',
+                            cidade: '',
+                            estado: '',
+                            numero: '',
+                            complemento: ''
+                        });
+                    }
                 } else {
                     setEndereco({
                         ...endereco,
@@ -145,6 +210,24 @@ const Home = () => {
                         complemento: '',
                         cep: cepDigitado
                     });
+                    if (opcao === 7) {
+                        setBeneficiario({
+                            nome: beneficiario.nome,
+                            cpf: beneficiario.cpf,
+                            telefone: beneficiario.telefone,
+                            dataNascimento: beneficiario.dataNascimento,
+                            situacaoEconomica: beneficiario.situacaoEconomica,
+                            email: beneficiario.email,
+                            senha: beneficiario.senha,
+                            rua: response.data.logradouro || '',
+                            bairro: response.data.bairro || '',
+                            cidade: response.data.localidade || '',
+                            estado: response.data.uf,
+                            numero: '',
+                            complemento: '',
+                            cep: cepDigitado
+                        });
+                    }
                     setTemBairro(false);
                     setTemRua(false);
                 }
@@ -162,6 +245,25 @@ const Home = () => {
                 numero: '',
                 complemento: ''
             });
+
+            if (opcao === 7) {
+                setBeneficiario({
+                    nome: beneficiario.nome,
+                    cpf: beneficiario.cpf,
+                    telefone: beneficiario.telefone,
+                    dataNascimento: beneficiario.dataNascimento,
+                    situacaoEconomica: beneficiario.situacaoEconomica,
+                    email: beneficiario.email,
+                    senha: beneficiario.senha,
+                    rua: '',
+                    bairro: '',
+                    cidade: '',
+                    estado: '',
+                    numero: '',
+                    complemento: ''
+                });
+            }
+
             setTemRua(true);
             setTemBairro(true);
         }
@@ -170,6 +272,7 @@ const Home = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEndereco({ ...endereco, [name]: value });
+        setBeneficiario({ ...beneficiario, [name]: value });
     };
 
     const enderecoVisivel = () => {
@@ -203,10 +306,6 @@ const Home = () => {
         );
     };
 
-    const handlers = useSwipeable({
-        onSwipedLeft: proximaImagem,
-        onSwipedRight: imagemAnterior
-    });
 
     return (
         <>
@@ -479,23 +578,59 @@ const Home = () => {
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
-                                                                            <InputMask type='text' placeholder='Nome Completo' className={styles.inputCadastro}></InputMask>
+                                                                            <InputMask
+                                                                                type='text'
+                                                                                placeholder='Nome Completo'
+                                                                                value={beneficiario.nome}
+                                                                                onChange={(event) =>
+                                                                                    setBeneficiario({ ...beneficiario, nome: event.target.value })
+                                                                                }
+                                                                                className={styles.inputCadastro} />
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro} /></label>
-                                                                            <InputMask mask='999.999.999-99' type='text' placeholder='CPF' className={styles.inputCadastro}></InputMask>
+                                                                            <InputMask
+                                                                                mask='999.999.999-99'
+                                                                                type='text'
+                                                                                placeholder='CPF'
+                                                                                value={beneficiario.cpf}
+                                                                                onChange={(event) =>
+                                                                                    setBeneficiario({ ...beneficiario, cpf: event.target.value })
+                                                                                }
+                                                                                className={styles.inputCadastro} />
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro} /></label>
-                                                                            <InputMask type='email' placeholder='Digite seu E-mail' className={styles.inputCadastro}></InputMask>
+                                                                            <InputMask
+                                                                                type='email'
+                                                                                placeholder='Digite seu E-mail'
+                                                                                value={beneficiario.email}
+                                                                                onChange={(event) =>
+                                                                                    setBeneficiario({ ...beneficiario, email: event.target.value })
+                                                                                }
+                                                                                className={styles.inputCadastro} />
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro} /></label>
-                                                                            <InputMask type='password' placeholder='Digite sua Senha' className={styles.inputCadastro}></InputMask>
+                                                                            <InputMask
+                                                                                type='password'
+                                                                                placeholder='Digite sua Senha'
+                                                                                value={beneficiario.senha}
+                                                                                onChange={(event) =>
+                                                                                    setBeneficiario({ ...beneficiario, senha: event.target.value })
+                                                                                }
+                                                                                className={styles.inputCadastro} />
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><CiCalendar className={styles.iconeCadastro} /></label>
-                                                                            <InputMask type='date' placeholder='Data de Nascimento' className={styles.inputCadastro}></InputMask>
+                                                                            <InputMask
+                                                                                type='date'
+                                                                                placeholder='Data de Nascimento'
+                                                                                value={beneficiario.dataNascimento}
+                                                                                onChange={(event) =>
+                                                                                    setBeneficiario({ ...beneficiario, dataNascimento: event.target.value })
+                                                                                }
+                                                                                className={styles.inputCadastro} />
                                                                         </div>
                                                                         <div className={styles.inputEndereco}>
                                                                             <div className={styles.cadaInput}>
@@ -593,13 +728,33 @@ const Home = () => {
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro} /></label>
-                                                                            <InputMask mask='(99) 99999-9999' type='text' placeholder='telefone' className={styles.inputCadastro}></InputMask>
+                                                                            <InputMask
+                                                                                mask='(99) 99999-9999'
+                                                                                type='text'
+                                                                                placeholder='telefone'
+                                                                                value={beneficiario.telefone}
+                                                                                onChange={(event) =>
+                                                                                    setBeneficiario({ ...beneficiario, telefone: event.target.value })
+                                                                                }
+                                                                                className={styles.inputCadastro} />
                                                                         </div>
                                                                         <div className={styles.cadaInput}>
                                                                             <label className={styles.labelCadastro}><LuDollarSign className={styles.iconeCadastro} /></label>
-                                                                            <NumericFormat thousandSeparator="." decimalSeparator="," prefix="R$ " decimalScale={2} fixedDecimalScale={true} allowNegative={false} placeholder='Situação econômica' className={styles.inputCadastro} />
+                                                                            <NumericFormat
+                                                                                thousandSeparator="."
+                                                                                decimalSeparator=","
+                                                                                prefix="R$ "
+                                                                                decimalScale={2}
+                                                                                fixedDecimalScale={true}
+                                                                                allowNegative={false}
+                                                                                placeholder='Situação econômica'
+                                                                                value={beneficiario.situacaoEconomica}
+                                                                                onChange={(event) =>
+                                                                                    setBeneficiario({ ...beneficiario, situacaoEconomica: event.target.value })
+                                                                                }
+                                                                                className={styles.inputCadastro} />
                                                                         </div>
-                                                                        <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
+                                                                        <Botao onClick={async () => { await BeneficiarioService.Criar(beneficiario) }} estilo='cadastrarConfirma'>Cadastra-se</Botao>
                                                                     </form>
                                                                 </div>
                                                                 <img className={styles.fotoCadastro} src={imagemCadastro} alt='imagemCadastro'></img>
@@ -1046,7 +1201,7 @@ const Home = () => {
                                 </div>
                             </div>
                             {
-                                (trocarSenha === 1 || trocarSenha == 2) &&
+                                (trocarSenha === 1 || trocarSenha === 2) &&
 
                                 <div className={styles.botoesPainel}>
                                     <div className={styles.botaoPainel}>
@@ -1123,6 +1278,7 @@ const Home = () => {
                                             trocarSenha === 3 ?
                                                 <>
                                                     <InputMask type='text' mask="9 - 9 - 9 - 9 - 9 - 9" className={styles.inputTrocarSenha} placeholder='0 0 0 0 0 0'></InputMask>
+
                                                     <div onClick={() => { setTrocarSenha(3) }} className={styles.mandarEmail}>
                                                         Reenviar código
                                                     </div>

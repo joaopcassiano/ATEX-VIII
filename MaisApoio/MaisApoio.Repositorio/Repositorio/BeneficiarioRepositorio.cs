@@ -18,7 +18,7 @@ public class BeneficiarioRepositorio
 
     public async Task<List<Beneficiario>> ObterTodosAsync()
     {
-        string sql = "SELECT * FROM Beneficiario";
+        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -50,13 +50,13 @@ public class BeneficiarioRepositorio
     public async Task CriarAsync(Beneficiario beneficiario)
     {
 
-        string sql = "Insert into Beneficiario(nome,email,enderecoID,senha,dataNascimento,situacaoEconomica,ativo) values (@nome,@email,@enderecoID,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
+        string sql = "Insert into Beneficiario(nome,cpf,telefone,email,enderecoID,senha,dataNascimento,situacaoEconomica,ativo) values (@nome,@cpf,@telefone,@email,@enderecoID,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
-        await conexao.ExecuteAsync(sql, new { nome = beneficiario.Nome, email = beneficiario.Email, enderecoID = beneficiario.EnderecoID, senha = beneficiario.Senha, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica, ativo = beneficiario.Ativo });
+        await conexao.ExecuteAsync(sql, new { nome = beneficiario.Nome, cpf = beneficiario.CPF, telefone = beneficiario.Telefone, email = beneficiario.Email, enderecoID = beneficiario.EnderecoID, senha = beneficiario.Senha, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica, ativo = beneficiario.Ativo });
 
         conexao.Close();
 
@@ -64,20 +64,20 @@ public class BeneficiarioRepositorio
 
     public async Task AtualizarAsync(Beneficiario beneficiario)
     {
-        string sql = "UPDATE Beneficiario SET nome = @nome, dataNascimento = @dataNascimento, situacaoEconomica = @situacaoEconomica, ativo = @ativo WHERE BebeficiarioID = @id";
+        string sql = "UPDATE Beneficiario SET nome = @nome, cpf = @cpf, telefone = @telefone, dataNascimento = @dataNascimento, situacaoEconomica = @situacaoEconomica, ativo = @ativo WHERE BebeficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
-        await conexao.ExecuteAsync(sql, new { id = beneficiario.ID, ativo = beneficiario.Ativo, nome = beneficiario.Nome, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica });
+        await conexao.ExecuteAsync(sql, new { id = beneficiario.ID, telefone = beneficiario.Telefone, cpf = beneficiario.CPF, ativo = beneficiario.Ativo, nome = beneficiario.Nome, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica });
 
         conexao.Close();
     }
 
     public async Task<Beneficiario> ObterPorIdAsync(int id)
     {
-        string sql = "SELECT * FROM Beneficiario WHERE BebeficiarioID = @id";
+        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario WHERE BebeficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -92,7 +92,7 @@ public class BeneficiarioRepositorio
 
     public async Task<Beneficiario> ObterPorEmailAsync(string email)
     {
-        string sql = "SELECT * FROM Beneficiario WHERE Email = @email";
+        string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Email = @email";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -107,7 +107,7 @@ public class BeneficiarioRepositorio
 
     public async Task<Beneficiario> LogarAsync(string email, string senha)
     {
-        string sql = "SELECT * FROM Beneficiario WHERE Email = @email AND Senha = @senha";
+        string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Email = @email AND Senha = @senha";
 
         var conexao = _banco.ConectarSqlServer();
 

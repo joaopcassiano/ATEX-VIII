@@ -1,8 +1,8 @@
-namespace MaisApoio.MaisApoio.Dominio.Entidades;
+namespace MaisApoio.Models.Beneficiario.Requisicao;
 
 public class BeneficiarioLogar
 {
-    public string Email;
-    public string Senha;
+    public string Email { get; set; }
+    public string Senha { get; set; }
     
 }

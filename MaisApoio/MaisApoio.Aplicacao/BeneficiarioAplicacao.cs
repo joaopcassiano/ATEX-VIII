@@ -20,7 +20,7 @@ public class BeneficiarioAplicacao
             throw new Exception("Beneficiario não pode ser vazio");
         }
 
-        var beneficiarioObtido = _beneficiarioRepositorio.ObterPorEmailAsync(beneficiario.Email);
+        Beneficiario beneficiarioObtido = await _beneficiarioRepositorio.ObterPorEmailAsync(beneficiario.Email);
 
         if (beneficiarioObtido != null)
         {
@@ -46,6 +46,8 @@ public class BeneficiarioAplicacao
         }
 
         beneficiarioObtido.Nome = beneficiario.Nome;
+        beneficiarioObtido.CPF = beneficiario.CPF;
+        beneficiarioObtido.Telefone = beneficiario.Telefone;
         beneficiarioObtido.Ativo = beneficiario.Ativo;
         beneficiarioObtido.SituacaoEconomica = beneficiario.SituacaoEconomica;
         beneficiarioObtido.DataNascimento = beneficiario.DataNascimento;

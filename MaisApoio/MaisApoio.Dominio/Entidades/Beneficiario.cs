@@ -7,6 +7,8 @@ public class Beneficiario
 {
     private int _id;
     private string _nome;
+    private string _cpf;
+    private string _telefone;
     private DateTime _dataNascimento;
     private int _enderecoID;
     private decimal _situacaoEconomica;
@@ -15,7 +17,6 @@ public class Beneficiario
     private byte[]? _imagemPerfil;
     private bool _ativo;
 
-    [JsonIgnore]
     public int ID
     {
         get { return _id; }
@@ -34,6 +35,31 @@ public class Beneficiario
         }
     }
 
+    public string CPF
+    {
+        get { return _cpf; }
+        set
+        {
+            if (string.IsNullOrEmpty(value) && value.Length < 11)
+            {
+                throw new Exception("CPF inválido.");
+            }
+
+            _cpf = value;
+        }
+    }
+
+    public string Telefone
+    {
+        get { return _telefone; }
+        set
+        {
+            if (string.IsNullOrEmpty(value) && value.Length < 11)
+                throw new Exception("Telefone inválido.");
+            _telefone = value;
+        }
+    }
+
     public DateTime DataNascimento
     {
         get { return _dataNascimento; }
@@ -46,7 +72,6 @@ public class Beneficiario
         }
     }
 
-    [JsonIgnore]
     public int EnderecoID
     {
         get { return _enderecoID; }
@@ -91,7 +116,7 @@ public class Beneficiario
             _senha = value;
         }
     }
-    
+
     [JsonIgnore]
     public byte[]? ImagemPerfil
     {
@@ -110,9 +135,11 @@ public class Beneficiario
 
     }
 
-    public Beneficiario(string nome, string email, decimal situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
+    public Beneficiario(string nome, string cpf, string telefone, string email, decimal situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
     {
         Nome = nome;
+        CPF = cpf;
+        Telefone = telefone;
         Email = email;
         Senha = senha;
         SituacaoEconomica = situacaoEconomica;

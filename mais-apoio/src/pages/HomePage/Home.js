@@ -40,6 +40,7 @@ import { BiDonateHeart } from "react-icons/bi";
 import { IoIosStarOutline } from "react-icons/io";
 import { BsX } from "react-icons/bs";
 import BeneficiarioService from '../../Services/BeneficiarioService';
+import Alert from '../../Alert/Alert';
 
 
 const Home = () => {
@@ -310,6 +311,7 @@ const Home = () => {
     return (
         <>
             <div className={styles.corpo}>
+                <Alert></Alert>
                 <TopBar valor={(x) => { setOpcao(x) }} valorLogin={(a) => { setVisivelLogin(a); setTrocarSenha(1); }} />
                 <div className={styles.conteudo}>
                     {

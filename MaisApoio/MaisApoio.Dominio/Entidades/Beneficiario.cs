@@ -40,7 +40,7 @@ public class Beneficiario
         get { return _cpf; }
         set
         {
-            if (string.IsNullOrEmpty(value) && value.Length < 11)
+            if (string.IsNullOrEmpty(value) || value.Length != 14)
             {
                 throw new Exception("CPF inválido.");
             }
@@ -54,7 +54,7 @@ public class Beneficiario
         get { return _telefone; }
         set
         {
-            if (string.IsNullOrEmpty(value) && value.Length < 11)
+            if (string.IsNullOrEmpty(value) || value.Length != 15)
                 throw new Exception("Telefone inválido.");
             _telefone = value;
         }
@@ -117,7 +117,6 @@ public class Beneficiario
         }
     }
 
-    [JsonIgnore]
     public byte[]? ImagemPerfil
     {
         get { return _imagemPerfil; }

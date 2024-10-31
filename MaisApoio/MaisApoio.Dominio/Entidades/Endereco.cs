@@ -25,7 +25,7 @@ public class Endereco
         set
         {
             if(string.IsNullOrEmpty(value))
-                throw new Exception("A rua não pode ser vaia.");
+                throw new Exception("A rua não pode ser vazia.");
 
             _rua = value;
         }
@@ -69,7 +69,7 @@ public class Endereco
         set
         {
             if(string.IsNullOrEmpty(value))
-                throw new Exception("A Cidade não pode ser vaia.");
+                throw new Exception("A Cidade não pode ser vazia.");
 
             _cidade = value;
         }

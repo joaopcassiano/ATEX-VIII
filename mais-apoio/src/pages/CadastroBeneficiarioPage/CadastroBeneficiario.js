@@ -29,15 +29,6 @@ const CadastroBeneficiario = () => {
     const [existeRua, setExisteRua] = useState(false);
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
-    const [endereco, setEndereco] = useState({
-        rua: '',
-        bairro: '',
-        numero: '',
-        complemento: '',
-        cidade: '',
-        estado: '',
-        cep: ''
-    });
     const [beneficiario, setBeneficiario] = useState({
         nome: '',
         cpf: '',
@@ -57,15 +48,6 @@ const CadastroBeneficiario = () => {
 
     useEffect(() => {
         {
-            setEndereco({
-                rua: '',
-                bairro: '',
-                cidade: '',
-                estado: '',
-                numero: '',
-                complemento: '',
-                cep: ''
-            });
             setBeneficiario({
                 nome: '',
                 cpf: '',
@@ -86,26 +68,26 @@ const CadastroBeneficiario = () => {
     }, [])
 
     useEffect(() => {
-        if (endereco.cep === '') {
+        if (beneficiario.cep === '') {
             setPlaceEndereco('Endereço')
         }
-        else if (endereco.bairro === '' || endereco.numero === '' || endereco.complemento === '' || endereco.rua === '' || endereco.cidade === '' || endereco.estado === '') {
-            if (endereco.cep === undefined) {
+        else if (beneficiario.bairro === '' || beneficiario.numero === '' || beneficiario.complemento === '' || beneficiario.rua === '' || beneficiario.cidade === '' || beneficiario.estado === '') {
+            if (beneficiario.cep === undefined) {
                 setPlaceEndereco('Endereço')
             }
             else {
                 setPlaceEndereco('Preencha todos os dados')
             }
 
-        } else if (endereco.bairro !== '' && endereco.numero !== '' && endereco.complemento !== '' && endereco.rua !== '' && endereco.cidade !== '' && endereco.estado !== '' && endereco.cep !== '') {
+        } else if (beneficiario.bairro !== '' && beneficiario.numero !== '' && beneficiario.complemento !== '' && beneficiario.rua !== '' && beneficiario.cidade !== '' && beneficiario.estado !== '' && beneficiario.cep !== '') {
 
-            setPlaceEndereco(endereco.rua + ' - ' + endereco.numero + ', ' + endereco.bairro + ', ' + endereco.cidade + '-' + endereco.estado)
+            setPlaceEndereco(beneficiario.rua + ' - ' + beneficiario.numero + ', ' + beneficiario.bairro + ', ' + beneficiario.cidade + '-' + beneficiario.estado)
 
         }
         else {
             setPlaceEndereco('Endereço')
         }
-    }, [endereco])
+    }, [beneficiario])
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickFora);
@@ -130,15 +112,6 @@ const CadastroBeneficiario = () => {
                     setExisteRua(temRua);
                     setExisteBairro(temBairro);
 
-                    setEndereco({
-                        rua: '',
-                        bairro: '',
-                        cidade: '',
-                        estado: '',
-                        numero: '',
-                        complemento: ''
-                    });
-
                     setBeneficiario({
                         nome: beneficiario.nome,
                         cpf: beneficiario.cpf,
@@ -154,19 +127,7 @@ const CadastroBeneficiario = () => {
                         numero: '',
                         complemento: ''
                     });
-
                 } else {
-                    setEndereco({
-                        ...endereco,
-                        rua: response.data.logradouro || '',
-                        bairro: response.data.bairro || '',
-                        cidade: response.data.localidade || '',
-                        estado: response.data.uf,
-                        numero: '',
-                        complemento: '',
-                        cep: cepDigitado
-                    });
-
                     setBeneficiario({
                         nome: beneficiario.nome,
                         cpf: beneficiario.cpf,
@@ -213,17 +174,9 @@ const CadastroBeneficiario = () => {
                 setExisteCep(temCep);
                 setExisteRua(temRua);
                 setExisteBairro(temBairro);
+                console.error('Erro na consulta do CEP:',error);
             }
         } else {
-            setEndereco({
-                rua: '',
-                bairro: '',
-                cidade: '',
-                estado: '',
-                numero: '',
-                complemento: ''
-            });
-
             setBeneficiario({
                 nome: beneficiario.nome,
                 cpf: beneficiario.cpf,
@@ -251,7 +204,6 @@ const CadastroBeneficiario = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setEndereco({ ...endereco, [name]: value });
         setBeneficiario({ ...beneficiario, [name]: value });
     };
 
@@ -359,7 +311,7 @@ const CadastroBeneficiario = () => {
                                                     <InputMask
                                                         placeholder='Número'
                                                         className={styles.inputBoxEndereco}
-                                                        value={endereco.numero}
+                                                        value={beneficiario.numero}
                                                         name="numero"
                                                         type="number"
                                                         onChange={handleInputChange}
@@ -372,7 +324,7 @@ const CadastroBeneficiario = () => {
                                                     <InputMask
                                                         placeholder='Rua'
                                                         className={styles.inputBoxEndereco}
-                                                        value={endereco.rua}
+                                                        value={beneficiario.rua}
                                                         name="rua"
                                                         onChange={handleInputChange}
                                                         type="text"
@@ -382,7 +334,7 @@ const CadastroBeneficiario = () => {
                                                     <InputMask
                                                         placeholder='Complemento'
                                                         className={styles.inputBoxEndereco}
-                                                        value={endereco.complemento}
+                                                        value={beneficiario.complemento}
                                                         name="complemento"
                                                         onChange={handleInputChange}
                                                         type="text"
@@ -395,7 +347,7 @@ const CadastroBeneficiario = () => {
                                                     <InputMask
                                                         placeholder='Cidade'
                                                         className={styles.inputBoxEndereco}
-                                                        value={endereco.cidade}
+                                                        value={beneficiario.cidade}
                                                         name="cidade"
                                                         readOnly
                                                         type="text"
@@ -404,7 +356,7 @@ const CadastroBeneficiario = () => {
                                                     <InputMask
                                                         placeholder='Bairro'
                                                         className={styles.inputBoxEndereco}
-                                                        value={endereco.bairro}
+                                                        value={beneficiario.bairro}
                                                         name="bairro"
                                                         type="text"
                                                         onChange={handleInputChange}
@@ -418,7 +370,7 @@ const CadastroBeneficiario = () => {
                                                     <InputMask
                                                         placeholder='Estado'
                                                         className={styles.inputBoxEndereco}
-                                                        value={endereco.estado}
+                                                        value={beneficiario.estado}
                                                         name="estado"
                                                         readOnly
                                                         type="text"

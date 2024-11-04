@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Data.SqlTypes;
 using Dapper;
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using MaisApoio.MaisApoio.Repositorio.Contexto;
-using Neo4j.Driver;
 
 namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
 
@@ -50,13 +47,13 @@ public class BeneficiarioRepositorio
     public async Task CriarAsync(Beneficiario beneficiario)
     {
 
-        string sql = "Insert into Beneficiario(nome,cpf,telefone,email,enderecoID,senha,dataNascimento,situacaoEconomica,ativo) values (@nome,@cpf,@telefone,@email,@enderecoID,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
+        string sql = "Insert into Beneficiario(nome,cpf,telefone,email,enderecoID,necessidade,senha,dataNascimento,situacaoEconomica,ativo) values (@nome,@cpf,@telefone,@email,@enderecoID,@necessidade,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
-        await conexao.ExecuteAsync(sql, new { nome = beneficiario.Nome, cpf = beneficiario.CPF, telefone = beneficiario.Telefone, email = beneficiario.Email, enderecoID = beneficiario.EnderecoID, senha = beneficiario.Senha, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica, ativo = beneficiario.Ativo });
+        await conexao.ExecuteAsync(sql, new { nome = beneficiario.Nome, cpf = beneficiario.CPF, telefone = beneficiario.Telefone, email = beneficiario.Email, enderecoID = beneficiario.EnderecoID, necessidade = beneficiario.Necessidade, senha = beneficiario.Senha, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica, ativo = beneficiario.Ativo });
 
         conexao.Close();
 
@@ -64,13 +61,13 @@ public class BeneficiarioRepositorio
 
     public async Task AtualizarAsync(Beneficiario beneficiario)
     {
-        string sql = "UPDATE Beneficiario SET nome = @nome, cpf = @cpf, telefone = @telefone, dataNascimento = @dataNascimento, situacaoEconomica = @situacaoEconomica, ativo = @ativo WHERE BebeficiarioID = @id";
+        string sql = "UPDATE Beneficiario SET nome = @nome, necessidade = @necessidade, cpf = @cpf, telefone = @telefone, dataNascimento = @dataNascimento, situacaoEconomica = @situacaoEconomica, ativo = @ativo WHERE BebeficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
-        await conexao.ExecuteAsync(sql, new { id = beneficiario.ID, telefone = beneficiario.Telefone, cpf = beneficiario.CPF, ativo = beneficiario.Ativo, nome = beneficiario.Nome, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica });
+        await conexao.ExecuteAsync(sql, new { id = beneficiario.ID, necessidade = beneficiario.Necessidade, telefone = beneficiario.Telefone, cpf = beneficiario.CPF, ativo = beneficiario.Ativo, nome = beneficiario.Nome, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica });
 
         conexao.Close();
     }

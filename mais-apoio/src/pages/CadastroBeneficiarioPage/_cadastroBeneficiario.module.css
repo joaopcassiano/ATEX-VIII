@@ -7,6 +7,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    
 }
 
 .tituloCadastro {
@@ -45,7 +46,7 @@
     justify-content: space-between;
     flex-direction: row;
     width: 70%;
-    height: 33rem;
+    height: auto;
     border: #007BFF 2px solid;
     border-radius: 15px;
     overflow: hidden;

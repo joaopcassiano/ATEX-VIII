@@ -11,6 +11,7 @@ public class Beneficiario
     private string _telefone;
     private DateTime _dataNascimento;
     private int _enderecoID;
+    private string _necessidade;
     private decimal _situacaoEconomica;
     private string _email;
     private string _senha;
@@ -84,6 +85,18 @@ public class Beneficiario
         }
     }
 
+    public string Necessidade
+    {
+        get { return _necessidade; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Necessidade não pode ser vazia.");
+
+            _necessidade = value;
+        }
+    }
+
     public decimal SituacaoEconomica
     {
         get { return _situacaoEconomica; }
@@ -134,11 +147,12 @@ public class Beneficiario
 
     }
 
-    public Beneficiario(string nome, string cpf, string telefone, string email, decimal situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
+    public Beneficiario(string nome, string cpf, string necessidade, string telefone, string email, decimal situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
     {
         Nome = nome;
         CPF = cpf;
         Telefone = telefone;
+        Necessidade = necessidade;
         Email = email;
         Senha = senha;
         SituacaoEconomica = situacaoEconomica;

@@ -152,7 +152,6 @@ public class CodigoValidacaoUsuarioRepositorio
         attachment.ContentId = "logo";
         mailMessage.Attachments.Add(attachment);
         mailMessage.To.Add(email);
-
         _smtpClient.Send(mailMessage);
 
         conexao.Close();

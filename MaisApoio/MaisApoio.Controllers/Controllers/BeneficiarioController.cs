@@ -24,13 +24,13 @@ public class BeneficiarioController : ControllerBase
         {
             int enderecoID = await _enderecoAplicacao.CriarAsync(new Endereco(beneficiarioCriacao.Rua, beneficiarioCriacao.Bairro, beneficiarioCriacao.Numero, beneficiarioCriacao.Complemento, beneficiarioCriacao.Cidade, beneficiarioCriacao.Estado, beneficiarioCriacao.Cep));
 
-            await _beneficiarioAplicacao.CriarAsync(new Beneficiario(beneficiarioCriacao.Nome, beneficiarioCriacao.Cpf, beneficiarioCriacao.Telefone, beneficiarioCriacao.Email, beneficiarioCriacao.SituacaoEconomica, beneficiarioCriacao.DataNascimento, enderecoID, beneficiarioCriacao.Senha));
+            await _beneficiarioAplicacao.CriarAsync(new Beneficiario(beneficiarioCriacao.Nome, beneficiarioCriacao.Cpf, beneficiarioCriacao.Necessidade, beneficiarioCriacao.Telefone, beneficiarioCriacao.Email, beneficiarioCriacao.SituacaoEconomica, beneficiarioCriacao.DataNascimento, enderecoID, beneficiarioCriacao.Senha));
 
             return Ok("Deu certo!");
         }
         catch (Exception ex)
         {
-            return StatusCode(500,ex.Message);
+            return StatusCode(400,ex.Message);
         }
     }
 

@@ -15,6 +15,7 @@ import { PiHouseLight } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
 import AcharCep from '../../Services/Endereco'
 import { BsArrowReturnRight } from "react-icons/bs";
+import { BsBucket } from "react-icons/bs";
 
 
 const CadastroBeneficiario = () => {
@@ -35,6 +36,7 @@ const CadastroBeneficiario = () => {
         telefone: '',
         dataNascimento: '',
         situacaoEconomica: '',
+        necessidade: '',
         email: '',
         senha: '',
         rua: '',
@@ -54,6 +56,7 @@ const CadastroBeneficiario = () => {
                 telefone: '',
                 dataNascimento: '',
                 situacaoEconomica: '',
+                necessidade: '',
                 email: '',
                 senha: '',
                 rua: '',
@@ -120,6 +123,7 @@ const CadastroBeneficiario = () => {
                         situacaoEconomica: beneficiario.situacaoEconomica,
                         email: beneficiario.email,
                         senha: beneficiario.senha,
+                        necessidade: beneficiario.necessidade,
                         rua: '',
                         bairro: '',
                         cidade: '',
@@ -134,6 +138,7 @@ const CadastroBeneficiario = () => {
                         telefone: beneficiario.telefone,
                         dataNascimento: beneficiario.dataNascimento,
                         situacaoEconomica: beneficiario.situacaoEconomica,
+                        necessidade: beneficiario.necessidade,
                         email: beneficiario.email,
                         senha: beneficiario.senha,
                         rua: response.data.logradouro || '',
@@ -174,7 +179,7 @@ const CadastroBeneficiario = () => {
                 setExisteCep(temCep);
                 setExisteRua(temRua);
                 setExisteBairro(temBairro);
-                console.error('Erro na consulta do CEP:',error);
+                console.error('Erro na consulta do CEP:', error);
             }
         } else {
             setBeneficiario({
@@ -185,6 +190,7 @@ const CadastroBeneficiario = () => {
                 situacaoEconomica: beneficiario.situacaoEconomica,
                 email: beneficiario.email,
                 senha: beneficiario.senha,
+                necessidade: beneficiario.necessidade,
                 rua: '',
                 bairro: '',
                 cidade: '',
@@ -386,10 +392,22 @@ const CadastroBeneficiario = () => {
                                 <InputMask
                                     mask='(99) 99999-9999'
                                     type='text'
-                                    placeholder='telefone'
+                                    placeholder='Telefone'
                                     value={beneficiario.telefone}
                                     onChange={(event) =>
                                         setBeneficiario({ ...beneficiario, telefone: event.target.value })
+                                    }
+                                    className={styles.inputCadastro} />
+                            </div>
+                            <div className={styles.cadaInput}>
+                                <label className={styles.labelCadastro}><BsBucket className={styles.iconeCadastro} /></label>
+                                <InputMask
+                                    type='text'
+                                    placeholder='Necessidade'
+                                    value={beneficiario.necessidade}
+                                    maxLength={30}
+                                    onChange={(event) =>
+                                        setBeneficiario({ ...beneficiario, necessidade: event.target.value })
                                     }
                                     className={styles.inputCadastro} />
                             </div>

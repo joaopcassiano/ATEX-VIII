@@ -7,6 +7,7 @@ public class BeneficiarioCriacao
     public string Telefone { get; set; }
     public DateTime DataNascimento { get; set; }
     public decimal SituacaoEconomica { get; set; }
+    public string Necessidade { get; set; }
     public string Email { get; set; }
     public string Senha { get; set; }
     public string Rua { get; set; }

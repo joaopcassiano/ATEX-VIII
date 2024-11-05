@@ -1,4 +1,4 @@
-import Botao from '../../Componentes/Botao/Botao';
+import Botao from '../../Components/Botao/Botao';
 import logo from '../../assets/logo.png';
 import styles from './_home.module.css';
 import bannerHome from '../../assets/bannerHome.png';
@@ -12,7 +12,7 @@ import doadorAjuda from '../../assets/doadorAjuda.png';
 import voluntarioAjuda from '../../assets/voluntarioAjuda.png';
 import empresaAjuda from '../../assets/empresaAjuda.png';
 import fotoAjudado from '../../assets/fotoAjudado.png';
-import TopBar from '../../Componentes/TopBar/TopBar';
+import TopBar from '../../Components/TopBar/TopBar';
 import { useEffect, useRef, useState } from 'react';
 import { BsChevronLeft } from "react-icons/bs";
 import { BsChevronRight } from "react-icons/bs";
@@ -307,7 +307,6 @@ const Home = () => {
             indiceAtual === 0 ? imagensCarrosel.length - 1 : indiceAtual - 1
         );
     };
-
 
     return (
         <>

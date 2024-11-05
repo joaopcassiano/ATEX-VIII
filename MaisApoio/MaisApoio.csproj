@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MaisApoio.Aplicacao\Encrpyt\**" />
+    <Content Remove="MaisApoio.Aplicacao\Encrpyt\**" />
+    <EmbeddedResource Remove="MaisApoio.Aplicacao\Encrpyt\**" />
+    <None Remove="MaisApoio.Aplicacao\Encrpyt\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MaisApoio.Aplicacao\Encrypt.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.5" />
     <PackageReference Include="Neo4j.Driver" Version="5.7.0" />

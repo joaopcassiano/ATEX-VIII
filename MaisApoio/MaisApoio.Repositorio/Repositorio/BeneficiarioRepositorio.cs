@@ -4,7 +4,7 @@ using MaisApoio.MaisApoio.Repositorio.Contexto;
 
 namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
 
-public class BeneficiarioRepositorio
+public class BeneficiarioRepositorio 
 {
     private MaisApoioContexto _banco;
 
@@ -52,7 +52,7 @@ public class BeneficiarioRepositorio
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
-
+            
         await conexao.ExecuteAsync(sql, new { nome = beneficiario.Nome, cpf = beneficiario.CPF, telefone = beneficiario.Telefone, email = beneficiario.Email, enderecoID = beneficiario.EnderecoID, necessidade = beneficiario.Necessidade, senha = beneficiario.Senha, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica, ativo = beneficiario.Ativo });
 
         conexao.Close();

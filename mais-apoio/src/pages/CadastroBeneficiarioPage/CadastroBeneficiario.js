@@ -3,7 +3,7 @@ import { LuDollarSign } from "react-icons/lu";
 import { NumericFormat } from 'react-number-format';
 import BeneficiarioService from '../../Services/BeneficiarioService';
 import InputMask from 'react-input-mask';
-import Botao from '../../Componentes/Botao/Botao';
+import Botao from '../../Components/Botao/Botao';
 import { useEffect, useState, useRef } from 'react';
 import imagemCadastro from '../../assets/imagemCadastro.png';
 import { BsPerson } from "react-icons/bs";

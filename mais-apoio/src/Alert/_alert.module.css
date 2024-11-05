@@ -1,0 +1,9 @@
+.alerta{
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #F8312F;
+    width: 10rem;
+    height: 10rem;
+    
+}

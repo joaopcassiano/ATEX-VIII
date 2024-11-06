@@ -20,8 +20,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<BeneficiarioRepositorio>();
 builder.Services.AddScoped<BeneficiarioAplicacao>();
 
-builder.Services.AddScoped<EnderecoRepositorio>();
-builder.Services.AddScoped<EnderecoAplicacao>();
+builder.Services.AddScoped<EnderecoBeneficiarioRepositorio>();
+builder.Services.AddScoped<EnderecoBeneficiarioAplicacao>();
 
 builder.Services.AddScoped<CodigoValidacaoUsuarioRepositorio>();
 

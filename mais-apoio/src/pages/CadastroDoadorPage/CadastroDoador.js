@@ -1,4 +1,4 @@
-import styles from './_cadastroVoluntario.module.css';
+import styles from './_cadastroDoador.module.css';
 import InputMask from 'react-input-mask';
 import Botao from '../../Componentes/Botao/Botao';
 import { useEffect, useState, useRef } from 'react';
@@ -12,9 +12,10 @@ import { PiHouseLight } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
 import AcharCep from '../../Services/Endereco'
 import { BsArrowReturnRight } from "react-icons/bs";
-import { FaNetworkWired } from "react-icons/fa";
+import { BiDonateHeart } from "react-icons/bi";
 
-const CadastroVoluntario = () => {
+const CadastroDoador = () => {
+
     const [visivelEndereco, setVisivelEndereco] = useState(false)
     const campoEnderecoRef = useRef(null);
     const botaoEnderecoRef = useRef(null);
@@ -26,12 +27,12 @@ const CadastroVoluntario = () => {
     const [existeRua, setExisteRua] = useState(false);
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
-    const [voluntario, setVoluntario] = useState({
+    const [doador, setDoador] = useState({
         nome: '',
         cpf: '',
         telefone: '',
         dataNascimento: '',
-        areaDeAtuacao: '',
+        tipoDeDoacao: '',
         email: '',
         senha: '',
         rua: '',
@@ -45,12 +46,12 @@ const CadastroVoluntario = () => {
 
     useEffect(() => {
         {
-            setVoluntario({
+            setDoador({
                 nome: '',
                 cpf: '',
                 telefone: '',
                 dataNascimento: '',
-                areaDeAtuacao: '',
+                tipoDeDoacao: '',
                 email: '',
                 senha: '',
                 rua: '',
@@ -65,26 +66,26 @@ const CadastroVoluntario = () => {
     }, [])
 
     useEffect(() => {
-        if (voluntario.cep === '') {
+        if (doador.cep === '') {
             setPlaceEndereco('Endereço')
         }
-        else if (voluntario.bairro === '' || voluntario.numero === '' || voluntario.complemento === '' || voluntario.rua === '' || voluntario.cidade === '' || voluntario.estado === '') {
-            if (voluntario.cep === undefined) {
+        else if (doador.bairro === '' || doador.numero === '' || doador.complemento === '' || doador.rua === '' || doador.cidade === '' || doador.estado === '') {
+            if (doador.cep === undefined) {
                 setPlaceEndereco('Endereço')
             }
             else {
                 setPlaceEndereco('Preencha todos os dados')
             }
 
-        } else if (voluntario.bairro !== '' && voluntario.numero !== '' && voluntario.complemento !== '' && voluntario.rua !== '' && voluntario.cidade !== '' && voluntario.estado !== '' && voluntario.cep !== '') {
+        } else if (doador.bairro !== '' && doador.numero !== '' && doador.complemento !== '' && doador.rua !== '' && doador.cidade !== '' && doador.estado !== '' && doador.cep !== '') {
 
-            setPlaceEndereco(voluntario.rua + ' - ' + voluntario.numero + ', ' + voluntario.bairro + ', ' + voluntario.cidade + '-' + voluntario.estado)
+            setPlaceEndereco(doador.rua + ' - ' + doador.numero + ', ' + doador.bairro + ', ' + doador.cidade + '-' + doador.estado)
 
         }
         else {
             setPlaceEndereco('Endereço')
         }
-    }, [voluntario])
+    }, [doador])
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickFora);
@@ -109,14 +110,14 @@ const CadastroVoluntario = () => {
                     setExisteRua(temRua);
                     setExisteBairro(temBairro);
 
-                    setVoluntario({
-                        nome: voluntario.nome,
-                        cpf: voluntario.cpf,
-                        telefone: voluntario.telefone,
-                        dataNascimento: voluntario.dataNascimento,
-                        email: voluntario.email,
-                        senha: voluntario.senha,
-                        areaDeAtuacao: voluntario.areaDeAtuacao,
+                    setDoador({
+                        nome: doador.nome,
+                        cpf: doador.cpf,
+                        telefone: doador.telefone,
+                        dataNascimento: doador.dataNascimento,
+                        email: doador.email,
+                        senha: doador.senha,
+                        tipoDeDoacao: doador.tipoDeDoacao,
                         rua: '',
                         bairro: '',
                         cidade: '',
@@ -125,14 +126,14 @@ const CadastroVoluntario = () => {
                         complemento: ''
                     });
                 } else {
-                    setVoluntario({
-                        nome: voluntario.nome,
-                        cpf: voluntario.cpf,
-                        telefone: voluntario.telefone,
-                        dataNascimento: voluntario.dataNascimento,
-                        areaDeAtuacao: voluntario.areaDeAtuacao,
-                        email: voluntario.email,
-                        senha: voluntario.senha,
+                    setDoador({
+                        nome: doador.nome,
+                        cpf: doador.cpf,
+                        telefone: doador.telefone,
+                        dataNascimento: doador.dataNascimento,
+                        tipoDeDoacao: doador.tipoDeDoacao,
+                        email: doador.email,
+                        senha: doador.senha,
                         rua: response.data.logradouro || '',
                         bairro: response.data.bairro || '',
                         cidade: response.data.localidade || '',
@@ -174,14 +175,14 @@ const CadastroVoluntario = () => {
                 console.error('Erro na consulta do CEP:', error);
             }
         } else {
-            setVoluntario({
-                nome: voluntario.nome,
-                cpf: voluntario.cpf,
-                telefone: voluntario.telefone,
-                dataNascimento: voluntario.dataNascimento,
-                areaDeAtuacao: voluntario.areaDeAtuacao,
-                email: voluntario.email,
-                senha: voluntario.senha,
+            setDoador({
+                nome: doador.nome,
+                cpf: doador.cpf,
+                telefone: doador.telefone,
+                dataNascimento: doador.dataNascimento,
+                tipoDeDoacao: doador.tipoDeDoacao,
+                email: doador.email,
+                senha: doador.senha,
                 rua: '',
                 bairro: '',
                 cidade: '',
@@ -201,7 +202,7 @@ const CadastroVoluntario = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setVoluntario({ ...voluntario, [name]: value });
+        setDoador({ ...doador, [name]: value });
     };
 
     const enderecoVisivel = () => {
@@ -233,9 +234,9 @@ const CadastroVoluntario = () => {
                                     type='text'
                                     placeholder='Nome Completo'
                                     className={styles.inputCadastro}
-                                    value={voluntario.nome}
+                                    value={doador.nome}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, nome: event.target.value })
+                                        setDoador({ ...doador, nome: event.target.value })
                                     }
                                 />
                             </div>
@@ -246,9 +247,9 @@ const CadastroVoluntario = () => {
                                     type='text'
                                     placeholder='CPF'
                                     className={styles.inputCadastro}
-                                    value={voluntario.cpf}
+                                    value={doador.cpf}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, cpf: event.target.value })
+                                        setDoador({ ...doador, cpf: event.target.value })
                                     }
                                 />
                             </div>
@@ -258,9 +259,9 @@ const CadastroVoluntario = () => {
                                     type='email'
                                     placeholder='Digite seu E-mail'
                                     className={styles.inputCadastro}
-                                    value={voluntario.email}
+                                    value={doador.email}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, email: event.target.value })
+                                        setDoador({ ...doador, email: event.target.value })
                                     }
                                 />
                             </div>
@@ -270,9 +271,9 @@ const CadastroVoluntario = () => {
                                     type='password'
                                     placeholder='Digite sua Senha'
                                     className={styles.inputCadastro}
-                                    value={voluntario.senha}
+                                    value={doador.senha}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, senha: event.target.value })
+                                        setDoador({ ...doador, senha: event.target.value })
                                     }
                                 />
                             </div>
@@ -282,9 +283,9 @@ const CadastroVoluntario = () => {
                                     type='date'
                                     placeholder='Data de Nascimento'
                                     className={styles.inputCadastro}
-                                    value={voluntario.dataNascimento}
+                                    value={doador.dataNascimento}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, dataNascimento: event.target.value })
+                                        setDoador({ ...doador, dataNascimento: event.target.value })
                                     }
                                 />
                             </div>
@@ -312,7 +313,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Número'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.numero}
+                                                        value={doador.numero}
                                                         name="numero"
                                                         type="number"
                                                         onChange={handleInputChange}
@@ -325,7 +326,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Rua'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.rua}
+                                                        value={doador.rua}
                                                         name="rua"
                                                         onChange={handleInputChange}
                                                         type="text"
@@ -335,7 +336,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Complemento'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.complemento}
+                                                        value={doador.complemento}
                                                         name="complemento"
                                                         onChange={handleInputChange}
                                                         type="text"
@@ -348,7 +349,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Cidade'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.cidade}
+                                                        value={doador.cidade}
                                                         name="cidade"
                                                         readOnly
                                                         type="text"
@@ -357,7 +358,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Bairro'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.bairro}
+                                                        value={doador.bairro}
                                                         name="bairro"
                                                         type="text"
                                                         onChange={handleInputChange}
@@ -371,7 +372,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Estado'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.estado}
+                                                        value={doador.estado}
                                                         name="estado"
                                                         readOnly
                                                         type="text"
@@ -389,23 +390,24 @@ const CadastroVoluntario = () => {
                                     type='text'
                                     placeholder='telefone'
                                     className={styles.inputCadastro}
-                                    value={voluntario.telefone}
+                                    value={doador.telefone}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, telefone: event.target.value })
+                                        setDoador({ ...doador, telefone: event.target.value })
                                     }
                                 />
                             </div>
                             <div className={styles.cadaInput}>
-                                <label className={styles.labelCadastro}><FaNetworkWired className={styles.iconeCadastro} /></label>
+                                <label className={styles.labelCadastro}><BiDonateHeart className={styles.iconeCadastro} /></label>
                                 <InputMask
                                     type='text'
-                                    placeholder='Área de atuação'
+                                    placeholder='Tipo de doação'
                                     className={styles.inputCadastro}
-                                    value={voluntario.areaDeAtuacao}
+                                    value={doador.tipoDeDoacao}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, areaDeAtuacao: event.target.value })
+                                        setDoador({ ...doador, tipoDeDoacao: event.target.value })
                                     }
                                 />
+
                             </div>
                             <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
                         </form>
@@ -417,4 +419,4 @@ const CadastroVoluntario = () => {
     )
 }
 
-export default CadastroVoluntario;
+export default CadastroDoador;

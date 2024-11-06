@@ -2,6 +2,7 @@ using Dapper;
 using MaisApoio.Dominio.Enumeradores;
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using MaisApoio.MaisApoio.Repositorio.Contexto;
+using MaisApoio.Service;
 using System.Net;
 using System.Net.Mail;
 
@@ -16,7 +17,7 @@ public class CodigoValidacaoUsuarioRepositorio
         _banco = new MaisApoioContexto();
     }
 
-    public async Task CriarCodigoAsync(string email, TipoUsuario tipoUsuario)
+    public async Task<int> CriarCodigoAsync(string email, TipoUsuario tipoUsuario)
     {
         var aleatoria = new Random().Next(100000, 999999);
         string sql;
@@ -54,107 +55,11 @@ public class CodigoValidacaoUsuarioRepositorio
         string sqlCodigo = "Insert into CodigoValidacaoUsuario(tipoUsuario,email,codigo,dataExpiracao) VALUES (@tipoUsuario, @email, @codigo, @dataExpiracao)";
 
         await conexao.ExecuteAsync(sqlCodigo, new { tipoUsuario = codigo.TipoUsuario, email = codigo.Email, codigo = codigo.Codigo, dataExpiracao = codigo.DataExpiracao });
-
-        var _smtpClient = new SmtpClient("smtp-relay.brevo.com")
-        {
-            Port = 587,
-            Credentials = new NetworkCredential("7ed5e6003@smtp-brevo.com", "6kFIJjbxmhcnZOLW"),
-            EnableSsl = true,
-        };
-
-        var mailMessage = new MailMessage
-        {
-            From = new MailAddress("mais.apoio.suporte@gmail.com"),
-            Subject = "Mudar de senha",
-            Body = $@"
-         <!DOCTYPE html>
-         <html lang='pt-BR'>
-         <head>
-             <meta charset='UTF-8'>
-             <style>
-                 body {{
-                     font-family: Arial, sans-serif;
-                     background-color: #f4f4f4;
-                     margin: 0;
-                     padding: 0;
-                 }}
-                 .container {{
-                     width: 100%;
-                     max-width: 600px;
-                     margin: 0 auto;
-                     background-color: #ffffff;
-                     border-radius: 8px;
-                     overflow: hidden;
-                     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                 }}
-                 .header {{
-                     background-color: #007bff;
-                     padding: 20px;
-                     text-align: center;
-                 }}
-                 .header img {{
-                     width: 150px;
-                 }}
-                 .content {{
-                     padding: 30px;
-                 }}
-                 .content h1 {{
-                     color: #333333;
-                     font-size: 24px;
-                     margin-bottom: 10px;
-                 }}
-                 .content p {{
-                     color: #555555;
-                     line-height: 1.6;
-                     margin-bottom: 20px;
-                 }}
-                 .code {{
-                     display: block;
-                     background-color: #f4f4f4;
-                     padding: 10px;
-                     text-align: center;
-                     font-size: 20px;
-                     letter-spacing: 2px;
-                     color: #333333;
-                     border-radius: 5px;
-                     margin: 10px 0;
-                 }}
-                 .footer {{
-                     background-color: #007bff;
-                     padding: 10px;
-                     text-align: center;
-                     color: #ffffff;
-                     font-size: 12px;
-                 }}
-             </style>
-         </head>
-         <body>
-             <div class='container'>
-                 <div class='header'>
-                     <img src='cid:logo' alt='Logo da Empresa' style='width:150px;' />
-                 </div>
-                 <div class='content'>
-                     <h1>Seu Código de Validação</h1>
-                     <p>Olá! Aqui está o seu código de validação para a troca da sua senha, ele expira em 5 minutos. Use-o para completar sua verificação:</p>
-                     <span class='code'>{aleatoria}</span>
-                     <p>Se você não solicitou este código, por favor, ignore este e-mail.</p>
-                 </div>
-                 <div class='footer'>
-                     <p>&copy; 2024. Todos os direitos reservados. Isso é apenas um site teste, de um trabalho de universidade.</p>
-                 </div>
-             </div>
-         </body>
-         </html>",
-            IsBodyHtml = true,
-        };
-
-        var attachment = new Attachment("./logo.png");
-        attachment.ContentId = "logo";
-        mailMessage.Attachments.Add(attachment);
-        mailMessage.To.Add(email);
-        _smtpClient.Send(mailMessage);
-
+        
         conexao.Close();
+        
+        return aleatoria;
+        
     }
 
     public async Task<bool> VerificarCodigoAsync(string email, TipoUsuario tipoUsuario, int codigo)

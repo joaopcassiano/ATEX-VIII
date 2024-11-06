@@ -1,7 +1,7 @@
 using Dapper;
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using MaisApoio.MaisApoio.Repositorio.Contexto;
-
+using System.Data.Common;
 namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
 
 public class BeneficiarioRepositorio
@@ -44,18 +44,33 @@ public class BeneficiarioRepositorio
         conexao.Close();
     }
 
-    public async Task CriarAsync(Beneficiario beneficiario)
+    public async Task<int> CriarAsync(Beneficiario beneficiario)
     {
 
-        string sql = "Insert into Beneficiario(nome,cpf,telefone,email,enderecoID,necessidade,senha,dataNascimento,situacaoEconomica,ativo) values (@nome,@cpf,@telefone,@email,@enderecoID,@necessidade,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
+        string sql = @"Insert into Beneficiario(nome,cpf,telefone,email,necessidade,senha,dataNascimento,situacaoEconomica,ativo) 
+        OUTPUT INSERTED.BeneficiarioID as ID
+        values (@nome,@cpf,@telefone,@email,@necessidade,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
 
         var conexao = _banco.ConectarSqlServer();
 
-        conexao.Open();
+        await conexao.OpenAsync();
 
-        await conexao.ExecuteAsync(sql, new { nome = beneficiario.Nome, cpf = beneficiario.CPF, telefone = beneficiario.Telefone, email = beneficiario.Email, enderecoID = beneficiario.EnderecoID, necessidade = beneficiario.Necessidade, senha = beneficiario.Senha, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica, ativo = beneficiario.Ativo });
+        var id = await conexao.QueryFirstAsync<int>(sql, new
+        {
+            nome = beneficiario.Nome,
+            cpf = beneficiario.CPF,
+            telefone = beneficiario.Telefone,
+            email = beneficiario.Email,
+            necessidade = beneficiario.Necessidade,
+            senha = beneficiario.Senha,
+            dataNascimento = beneficiario.DataNascimento,
+            situacaoEconomica = beneficiario.SituacaoEconomica,
+            ativo = beneficiario.Ativo
+        });
 
-        conexao.Close();
+        await conexao.CloseAsync();
+
+        return id;
 
     }
 
@@ -115,6 +130,15 @@ public class BeneficiarioRepositorio
         conexao.Close();
 
         return beneficiario;
+    }
+
+    public async Task ExclusaoFisicaAsync(int id)
+    {
+        string sql = "DELETE FROM Beneficiario WHERE BeneficiarioID = @id";
+        var conexao = _banco.ConectarSqlServer();
+        conexao.Open();
+        await conexao.ExecuteAsync(sql, new { id = id });
+        conexao.Close();
     }
 
 }

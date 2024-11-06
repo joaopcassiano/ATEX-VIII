@@ -2,17 +2,17 @@ using System.Text.RegularExpressions;
 
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
-public class Endereco
+public class EnderecoBase
 {
-    private int _id;
-    private string _rua;
-    private string _bairro;
-    private int _numero;
-    private string _complemento;
-    private string _cidade;
-    private string _estado;
-    private string _cep;
-    private bool _ativo;
+    protected int _id;
+    protected string _rua;
+    protected string _bairro;
+    protected int _numero;
+    protected string _complemento;
+    protected string _cidade;
+    protected string _estado;
+    protected string _cep;
+    protected bool _ativo;
 
     public int ID
     {
@@ -104,9 +104,9 @@ public class Endereco
         set{_ativo = value;}
     }
 
-    public Endereco(){}
+    public EnderecoBase(){}
 
-    public Endereco(string rua, string bairro, int numero, string complemento, string cidade, string estado, string cep)
+    public EnderecoBase(string rua, string bairro, int numero, string complemento, string cidade, string estado, string cep)
     {
         Rua = rua;
         Bairro = bairro;

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import Botao from '../../Componentes/Botao/Botao';
 import logo from '../../assets/logo.png';
 import styles from './_home.module.css';

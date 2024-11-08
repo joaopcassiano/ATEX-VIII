@@ -147,7 +147,6 @@ public class Beneficiario
     private string _cpf;
     private string _telefone;
     private DateTime _dataNascimento;
-    private int _enderecoID;
     private string _necessidade;
     private decimal _situacaoEconomica;
     private string _email;
@@ -207,18 +206,6 @@ public class Beneficiario
                 throw new ArgumentException("Data de nascimento inválida.");
 
             _dataNascimento = value;
-        }
-    }
-
-    public int EnderecoID
-    {
-        get { return _enderecoID; }
-        set
-        {
-            if (value <= 0)
-                throw new ArgumentException("Endereço inválido.");
-
-            _enderecoID = value;
         }
     }
 
@@ -284,7 +271,7 @@ public class Beneficiario
 
     }
 
-    public Beneficiario(string nome, string cpf, string necessidade, string telefone, string email, decimal situacaoEconomica, DateTime dataNascimento, int enderecoID, string senha)
+    public Beneficiario(string nome, string cpf, string necessidade, string telefone, string email, decimal situacaoEconomica, DateTime dataNascimento, string senha)
     {
         Nome = nome;
         CPF = cpf;
@@ -294,7 +281,6 @@ public class Beneficiario
         Senha = senha;
         SituacaoEconomica = situacaoEconomica;
         DataNascimento = dataNascimento;
-        EnderecoID = enderecoID;
         Ativo = true;
     }
 

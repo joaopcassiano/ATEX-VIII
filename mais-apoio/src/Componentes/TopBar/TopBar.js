@@ -1,19 +1,32 @@
 import Botao from '../Botao/Botao';
 import styles from './_topBar.module.css'
 import logo from '../../assets/logo.png';
+import { Link } from 'react-router-dom';
 
-const TopBar = ({ valor, valorLogin}) => {
+const TopBar = ({ valor, valorLogin }) => {
     return (<>
         <div className={styles.topBar}>
-            <Botao estilo='logoHome' onClick={() => { valor(1)}}><img src={logo} alt="Logo" className={styles.logoImagem} /></Botao>
+            <Link className={styles.link} to='/home/apresentacao'>
+                <Botao estilo='logoHome'>
+                    <img src={logo} alt="Logo" className={styles.logoImagem} />
+                </Botao>
+            </Link>
             <div className={styles.funcionalidades}>
-                <Botao estilo='funcionalidadeHome' onClick={() => { valor(2)}}>Quem Somos</Botao>
-                <Botao estilo='funcionalidadeHome' onClick={() => { valor(3)}}>Quero Ajudar</Botao>
-                <Botao estilo='funcionalidadeHome' onClick={() => { valor(4)}}>Preciso de Ajuda</Botao>
+                <Link className={styles.link} to='/home/quem-somos'>
+                    <Botao estilo='funcionalidadeHome' >Quem Somos</Botao>
+                </Link>
+                <Link  className={styles.link} to='/home/quero-ajudar'>
+                    <Botao estilo='funcionalidadeHome' >Quero Ajudar</Botao>
+                </Link>
+                <Link  className={styles.link} to='/home/preciso-de-ajuda'>
+                    <Botao estilo='funcionalidadeHome' >Preciso de Ajuda</Botao>
+                </Link>
             </div>
             <div className={styles.botoesDirecionamento}>
-                <Botao estilo='entrarHome' onClick={() => { valorLogin(true)}}>Entrar</Botao>
-                <Botao estilo='cadastrarHome' onClick={() => { valor(6)}}>Cadastre-se</Botao>
+                <Botao estilo='entrarHome' onClick={() => { valorLogin(true) }}>Entrar</Botao>
+                <Link  className={styles.link} to='/home/todos-cadastros'>
+                    <Botao estilo='cadastrarHome' >Cadastre-se</Botao>
+                </Link>
             </div>
         </div>
     </>)

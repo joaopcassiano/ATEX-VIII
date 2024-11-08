@@ -1,4 +1,4 @@
-import styles from './_cadastroVoluntario.module.css';
+import styles from './_cadastroEmpresa.module.css'
 import InputMask from 'react-input-mask';
 import Botao from '../../Componentes/Botao/Botao';
 import { useEffect, useState, useRef } from 'react';
@@ -7,14 +7,13 @@ import { BsPerson } from "react-icons/bs";
 import { BsPersonPlus } from "react-icons/bs";
 import { FiAtSign } from "react-icons/fi";
 import { GoLock } from "react-icons/go";
-import { CiCalendar } from "react-icons/ci";
 import { PiHouseLight } from "react-icons/pi";
 import { IoCallOutline } from "react-icons/io5";
 import AcharCep from '../../Services/Endereco'
 import { BsArrowReturnRight } from "react-icons/bs";
-import { FaNetworkWired } from "react-icons/fa";
+import { IoIosStarOutline } from "react-icons/io";
 
-const CadastroVoluntario = () => {
+const CadastroEmpresa = () => {
     const [visivelEndereco, setVisivelEndereco] = useState(false)
     const campoEnderecoRef = useRef(null);
     const botaoEnderecoRef = useRef(null);
@@ -26,12 +25,11 @@ const CadastroVoluntario = () => {
     const [existeRua, setExisteRua] = useState(false);
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
-    const [voluntario, setVoluntario] = useState({
+    const [empresa, setEmpresa] = useState({
         nome: '',
-        cpf: '',
+        cnpj: '',
         telefone: '',
-        dataNascimento: '',
-        areaDeAtuacao: '',
+        segmentoDeMercado: '',
         email: '',
         senha: '',
         rua: '',
@@ -45,12 +43,11 @@ const CadastroVoluntario = () => {
 
     useEffect(() => {
         {
-            setVoluntario({
+            setEmpresa({
                 nome: '',
-                cpf: '',
+                cnpj: '',
                 telefone: '',
-                dataNascimento: '',
-                areaDeAtuacao: '',
+                segmentoDeMercado: '',
                 email: '',
                 senha: '',
                 rua: '',
@@ -65,26 +62,26 @@ const CadastroVoluntario = () => {
     }, [])
 
     useEffect(() => {
-        if (voluntario.cep === '') {
+        if (empresa.cep === '') {
             setPlaceEndereco('Endereço')
         }
-        else if (voluntario.bairro === '' || voluntario.numero === '' || voluntario.complemento === '' || voluntario.rua === '' || voluntario.cidade === '' || voluntario.estado === '') {
-            if (voluntario.cep === undefined) {
+        else if (empresa.bairro === '' || empresa.numero === '' || empresa.complemento === '' || empresa.rua === '' || empresa.cidade === '' || empresa.estado === '') {
+            if (empresa.cep === undefined) {
                 setPlaceEndereco('Endereço')
             }
             else {
                 setPlaceEndereco('Preencha todos os dados')
             }
 
-        } else if (voluntario.bairro !== '' && voluntario.numero !== '' && voluntario.complemento !== '' && voluntario.rua !== '' && voluntario.cidade !== '' && voluntario.estado !== '' && voluntario.cep !== '') {
+        } else if (empresa.bairro !== '' && empresa.numero !== '' && empresa.complemento !== '' && empresa.rua !== '' && empresa.cidade !== '' && empresa.estado !== '' && empresa.cep !== '') {
 
-            setPlaceEndereco(voluntario.rua + ' - ' + voluntario.numero + ', ' + voluntario.bairro + ', ' + voluntario.cidade + '-' + voluntario.estado)
+            setPlaceEndereco(empresa.rua + ' - ' + empresa.numero + ', ' + empresa.bairro + ', ' + empresa.cidade + '-' + empresa.estado)
 
         }
         else {
             setPlaceEndereco('Endereço')
         }
-    }, [voluntario])
+    }, [empresa])
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickFora);
@@ -109,14 +106,13 @@ const CadastroVoluntario = () => {
                     setExisteRua(temRua);
                     setExisteBairro(temBairro);
 
-                    setVoluntario({
-                        nome: voluntario.nome,
-                        cpf: voluntario.cpf,
-                        telefone: voluntario.telefone,
-                        dataNascimento: voluntario.dataNascimento,
-                        email: voluntario.email,
-                        senha: voluntario.senha,
-                        areaDeAtuacao: voluntario.areaDeAtuacao,
+                    setEmpresa({
+                        nome: empresa.nome,
+                        cnpj: empresa.cnpj,
+                        telefone: empresa.telefone,
+                        email: empresa.email,
+                        senha: empresa.senha,
+                        segmentoDeMercado: empresa.segmentoDeMercado,
                         rua: '',
                         bairro: '',
                         cidade: '',
@@ -125,14 +121,13 @@ const CadastroVoluntario = () => {
                         complemento: ''
                     });
                 } else {
-                    setVoluntario({
-                        nome: voluntario.nome,
-                        cpf: voluntario.cpf,
-                        telefone: voluntario.telefone,
-                        dataNascimento: voluntario.dataNascimento,
-                        areaDeAtuacao: voluntario.areaDeAtuacao,
-                        email: voluntario.email,
-                        senha: voluntario.senha,
+                    setEmpresa({
+                        nome: empresa.nome,
+                        cnpj: empresa.cnpj,
+                        telefone: empresa.telefone,
+                        segmentoDeMercado: empresa.segmentoDeMercado,
+                        email: empresa.email,
+                        senha: empresa.senha,
                         rua: response.data.logradouro || '',
                         bairro: response.data.bairro || '',
                         cidade: response.data.localidade || '',
@@ -174,14 +169,13 @@ const CadastroVoluntario = () => {
                 console.error('Erro na consulta do CEP:', error);
             }
         } else {
-            setVoluntario({
-                nome: voluntario.nome,
-                cpf: voluntario.cpf,
-                telefone: voluntario.telefone,
-                dataNascimento: voluntario.dataNascimento,
-                areaDeAtuacao: voluntario.areaDeAtuacao,
-                email: voluntario.email,
-                senha: voluntario.senha,
+            setEmpresa({
+                nome: empresa.nome,
+                cnpj: empresa.cnpj,
+                telefone: empresa.telefone,
+                segmentoDeMercado: empresa.segmentoDeMercado,
+                email: empresa.email,
+                senha: empresa.senha,
                 rua: '',
                 bairro: '',
                 cidade: '',
@@ -201,7 +195,7 @@ const CadastroVoluntario = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setVoluntario({ ...voluntario, [name]: value });
+        setEmpresa({ ...empresa, [name]: value });
     };
 
     const enderecoVisivel = () => {
@@ -224,67 +218,66 @@ const CadastroVoluntario = () => {
                 <div className={styles.cadastroUsuario}>
                     <div className={styles.formsCadastro}>
                         <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
-                            <div className={styles.cadastroForms}>
+                            <div className={styles.cadastroForms} style={{ margin: '1rem 0' }}>
                                 Cadastro
                             </div>
                             <div className={styles.cadaInput}>
                                 <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
                                 <InputMask
                                     type='text'
-                                    placeholder='Nome Completo'
+                                    placeholder='Nome da empresa'
                                     className={styles.inputCadastro}
-                                    value={voluntario.nome}
+                                    value={empresa.nome}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, nome: event.target.value })
+                                        setEmpresa({ ...empresa, nome: event.target.value })
                                     }
                                 />
                             </div>
                             <div className={styles.cadaInput}>
                                 <label className={styles.labelCadastro}><BsPersonPlus className={styles.iconeCadastro} /></label>
-                                <InputMask
-                                    mask='999.999.999-99'
-                                    type='text'
-                                    placeholder='CPF'
-                                    className={styles.inputCadastro}
-                                    value={voluntario.cpf}
+                                <InputMask 
+                                mask='99.999.999/9999-99' 
+                                type='text' placeholder='CNPJ' 
+                                className={styles.inputCadastro}
+                                value={empresa.cnpj}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, cpf: event.target.value })
+                                        setEmpresa({ ...empresa, cnpj: event.target.value })
                                     }
                                 />
                             </div>
                             <div className={styles.cadaInput}>
                                 <label className={styles.labelCadastro}><FiAtSign className={styles.iconeCadastro} /></label>
-                                <InputMask
-                                    type='email'
-                                    placeholder='Digite seu E-mail'
-                                    className={styles.inputCadastro}
-                                    value={voluntario.email}
+                                <InputMask 
+                                type='email' 
+                                placeholder='Digite seu E-mail' 
+                                className={styles.inputCadastro}
+                                value={empresa.email}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, email: event.target.value })
+                                        setEmpresa({ ...empresa, email: event.target.value })
                                     }
                                 />
                             </div>
                             <div className={styles.cadaInput}>
                                 <label className={styles.labelCadastro}><GoLock className={styles.iconeCadastro} /></label>
-                                <InputMask
-                                    type='password'
-                                    placeholder='Digite sua Senha'
-                                    className={styles.inputCadastro}
-                                    value={voluntario.senha}
+                                <InputMask 
+                                type='password' 
+                                placeholder='Digite sua Senha' 
+                                className={styles.inputCadastro}
+                                value={empresa.senha}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, senha: event.target.value })
+                                        setEmpresa({ ...empresa, senha: event.target.value })
                                     }
                                 />
                             </div>
                             <div className={styles.cadaInput}>
-                                <label className={styles.labelCadastro}><CiCalendar className={styles.iconeCadastro} /></label>
-                                <InputMask
-                                    type='date'
-                                    placeholder='Data de Nascimento'
-                                    className={styles.inputCadastro}
-                                    value={voluntario.dataNascimento}
+                                <label className={styles.labelCadastro}><IoIosStarOutline className={styles.iconeCadastro} /></label>
+                                <InputMask 
+                                type='text' 
+                                placeholder='Segmento de mercado' 
+                                className={styles.inputCadastro}
+                                value={empresa.segmentoDeMercado}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, dataNascimento: event.target.value })
+                                        setEmpresa({ ...empresa, segmentoDeMercado: event.target.value })
                                     }
                                 />
                             </div>
@@ -312,7 +305,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Número'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.numero}
+                                                        value={empresa.numero}
                                                         name="numero"
                                                         type="number"
                                                         onChange={handleInputChange}
@@ -325,7 +318,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Rua'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.rua}
+                                                        value={empresa.rua}
                                                         name="rua"
                                                         onChange={handleInputChange}
                                                         type="text"
@@ -335,7 +328,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Complemento'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.complemento}
+                                                        value={empresa.complemento}
                                                         name="complemento"
                                                         onChange={handleInputChange}
                                                         type="text"
@@ -348,7 +341,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Cidade'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.cidade}
+                                                        value={empresa.cidade}
                                                         name="cidade"
                                                         readOnly
                                                         type="text"
@@ -357,7 +350,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Bairro'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.bairro}
+                                                        value={empresa.bairro}
                                                         name="bairro"
                                                         type="text"
                                                         onChange={handleInputChange}
@@ -371,7 +364,7 @@ const CadastroVoluntario = () => {
                                                     <InputMask
                                                         placeholder='Estado'
                                                         className={styles.inputBoxEndereco}
-                                                        value={voluntario.estado}
+                                                        value={empresa.estado}
                                                         name="estado"
                                                         readOnly
                                                         type="text"
@@ -382,28 +375,16 @@ const CadastroVoluntario = () => {
                                     )
                                 }
                             </div>
-                            <div className={styles.cadaInput}>
+                            <div className={styles.cadaInput} style={{ margin: '0 0 1rem 0' }}>
                                 <label className={styles.labelCadastro}><IoCallOutline className={styles.iconeCadastro} /></label>
-                                <InputMask
-                                    mask='(99) 99999-9999'
-                                    type='text'
-                                    placeholder='telefone'
-                                    className={styles.inputCadastro}
-                                    value={voluntario.telefone}
+                                <InputMask 
+                                mask='(99) 99999-9999' 
+                                type='text' 
+                                placeholder='telefone' 
+                                className={styles.inputCadastro}
+                                value={empresa.telefone}
                                     onChange={(event) =>
-                                        setVoluntario({ ...voluntario, telefone: event.target.value })
-                                    }
-                                />
-                            </div>
-                            <div className={styles.cadaInput}>
-                                <label className={styles.labelCadastro}><FaNetworkWired className={styles.iconeCadastro} /></label>
-                                <InputMask
-                                    type='text'
-                                    placeholder='Área de atuação'
-                                    className={styles.inputCadastro}
-                                    value={voluntario.areaDeAtuacao}
-                                    onChange={(event) =>
-                                        setVoluntario({ ...voluntario, areaDeAtuacao: event.target.value })
+                                        setEmpresa({ ...empresa, telefone: event.target.value })
                                     }
                                 />
                             </div>
@@ -417,4 +398,4 @@ const CadastroVoluntario = () => {
     )
 }
 
-export default CadastroVoluntario;
+export default CadastroEmpresa;

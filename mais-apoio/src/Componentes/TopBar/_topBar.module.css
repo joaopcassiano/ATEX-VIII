@@ -64,5 +64,8 @@
     align-items: center;
     justify-content: center;
     gap: 2rem;
->>>>>>> 446259f3b0b8deb5f2d75cc0ec93e0e98929605e
+}
+
+.link{
+    text-decoration: none;
 }

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Home from './pages/HomePage/Home';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import CadastroBeneficiario from './pages/CadastroBeneficiarioPage/CadastroBeneficiario';
 import ConteudoApresentacao from './pages/ConteudoApresentacao/ConteudoApresentacao';
 import ConteudoQuemSomos from './pages/ConteudoQuemSomos/ConteudoQuemSomos';
@@ -13,6 +13,7 @@ import ConteudoTodosCadastros from './pages/ConteudoTodosCadastros/ConteudoTodos
 import CadastroDoador from './pages/CadastroDoadorPage/CadastroDoador';
 import CadastroEmpresa from './pages/CadastroEmpresaPage/CadastroEmpresa';
 import CadastroVoluntario from './pages/CadastroVoluntarioPage/CadastroVoluntario';
+import Beneficiario from './pages/BeneficiarioPage/Beneficiario';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -20,7 +21,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={<Home />}>
+        <Route path="/x" element={<Navigate to="/home/apresentacao" />} />
+        <Route  path="/home" element={<Home />}>
           <Route path="apresentacao" element={<ConteudoApresentacao />} />
           <Route path="quem-somos" element={<ConteudoQuemSomos />} />
           <Route path="quero-ajudar" element={<ConteudoAreaParaAjudar />} />
@@ -31,6 +33,7 @@ root.render(
           <Route path="cadastro-empresa" element={<CadastroEmpresa />} />
           <Route path="cadastro-voluntario" element={<CadastroVoluntario />} />
         </Route>
+        <Route path="/" element={<Beneficiario/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

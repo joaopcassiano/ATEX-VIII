@@ -3,7 +3,7 @@ import styles from './_topBar.module.css'
 import logo from '../../assets/logo.png';
 import { Link } from 'react-router-dom';
 
-const TopBar = ({ valor, valorLogin }) => {
+const TopBar = ({ valorLogin }) => {
     return (<>
         <div className={styles.topBar}>
             <Link className={styles.link} to='/home/apresentacao'>
@@ -15,16 +15,16 @@ const TopBar = ({ valor, valorLogin }) => {
                 <Link className={styles.link} to='/home/quem-somos'>
                     <Botao estilo='funcionalidadeHome' >Quem Somos</Botao>
                 </Link>
-                <Link  className={styles.link} to='/home/quero-ajudar'>
+                <Link className={styles.link} to='/home/quero-ajudar'>
                     <Botao estilo='funcionalidadeHome' >Quero Ajudar</Botao>
                 </Link>
-                <Link  className={styles.link} to='/home/preciso-de-ajuda'>
+                <Link className={styles.link} to='/home/preciso-de-ajuda'>
                     <Botao estilo='funcionalidadeHome' >Preciso de Ajuda</Botao>
                 </Link>
             </div>
             <div className={styles.botoesDirecionamento}>
                 <Botao estilo='entrarHome' onClick={() => { valorLogin(true) }}>Entrar</Botao>
-                <Link  className={styles.link} to='/home/todos-cadastros'>
+                <Link className={styles.link} to='/home/todos-cadastros'>
                     <Botao estilo='cadastrarHome' >Cadastre-se</Botao>
                 </Link>
             </div>

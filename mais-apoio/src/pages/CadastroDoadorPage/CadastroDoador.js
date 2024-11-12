@@ -27,6 +27,7 @@ const CadastroDoador = () => {
     const [existeRua, setExisteRua] = useState(false);
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
+    const [imageWidth, setImageWidth] = useState(0);
     const [doador, setDoador] = useState({
         nome: '',
         cpf: '',
@@ -219,11 +220,22 @@ const CadastroDoador = () => {
         }
     };
 
+    const handleImageLoad = (event) => {
+        const width = event.target.width; 
+        setImageWidth(width);
+      };
+    
+      useEffect(() => {
+        if (imageWidth > 0) {
+          console.log(`Largura da imagem: ${imageWidth}px`);
+        }
+      }, [imageWidth]);
+
     return (
         <>
             <div className={styles.conteudoCadastroUsuario}>
                 <div className={styles.cadastroUsuario}>
-                    <div className={styles.formsCadastro}>
+                <div style={{marginRight: imageWidth? `calc(${imageWidth}px - ${(imageWidth * 0.6) / 100}%)`: '0'}} className={styles.formsCadastro}>
                         <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
                             <div className={styles.cadastroForms}>
                                 Cadastro
@@ -412,7 +424,7 @@ const CadastroDoador = () => {
                             <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
                         </form>
                     </div>
-                    <img className={styles.fotoCadastro} src={imagemCadastro} alt='imagemCadastro'></img>
+                    <img className={styles.fotoCadastro} onLoad={handleImageLoad} src={imagemCadastro} alt='imagemCadastro'></img>
                 </div>
             </div>
         </>

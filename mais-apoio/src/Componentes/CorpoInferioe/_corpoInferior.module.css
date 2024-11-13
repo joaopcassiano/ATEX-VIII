@@ -1,0 +1,10 @@
+
+.corpo_inferior {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100% - 8.5rem);
+    padding: 1rem;
+}

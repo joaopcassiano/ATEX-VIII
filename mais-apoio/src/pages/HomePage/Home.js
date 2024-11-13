@@ -7,7 +7,7 @@ import InputMask from 'react-input-mask';
 import { FiAtSign } from "react-icons/fi";
 import { GoLock } from "react-icons/go";
 import { BsX } from "react-icons/bs";
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 const Home = () => {
     const [visivelLogin, setVisivelLogin] = useState(false)
@@ -34,7 +34,7 @@ const Home = () => {
             <div className={styles.corpo}>
                 <TopBar valorLogin={(a) => { setVisivelLogin(a); setTrocarSenha(1); }} />
                 <div className={styles.conteudo}>
-                    <Outlet/>
+                    <Outlet />
                 </div>
             </div >
             {
@@ -115,7 +115,15 @@ const Home = () => {
                                             <div onClick={() => { setTrocarSenha(2) }} className={styles.esqueceuLogin}>
                                                 Esqueceu sua senha?
                                             </div>
-                                            <Botao estilo='confirmarLogin'>Entrar</Botao>
+                                            <Link
+                                                to={tipoUsuario === 4 ? 
+                                                    '../beneficiario'
+                                                    :
+                                                    ''
+                                                }
+                                                className={styles.link}>
+                                                <Botao estilo='confirmarLogin'>Entrar</Botao>
+                                            </Link>
                                         </>
                                         :
                                         trocarSenha === 2 ?

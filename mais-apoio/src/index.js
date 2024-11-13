@@ -14,6 +14,8 @@ import CadastroDoador from './pages/CadastroDoadorPage/CadastroDoador';
 import CadastroEmpresa from './pages/CadastroEmpresaPage/CadastroEmpresa';
 import CadastroVoluntario from './pages/CadastroVoluntarioPage/CadastroVoluntario';
 import Beneficiario from './pages/BeneficiarioPage/Beneficiario';
+import Perfil from './Componentes/Perfil/Perfil';
+import ConsultarDoacoes from './pages/ConsultarDoacoesPage/ConsultarDoacoes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -21,8 +23,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/x" element={<Navigate to="/home/apresentacao" />} />
-        <Route  path="/home" element={<Home />}>
+        <Route path="/" element={<Navigate to="/home/apresentacao" />} />
+        <Route path="/home" element={<Home />}>
           <Route path="apresentacao" element={<ConteudoApresentacao />} />
           <Route path="quem-somos" element={<ConteudoQuemSomos />} />
           <Route path="quero-ajudar" element={<ConteudoAreaParaAjudar />} />
@@ -33,7 +35,10 @@ root.render(
           <Route path="cadastro-empresa" element={<CadastroEmpresa />} />
           <Route path="cadastro-voluntario" element={<CadastroVoluntario />} />
         </Route>
-        <Route path="/" element={<Beneficiario/>} />
+        <Route path="/beneficiario" element={<Beneficiario />}>
+          <Route path="/beneficiario/perfil" element={<Perfil tipoUsuario='Beneficiario'/>} />
+          <Route path="/beneficiario/consultar-doacoes" element={<ConsultarDoacoes />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

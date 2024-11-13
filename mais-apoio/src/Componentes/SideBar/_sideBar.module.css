@@ -1,0 +1,49 @@
+.SideBar {
+    position: relative;
+    display: flex;
+    justify-content: first baseline;
+    flex-direction: column;
+    width: 23%;
+    height: 100%;
+    border: 2px solid #007BFF;
+    z-index: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.SideBar::-webkit-scrollbar {
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.SideBar::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+}
+
+.link{
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.sair{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    bottom: 2rem;
+    left: 2rem;
+    font-size: 1.2rem;
+    color: black;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255,0.5);
+    border-radius: 7px;
+}
+
+.sair:hover{
+    color: #9e3131;
+}

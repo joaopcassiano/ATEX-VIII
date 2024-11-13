@@ -9,18 +9,38 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
         <>
             <div className={styles.topBar}>
                 <Link
-                    className={styles.link}
+                    className={styles.linkLogo}
                     to={
                         tipoUsuario === 'Beneficiario' ?
-                            '/home/apresentacao' : '/home'
+                            '' : '/home'
                     }>
                     <Botao estilo='logoHome'>
                         <img src={logo} alt="Logo" className={styles.logoImagem} />
                     </Botao>
                 </Link>
                 <div className={styles.funcionalidades}>
-                    <h3 className={styles.nomePerfil}> Olá {usuario.nome},</h3>
-                    <img src={usuario.perfil} className={styles.fotoPerfil}></img>
+
+                    <Link
+                        className={styles.link}
+                        to={
+                            tipoUsuario === 'Beneficiario' ?
+                                'perfil' : '/home'
+                        }
+                        
+                        state={usuario}>
+                        <h3 className={styles.nomePerfil}> Olá {usuario.nome.split(" ")[0]},</h3>
+                    </Link>
+
+                    <Link
+                        className={styles.link}
+                        to={
+                            tipoUsuario === 'Beneficiario' ?
+                                'perfil' : '/home'
+                        }
+                        state={usuario}>
+                        <img src={usuario.perfil} className={styles.fotoPerfil}></img>
+
+                    </Link>
                 </div>
             </div>
         </>

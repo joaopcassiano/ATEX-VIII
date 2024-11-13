@@ -1,4 +1,5 @@
 .topBar{
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -15,10 +16,14 @@
     width: 6.5rem;
 }
 
-.link{
+.linkLogo{
     text-decoration: none;
-    
     margin-left: 3%;
+}
+
+.link{
+    all: unset;
+    text-decoration: none;
 }
 
 .funcionalidades{
@@ -33,6 +38,10 @@
     font-size: 1.1rem;
     
     cursor: pointer;
+}
+
+.nomePerfil:hover{
+    color: #007BFF;
 }
 
 .fotoPerfil{

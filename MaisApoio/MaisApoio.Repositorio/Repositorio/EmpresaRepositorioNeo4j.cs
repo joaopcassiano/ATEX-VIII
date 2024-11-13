@@ -19,7 +19,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         public async Task<int> CriarAsync(Empresa empresa)
         {
             var sql = @"
-                CREATE (e:Empresa {ID: randomUUID(), Nome: $nome, Telefone: $telefone, 
+                CREATE (e:Empresa {EmpresaID: randomUUID(), Nome: $nome, Telefone: $telefone, 
                                     Email: $email, EnderecoID: $enderecoID, CNPJ: $cnpj, Ativo: $ativo})
                 RETURN e.ID as ID";
 
@@ -36,7 +36,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 });
 
                 var record = await result.SingleAsync();
-                return record["ID"].As<string>(); // Retorna o ID da empresa criada
+                return record["EmpresaID"].As<string>(); // Retorna o ID da empresa criada
             }
         }
 
@@ -54,7 +54,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 {
                     var empresa = new Empresa
                     {
-                        ID = int.Parse(record["e"].As<INode>().Properties["ID"].ToString()),
+                        EmpresaID = int.Parse(record["e"].As<INode>().Properties["EmpresaID"].ToString()),
                         Nome = record["e"].As<INode>().Properties["Nome"].ToString(),
                         Telefone = record["e"].As<INode>().Properties["Telefone"].ToString(),
                         Email = record["e"].As<INode>().Properties["Email"].ToString(),
@@ -72,7 +72,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         // Obter empresa por ID
         public async Task<Empresa> ObterPorIdAsync(int id)
         {
-            var sql = "MATCH (e:Empresa {ID: $id}) RETURN e";
+            var sql = "MATCH (e:Empresa {EmpresaID: $id}) RETURN e";
 
             using (var session = _banco.ConectarNeo4j())
             {
@@ -84,7 +84,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                     var empresaNode = record["e"].As<INode>();
                     return new Empresa
                     {
-                        ID = int.Parse(empresaNode.Properties["ID"].ToString()),
+                        EmpresaID = int.Parse(empresaNode.Properties["EmpresaID"].ToString()),
                         Nome = empresaNode.Properties["Nome"].ToString(),
                         Telefone = empresaNode.Properties["Telefone"].ToString(),
                         Email = empresaNode.Properties["Email"].ToString(),
@@ -111,7 +111,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
             {
                 await session.RunAsync(sql, new
                 {
-                    id = empresa.ID,
+                    id = empresa.EmpresaID,
                     nome = empresa.Nome,
                     telefone = empresa.Telefone,
                     email = empresa.Email,
@@ -132,5 +132,142 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 await session.RunAsync(sql, new { id });
             }
         }
+
+        // ----->>>>>   Consultas por Empresa
+        // Obter todas as empresas
+        public async Task<List<Empresa>> ObterPorNomeAsync()
+        {
+            var neo4j = "MATCH (e:Empresa) RETURN e";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j);
+                var empresas = new List<Empresa>();
+            using (var session = _banco.ConectarNeo4j())
+            }
+        }
+        public async Task<Empresa> ObterPorNomeAsync(string nome)
+        {
+            var neo4j = "MATCH (e:Empresa {Nome: $nome}) RETURN e";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { nome });
+                var record = await result.SingleOrDefaultAsync();
+
+                if (record != null)
+                {
+                    var empresaNode = record["e"].As<INode>();
+                    return new Empresa
+                    {
+                        EmpresaID = int.Parse(empresaNode.Properties["EmpresaID"].ToString()),
+                        Nome = empresaNode.Properties["Nome"].ToString(),
+                        Telefone = empresaNode.Properties["Telefone"].ToString(),
+                        Email = empresaNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(empresaNode.Properties["EnderecoID"].ToString()),
+                        CNPJ = empresaNode.Properties["CNPJ"].ToString(),
+                        Ativo = bool.Parse(empresaNode.Properties["Ativo"].ToString())
+                    };
+                }
+                return null;
+            }
+        }
+        public async Task<Empresa> ObterPorCNPJAsync(string cnpj)
+        {
+            var neo4j = "MATCH (e:Empresa {CNPJ: $cnpj}) RETURN e";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { cnpj });
+                var record = await result.SingleOrDefaultAsync();
+
+                if (record != null)
+                {
+                    var empresaNode = record["e"].As<INode>();
+                    return new Empresa
+                    {
+                        EmpresaID = int.Parse(empresaNode.Properties["EmpresaID"].ToString()),
+                        Nome = empresaNode.Properties["Nome"].ToString(),
+                        Telefone = empresaNode.Properties["Telefone"].ToString(),
+                        Email = empresaNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(empresaNode.Properties["EnderecoID"].ToString()),
+                        CNPJ = empresaNode.Properties["CNPJ"].ToString(),
+                        Ativo = bool.Parse(empresaNode.Properties["Ativo"].ToString())
+                    };
+                }
+                return null;
+            }
+        }
+        public async Task<Empresa> ObterPorEnderecoAsync(int enderecoID)
+        {
+            var neo4j = "MATCH (e:Empresa {EnderecoID: $enderecoID}) RETURN e";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { enderecoID });
+                var record = await result.SingleOrDefaultAsync();
+                if (record!= null)
+                {
+                    var empresaNode = record["e"].As<INode>();
+                    return new Empresa
+                    {
+                        EmpresaID = int.Parse(empresaNode.Properties["EmpresaID"].ToString()),
+                        Nome = empresaNode.Properties["Nome"].ToString(),
+                        Telefone = empresaNode.Properties["Telefone"].ToString(),
+                        Email = empresaNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(empresaNode.Properties["EnderecoID"].ToString()),
+                        CNPJ = empresaNode.Properties["CNPJ"].ToString(),
+                        Ativo = bool.Parse(empresaNode.Properties["Ativo"].ToString())
+                    };
+                }
+                return null;
+            }
+        }
+        public async Task<Empresa> ObterPorEmailAsync(string email)
+        {
+            var neo4j = "MATCH (e:Empresa {Email: $email}) RETURN e";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { email });
+                var record = await result.SingleOrDefaultAsync();
+                if (record!= null)
+                {
+                    var empresaNode = record["e"].As<INode>();
+                    return new Empresa
+                    {
+                        EmpresaID = int.Parse(empresaNode.Properties["EmpresaID"].ToString()),
+                        Nome = empresaNode.Properties["Nome"].ToString(),
+                        Telefone = empresaNode.Properties["Telefone"].ToString(),
+                        Email = empresaNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(empresaNode.Properties["EnderecoID"].ToString()),
+                        CNPJ = empresaNode.Properties["CNPJ"].ToString(),
+                        Ativo = bool.Parse(empresaNode.Properties["Ativo"].ToString())
+                    };
+                }
+                return null;
+            }
+        }
+        public async Task<Empresa> ObterPorTelefoneAsync(string telefone)
+        {
+            var neo4j = "MATCH (e:Empresa {Telefone: $telefone}) RETURN e";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { telefone });
+                var record = await result.SingleOrDefaultAsync();
+                if (record!= null)
+                {
+                    var empresaNode = record["e"].As<INode>();
+                    return new Empresa
+                    {
+                        EmpresaID = int.Parse(empresaNode.Properties["EmpresaID"].ToString()),
+                        Nome = empresaNode.Properties["Nome"].ToString(),
+                        Telefone = empresaNode.Properties["Telefone"].ToString(),
+                        Email = empresaNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(empresaNode.Properties["EnderecoID"].ToString()),
+                        CNPJ = empresaNode.Properties["CNPJ"].ToString(),
+                        Ativo = bool.Parse(empresaNode.Properties["Ativo"].ToString())
+                    };
+                }
+                return null;
+            }
+        }
+        
     }
+
 }

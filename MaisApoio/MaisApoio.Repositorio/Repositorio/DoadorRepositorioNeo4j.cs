@@ -19,7 +19,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         public async Task<int> CriarAsync(Doador doador)
         {
             var sql = @"
-                CREATE (d:Doador {ID: randomUUID(), Nome: $nome, Telefone: $telefone, 
+                CREATE (d:Doador {DoadorID: randomUUID(), Nome: $nome, Telefone: $telefone, Tipo: $tipo, 
                                   Email: $email, EnderecoID: $enderecoID, Ativo: $ativo})
                 RETURN d.ID as ID";
 
@@ -29,6 +29,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 {
                     nome = doador.Nome,
                     telefone = doador.Telefone,
+                    tipo = doador.Tipo,
                     email = doador.Email,
                     enderecoID = doador.EnderecoID,
                     ativo = doador.Ativo
@@ -53,9 +54,10 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 {
                     var doador = new Doador
                     {
-                        ID = int.Parse(record["d"].As<INode>().Properties["ID"].ToString()),
+                        DoadorID = int.Parse(record["d"].As<INode>().Properties["DoadorID"].ToString()),
                         Nome = record["d"].As<INode>().Properties["Nome"].ToString(),
                         Telefone = record["d"].As<INode>().Properties["Telefone"].ToString(),
+                        ObterPorTipoAsync = record["d"].As<INode>().Properties["Tipo"].ToString(),
                         Email = record["d"].As<INode>().Properties["Email"].ToString(),
                         EnderecoID = int.Parse(record["d"].As<INode>().Properties["EnderecoID"].ToString()),
                         Ativo = bool.Parse(record["d"].As<INode>().Properties["Ativo"].ToString())
@@ -70,7 +72,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         // Obter doador por ID
         public async Task<Doador> ObterPorIdAsync(int id)
         {
-            var sql = "MATCH (d:Doador {ID: $id}) RETURN d";
+            var sql = "MATCH (d:Doador {DoadorID: $id}) RETURN d";
 
             using (var session = _banco.ConectarNeo4j())
             {
@@ -82,9 +84,10 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                     var doadorNode = record["d"].As<INode>();
                     return new Doador
                     {
-                        ID = int.Parse(doadorNode.Properties["ID"].ToString()),
+                        DoadorID = int.Parse(doadorNode.Properties["DoadorID"].ToString()),
                         Nome = doadorNode.Properties["Nome"].ToString(),
                         Telefone = doadorNode.Properties["Telefone"].ToString(),
+                        Tipo = doadorNode.Properties["Tipo"].ToString(),
                         Email = doadorNode.Properties["Email"].ToString(),
                         EnderecoID = int.Parse(doadorNode.Properties["EnderecoID"].ToString()),
                         Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
@@ -99,8 +102,8 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         public async Task AtualizarAsync(Doador doador)
         {
             var sql = @"
-                MATCH (d:Doador {ID: $id})
-                SET d.Nome = $nome, d.Telefone = $telefone, d.Email = $email, 
+                MATCH (d:Doador {DoadorID: $id})
+                SET d.Nome = $nome, d.Telefone = $telefone, d.Tipo = $tipo, d.Email = $email, 
                     d.EnderecoID = $enderecoID, d.Ativo = $ativo
                 RETURN d";
 
@@ -108,9 +111,10 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
             {
                 await session.RunAsync(sql, new
                 {
-                    id = doador.ID,
+                    id = doador.DoadorID,
                     nome = doador.Nome,
                     telefone = doador.Telefone,
+                    tipo = doador.Tipo,
                     email = doador.Email,
                     enderecoID = doador.EnderecoID,
                     ativo = doador.Ativo
@@ -121,12 +125,147 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         // Exclusão do doador (lógica de desativação)
         public async Task ExclusaoFisicaAsync(int id)
         {
-            var sql = "MATCH (d:Doador {ID: $id}) SET d.Ativo = false RETURN d";
+            var sql = "MATCH (d:Doador {DoadorID: $id}) SET d.Ativo = false RETURN d";
 
             using (var session = _banco.ConectarNeo4j())
             {
                 await session.RunAsync(sql, new { id });
             }
         }
-    }
-}
+
+        // ----->>>>>   Consultas por Doador
+
+        // Consulta por tipo
+        public async Task<List<Doador>> ObterPorTipoAsync(string tipo)
+        {
+            var neo4j = "MATCH (d:Doador) WHERE d.Tipo = $tipo RETURN d";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { tipo });
+                var doadores = new List<Doador>();
+
+                await result.ForEachAsync(record =>
+                {
+                    var doadorNode = record["d"].As<INode>();
+                    var doador = new Doador
+                    {
+                        DoadorID = doadorNode.Properties["DoadorID"].ToString(),
+                        Nome = doadorNode.Properties["Nome"].ToString(),
+                        Telefone = doadorNode.Properties["Telefone"].ToString(),
+                        Email = doadorNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(doadorNode.Properties["EnderecoID"].ToString()),
+                        Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
+                    };
+                    doadores.Add(doador);
+                });
+
+                return doadores;
+            }
+        }
+
+        // Obter todos os doadores
+        public async Task<List<Doador>> ObterTodosAsync()
+        {
+            var neo4j = "MATCH (d:Doador) RETURN d";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j);
+                var doadores = new List<Doador>();
+
+                await result.ForEachAsync(record =>
+                {
+                    var doadorNode = record["d"].As<INode>();
+                    var doador = new Doador
+                    {
+                        DoadorID = doadorNode.Properties["DoadorID"].ToString(),
+                        Nome = doadorNode.Properties["Nome"].ToString(),
+                        Telefone = doadorNode.Properties["Telefone"].ToString(),
+                        Email = doadorNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(doadorNode.Properties["EnderecoID"].ToString()),
+                        Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
+                    };
+                    doadores.Add(doador);
+                });
+
+                return doadores;
+            }
+        }
+
+        // Obter por email
+        public async Task<Doador> ObterPorEmailAsync(string email)
+        {
+            var neo4j = "MATCH (d:Doador {Email: $email}) RETURN d";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { email });
+                var record = await result.SingleOrDefaultAsync();
+
+                if (record != null)
+                {
+                    var doadorNode = record["d"].As<INode>();
+                    return new Doador
+                    {
+                        ID = doadorNode.Properties["ID"].ToString(),
+                        Nome = doadorNode.Properties["Nome"].ToString(),
+                        Telefone = doadorNode.Properties["Telefone"].ToString(),
+                        Email = doadorNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(doadorNode.Properties["EnderecoID"].ToString()),
+                        Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
+                    };
+                }
+
+                return null;
+            }
+        }
+        public async Task<Doador> ObterPorTelefoneAsync(string telefone)
+        {
+            var neo4j = "MATCH (d:Doador {Telefone: $telefone}) RETURN d";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { telefone });
+                var record = await result.SingleOrDefaultAsync();
+
+                if (record != null)
+                {
+                    var doadorNode = record["d"].As<INode>();
+                    return new Doador
+                    {
+                        DoadorID = int.Parse(doadorNode.Properties["DoadorID"].ToString()),
+                        Nome = doadorNode.Properties["Nome"].ToString(),
+                        Telefone = doadorNode.Properties["Telefone"].ToString(),
+                        Email = doadorNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(doadorNode.Properties["EnderecoID"].ToString()),
+                        Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
+                    };
+                }
+                return null;
+            }
+        }
+        public async Task<Doador> ObterPorNomeAsync(string nome)
+        {
+            var neo4j = "MATCH (d:Doador {Nome: $nome}) RETURN d";
+            using (var session = _banco.ConectarNeo4j())
+            {
+                var result = await session.RunAsync(neo4j, new { nome });
+                var record = await result.SingleOrDefaultAsync();
+
+                if (record != null)
+                {
+                    var doadorNode = record["d"].As<INode>();
+                    return new Doador
+                    {
+                        DoadorID = int.Parse(doadorNode.Properties["DoadorID"].ToString()),
+                        Nome = doadorNode.Properties["Nome"].ToString(),
+                        Telefone = doadorNode.Properties["Telefone"].ToString(),
+                        Email = doadorNode.Properties["Email"].ToString(),
+                        EnderecoID = int.Parse(doadorNode.Properties["EnderecoID"].ToString()),
+                        Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
+                    };
+                }
+                return null;
+            }
+        }
+
+
+
+

@@ -4,19 +4,19 @@ import { Link } from 'react-router-dom';
 
 const SideBar = ({ children }) => {
     return (
-        <>
-            <div className={styles.SideBar}>
+        <div className={styles.sideBar}>
+            <div className={styles.conteudo}>
                 {children}
-                <div className={styles.sair}>
-                    <Link
-                        className={styles.link}
-                        to='../'>
-                        <RxExit />
-                        Sair
-                    </Link>
-                </div>
             </div>
-        </>
+            <div className={styles.sair}>
+                <Link
+                    className={styles.link}
+                    to='../'>
+                    <RxExit />
+                    Sair
+                </Link>
+            </div>
+        </div>
     )
 }
 

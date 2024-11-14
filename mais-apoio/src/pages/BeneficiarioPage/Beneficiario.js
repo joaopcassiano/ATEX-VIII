@@ -4,14 +4,17 @@ import fotoPerfil from '../../assets/fotoPerfil.png'
 import perfilExemplo from '../../assets/perfilExemplo.png'
 import perfilExemploVoluntario from '../../assets/perfilExemploVoluntario.png'
 import perfilExemploEmpresa from '../../assets/perfilExemploEmpresa.png'
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import Conteudo from '../../Componentes/Conteudo/Conteudo';
 import CorpoInferior from '../../Componentes/CorpoInferioe/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
 
 const Beneficiario = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const user = {
         nome: 'Anderson Caproni de Oliveira',
         perfil: fotoPerfil,
@@ -69,9 +72,88 @@ const Beneficiario = () => {
                             Consultar histórico de doações
                         </Botao>
                     </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        to='./consultar-doacoes'
+                        state={user}>
+                        <Botao estilo='sideBar'>
+                            Consultar histórico de doações
+                        </Botao>
+                    </Link>
+
                 </SideBar>
                 <Conteudo>
-                    <Outlet />
+                    {location.pathname === '/beneficiario' ?
+                        <>
+                        oi
+                        </>
+                        :
+                        <Outlet />
+                    }
                 </Conteudo>
             </CorpoInferior>
         </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/HomePage/Home';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import CadastroBeneficiario from './pages/CadastroBeneficiarioPage/CadastroBeneficiario';
@@ -17,6 +18,7 @@ import Beneficiario from './pages/BeneficiarioPage/Beneficiario';
 import Perfil from './Componentes/Perfil/Perfil';
 import ConsultarDoacoes from './pages/ConsultarDoacoesPage/ConsultarDoacoes';
 import ConsultaGeralBeneficiario from './pages/ConsultaGeralBeneficiario/ConsultaGeralBeneficiario';
+import InformacoesBeneficiario from './pages/InformacoesBeneficiario/InformacoesBeneficiario';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -37,9 +39,10 @@ root.render(
           <Route path="cadastro-voluntario" element={<CadastroVoluntario />} />
         </Route>
         <Route path="/beneficiario" element={<Beneficiario />}>
-          <Route path="/beneficiario/perfil" element={<Perfil tipoUsuario='Beneficiario'/>} />
-          <Route path="/beneficiario/consultar-doacoes" element={<ConsultarDoacoes />} />
-          <Route path="/beneficiario/consulta-geral" element={<ConsultaGeralBeneficiario />} />
+          <Route path="perfil" element={<Perfil tipoUsuario='Beneficiario' />} />
+          <Route path="consultar-doacoes" element={<ConsultarDoacoes />} />
+          <Route path="consulta-geral" element={<ConsultaGeralBeneficiario />} />
+          <Route path="informacoes" element={<informacoesBeneficiario />} />
         </Route>
       </Routes>
     </BrowserRouter>

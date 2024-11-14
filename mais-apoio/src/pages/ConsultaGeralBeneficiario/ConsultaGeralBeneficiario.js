@@ -2,10 +2,12 @@ import { useLocation } from 'react-router-dom';
 import styles from './_consultaGeralBeneficiario.module.css';
 import { FiAtSign, FiNavigation2 } from 'react-icons/fi';
 import { BsBucket } from 'react-icons/bs';
+import { useState } from 'react';
 
 const ConsultaGeralBeneficiario = () => {
 
     const location = useLocation();
+    const [maior, setMaior] = useState(false);
     const usuario = location.state || {};
 
     return (

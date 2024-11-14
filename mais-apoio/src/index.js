@@ -16,6 +16,7 @@ import CadastroVoluntario from './pages/CadastroVoluntarioPage/CadastroVoluntari
 import Beneficiario from './pages/BeneficiarioPage/Beneficiario';
 import Perfil from './Componentes/Perfil/Perfil';
 import ConsultarDoacoes from './pages/ConsultarDoacoesPage/ConsultarDoacoes';
+import ConsultaGeralBeneficiario from './pages/ConsultaGeralBeneficiario/ConsultaGeralBeneficiario';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -38,6 +39,7 @@ root.render(
         <Route path="/beneficiario" element={<Beneficiario />}>
           <Route path="/beneficiario/perfil" element={<Perfil tipoUsuario='Beneficiario'/>} />
           <Route path="/beneficiario/consultar-doacoes" element={<ConsultarDoacoes />} />
+          <Route path="/beneficiario/consulta-geral" element={<ConsultaGeralBeneficiario />} />
         </Route>
       </Routes>
     </BrowserRouter>

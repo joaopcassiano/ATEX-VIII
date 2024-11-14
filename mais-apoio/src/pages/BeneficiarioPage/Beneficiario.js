@@ -2,6 +2,8 @@ import TopBarLog from '../../Componentes/TopBarLog/TopBarLog';
 import styles from './_beneficiario.module.css';
 import fotoPerfil from '../../assets/fotoPerfil.png'
 import perfilExemplo from '../../assets/perfilExemplo.png'
+import perfilExemploVoluntario from '../../assets/perfilExemploVoluntario.png'
+import perfilExemploEmpresa from '../../assets/perfilExemploEmpresa.png'
 import { Link, Outlet } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
 import { useEffect, useRef } from 'react';
@@ -24,6 +26,25 @@ const Beneficiario = () => {
                 itemDoado: 'Cesta básica',
                 perfil: perfilExemplo,
             }
+        ],
+        necessidades: [
+            {
+                nome: 'Joao Victor Pereira',
+                telefone: '(10) 90309-2939',
+                dataNascimento: '28/01/2000',
+                email: 'joao@gmail.com',
+                necessidade: 'energia',
+                perfil: perfilExemploVoluntario,
+            }
+        ],
+        empregos: [
+            {
+                nome: 'Ipiranga',
+                telefone: '(10) 90309-2939',
+                email: 'ipiranga@gmail.com',
+                vaga: 'atendente',
+                perfil: perfilExemploEmpresa,
+            }
         ]
     }
 
@@ -34,7 +55,7 @@ const Beneficiario = () => {
                 <SideBar>
                     <Link
                         className={styles.link}
-                        to=''
+                        to='./consulta-geral'
                         state={user}>
                         <Botao estilo='sideBar'>
                             Consultar histórico geral

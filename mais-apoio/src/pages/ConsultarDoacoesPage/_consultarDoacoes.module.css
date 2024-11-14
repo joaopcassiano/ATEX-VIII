@@ -13,6 +13,16 @@
     color: #757575;
 }
 
+.titulo_maior{
+    font-family: 'Poppins';
+    font-size: 1.8rem;
+    color: #007BFF;
+    width: 100%;
+    align-items: first baseline;
+    margin-bottom: 2rem;
+}
+
+
 .cabeca{
     display: flex;
     justify-content: center;
@@ -48,6 +58,16 @@
     border: #007BFF 2px solid;
     border-radius: 10px;
     padding: 1rem 0;
+    overflow-x: auto;
+}
+
+.itens::-webkit-scrollbar {
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.itens::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
 }
 
 .item{
@@ -56,7 +76,10 @@
     justify-content: center;
     gap: 0.3rem;
     width: 100%; 
+    
 }
+
+
 
 .titulo{
     color: #007BFF;

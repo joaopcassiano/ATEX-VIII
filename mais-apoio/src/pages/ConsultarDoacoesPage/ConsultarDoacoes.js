@@ -5,6 +5,9 @@ import InputMask from 'react-input-mask';
 const ConsultarDoacoes = () => {
     return (
         <div className={styles.conteudo}>
+            <div className={styles.titulo_maior}>
+                    Histórico de doações
+                </div>
             <div className={styles.cabeca}>
                 <div className={styles.linha}>
                     <InputMask

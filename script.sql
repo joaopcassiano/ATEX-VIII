@@ -81,3 +81,21 @@ CREATE TABLE Emprego(
 	EnderecoID int not null FOREIGN KEY REFERENCES EnderecoEmpresa(EnderecoID) ON DELETE NO ACTION ON UPDATE CASCADE,
 	Ativo Bit not null
 );
+
+CREATE TABLE Necessidade (
+    NecessidadeID INT IDENTITY(1,1) PRIMARY KEY,
+    Descricao VARCHAR(250) NOT NULL,
+    DataRegistro DATETIME NOT NULL,
+    Prioridade VARCHAR(50) NOT NULL,
+    BeneficiarioID INT NOT NULL FOREIGN KEY REFERENCES Beneficiario(BeneficiarioID) ON DELETE NO ACTION ON UPDATE CASCADE,
+    Ativo BIT NOT NULL
+);
+
+CREATE TABLE Doacao (
+    DoacaoID INT IDENTITY(1,1) PRIMARY KEY,
+    Descricao VARCHAR(250) NOT NULL,
+    DataDoacao DATETIME NOT NULL,
+    Valor DECIMAL(10, 2) NOT NULL,
+    BeneficiarioID INT NOT NULL FOREIGN KEY REFERENCES Beneficiario(BeneficiarioID) ON DELETE NO ACTION ON UPDATE CASCADE,
+    Ativo BIT NOT NULL
+);

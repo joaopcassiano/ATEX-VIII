@@ -1,18 +1,16 @@
-using System.Text.RegularExpressions;
-
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
-public class EnderecoBase
+public class Endereco
 {
-    protected int _id;
-    protected string _rua;
-    protected string _bairro;
-    protected int _numero;
-    protected string _complemento;
-    protected string _cidade;
-    protected string _estado;
-    protected string _cep;
-    protected bool _ativo;
+    private int _id;
+    private string _rua;
+    private string _bairro;
+    private int _numero;
+    private string _complemento;
+    private string _cidade;
+    private string _estado;
+    private string _cep;
+    private bool _ativo;
 
     public int ID
     {
@@ -25,7 +23,7 @@ public class EnderecoBase
         set
         {
             if(string.IsNullOrEmpty(value))
-                throw new Exception("A rua não pode ser vazia.");
+                throw new Exception("A rua não pode ser vaia.");
 
             _rua = value;
         }
@@ -69,7 +67,7 @@ public class EnderecoBase
         set
         {
             if(string.IsNullOrEmpty(value))
-                throw new Exception("A Cidade não pode ser vazia.");
+                throw new Exception("A Cidade não pode ser vaia.");
 
             _cidade = value;
         }
@@ -104,9 +102,9 @@ public class EnderecoBase
         set{_ativo = value;}
     }
 
-    public EnderecoBase(){}
+    public Endereco(){}
 
-    public EnderecoBase(string rua, string bairro, int numero, string complemento, string cidade, string estado, string cep)
+    public Endereco(string rua, string bairro, int numero, string complemento, string cidade, string estado, string cep)
     {
         Rua = rua;
         Bairro = bairro;

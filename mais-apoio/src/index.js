@@ -4,6 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/HomePage/Home';
+<<<<<<< HEAD
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import CadastroBeneficiario from './pages/CadastroBeneficiarioPage/CadastroBeneficiario';
 import ConteudoApresentacao from './pages/ConteudoApresentacao/ConteudoApresentacao';
@@ -19,11 +20,13 @@ import Perfil from './Componentes/Perfil/Perfil';
 import ConsultarDoacoes from './pages/ConsultarDoacoesPage/ConsultarDoacoes';
 import ConsultaGeralBeneficiario from './pages/ConsultaGeralBeneficiario/ConsultaGeralBeneficiario';
 import InformacoesBeneficiario from './pages/InformacoesBeneficiario/InformacoesBeneficiario';
+=======
+>>>>>>> 610c392466e00472c751550313a000adeb7b6abb
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 root.render(
   <React.StrictMode>
+<<<<<<< HEAD
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/home/apresentacao" />} />
@@ -46,7 +49,13 @@ root.render(
         </Route>
       </Routes>
     </BrowserRouter>
+=======
+    <Home />
+>>>>>>> 610c392466e00472c751550313a000adeb7b6abb
   </React.StrictMode>
 );
 
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

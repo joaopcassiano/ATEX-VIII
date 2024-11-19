@@ -182,7 +182,7 @@
     color: #ffffff;
     border: #007BFF 1px solid;
     border-radius: 7px;
-    width: 100%;
+    width: 70%;
     height: 4rem;
     background-color: #007BFF;
     transition: 0.3s;
@@ -247,7 +247,6 @@
     overflow-y: hidden;
     overflow-x: auto;
     white-space: nowrap;
-    color: #757575;
 }
 
 .inputCadastro::-webkit-scrollbar {
@@ -270,7 +269,7 @@
     border: #007BFF solid 2px;
     width: 100%;
     border-radius: 7px;
-    height: 100%;
+    height: 13rem;
     cursor: pointer;
 }
 

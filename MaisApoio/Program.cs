@@ -1,34 +1,13 @@
-using MaisApoio.Aplicacao;
-using MaisApoio.MaisApoio.Repositorio.Repositorio;
-
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("Aberto", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
-
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
-
-builder.Services.AddScoped<BeneficiarioRepositorio>();
-builder.Services.AddScoped<BeneficiarioAplicacao>();
-
-builder.Services.AddScoped<EnderecoBeneficiarioRepositorio>();
-builder.Services.AddScoped<EnderecoBeneficiarioAplicacao>();
-
-builder.Services.AddScoped<CodigoValidacaoUsuarioRepositorio>();
 
 var app = builder.Build();
 
-app.UseCors("Aberto");
-
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -36,6 +15,4 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
 app.Run();

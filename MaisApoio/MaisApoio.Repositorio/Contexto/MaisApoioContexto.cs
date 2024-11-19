@@ -6,11 +6,12 @@ namespace MaisApoio.MaisApoio.Repositorio.Contexto;
 
 public class MaisApoioContexto
 {
-    private readonly string _conexaoSql = "Server=.\\SQLEXPRESS;Database=MaisApoio;Trusted_Connection=True;TrustServerCertificate=True;";
-
-    private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "senha_do_neo4j"));
+    private readonly string _conexaoSql = "SERVER=.\\SQLEXPRESS;Database=MaisApoio;UID=sa;PWD=t2e4x6h1";
+    private readonly IDriver _conexaoNeo4j;
+    private IAsyncSession _neo4jSession;
+    private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver("neo4j+s://f608ef33.databases.neo4j.io:7687", AuthTokens.Basic("neo4j", "2U5mpcCaq1tLGFj5CSgc3GQtNCUa9VRozCIkzxEr_Ic"));
     //Alterar                                                            localhost e porta                       Altere a senha
-
+    //Alteração Realizada
     public DbConnection ConectarSqlServer()
     {
         return new SqlConnection(_conexaoSql);

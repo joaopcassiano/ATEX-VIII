@@ -1,4 +1,4 @@
-/namespace MaisApoio.MaisApoio.Dominio.Entidades;
+namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class EnderecoVoluntario : EnderecoBase
 {

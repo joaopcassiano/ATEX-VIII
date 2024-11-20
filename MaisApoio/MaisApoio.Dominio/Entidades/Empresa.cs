@@ -1,11 +1,12 @@
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Empresa
+{
     private int _id;
     private string _nome;
     private string _telefone;
     private string _email;
-    private string _enderecoID;
+    private int _enderecoID;
     private string _cnpj;
     private bool _ativo;
 
@@ -88,3 +89,4 @@ public class Empresa
     {
         Ativo = true;
     }
+}

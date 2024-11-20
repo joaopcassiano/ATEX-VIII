@@ -4,8 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/HomePage/Home';
-<<<<<<< HEAD
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import CadastroBeneficiario from './pages/CadastroBeneficiarioPage/CadastroBeneficiario';
 import ConteudoApresentacao from './pages/ConteudoApresentacao/ConteudoApresentacao';
 import ConteudoQuemSomos from './pages/ConteudoQuemSomos/ConteudoQuemSomos';
@@ -20,13 +19,10 @@ import Perfil from './Componentes/Perfil/Perfil';
 import ConsultarDoacoes from './pages/ConsultarDoacoesPage/ConsultarDoacoes';
 import ConsultaGeralBeneficiario from './pages/ConsultaGeralBeneficiario/ConsultaGeralBeneficiario';
 import InformacoesBeneficiario from './pages/InformacoesBeneficiario/InformacoesBeneficiario';
-=======
->>>>>>> 610c392466e00472c751550313a000adeb7b6abb
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-<<<<<<< HEAD
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/home/apresentacao" />} />
@@ -42,16 +38,13 @@ root.render(
           <Route path="cadastro-voluntario" element={<CadastroVoluntario />} />
         </Route>
         <Route path="/beneficiario" element={<Beneficiario />}>
-          <Route path="perfil" element={<Perfil tipoUsuario='Beneficiario' />} />
+          <Route path="perfil" element={<Perfil tipoUsuario="Beneficiario" />} />
           <Route path="consultar-doacoes" element={<ConsultarDoacoes />} />
           <Route path="consulta-geral" element={<ConsultaGeralBeneficiario />} />
-          <Route path="informacoes" element={<informacoesBeneficiario />} />
+          <Route path="informacoes" element={<InformacoesBeneficiario />} />
         </Route>
       </Routes>
     </BrowserRouter>
-=======
-    <Home />
->>>>>>> 610c392466e00472c751550313a000adeb7b6abb
   </React.StrictMode>
 );
 

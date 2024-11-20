@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Necessidade
@@ -8,6 +10,7 @@ public class Necessidade
     private DateTime _dataRegistro;
     private string _prioridade;
     private int _beneficiarioID;
+    private int _voluntarioID;
     private bool _ativo;
 
     public int ID
@@ -18,7 +21,13 @@ public class Necessidade
     public string Descricao
     {
         get { return _descricao; }
-        set { _descricao = value; }
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A Descrição não pode ser vaia.");
+
+            _descricao = value;
+        }
     }
     public DateTime DataRegistro
     {
@@ -28,13 +37,39 @@ public class Necessidade
     public string Prioridade
     {
         get { return _prioridade; }
-        set { _prioridade = value; }
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A Prioridade não pode ser vaia.");
+
+            _prioridade = value;
+        }
     }
-    public int _BeneficiarioID
+    public int BeneficiarioID
     {
         get { return _beneficiarioID; }
-        set { _beneficiarioID = value; }
+        set 
+        {
+            if(value <= 0)
+                throw new Exception("O ID do Beneficiário não pode ser zero ou negativo.");
+                
+            _beneficiarioID = value;
+        }
     }
+
+    public int VoluntarioID
+    {
+        get { return _voluntarioID; }
+        set 
+        {
+            if(value <= 0)
+                throw new Exception("O ID do Voluntario não pode ser zero ou negativo.");
+                
+            _voluntarioID = value;
+        }
+    }
+
+
     public bool Ativo
     {
         get { return _ativo; }
@@ -42,23 +77,24 @@ public class Necessidade
     }
     public Necessidade() { }
 
-    public Necessidade(string descricao, DateTime dataRegistro, string prioridade, int beneficarioID)
+    public Necessidade(string descricao, DateTime dataRegistro, string prioridade, int beneficarioID, int voluntarioID)
     {
-        _descricao = descricao;
-        _dataRegistro = dataRegistro;
-        _prioridade = prioridade;
-        _beneficiarioID = beneficarioID;
-        _ativo = true;
+        Descricao = descricao;
+        DataRegistro = dataRegistro;
+        Prioridade = prioridade;
+        BeneficiarioID = beneficarioID;
+        VoluntarioID = voluntarioID;
+        Ativo = true;
     }
 
     public void Deletar()
     {
-        _ativo = false;
+        Ativo = false;
     }
 
     public void Restaurar()
     {
-        _ativo = true;
+        Ativo = true;
     }
 
 }

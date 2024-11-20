@@ -1,0 +1,89 @@
+.textoBannerSobreApoio {
+    background-image: url('../../assets/bannerSobreApoio.png');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    min-height: 24rem;
+    z-index: 2;
+}
+
+.tituloTextoBannerSobreApoio {
+    color: white;
+    font-family: 'Poppins';
+    font-size: 5.5rem;
+    margin: 0;
+}
+
+.textoTextoBannerSobreApoio {
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+    width: 80%;
+    font-family: 'PoppinsSimples';
+}
+
+.texts { 
+    display: flex;
+    align-items: first baseline;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 80%;
+    height: auto;
+    margin: 2rem 0 0 0;
+}
+
+.text {
+    display: flex;
+    text-align: end;
+    justify-items: right;
+    flex-direction: column;
+    width: 22rem;
+}
+
+.tituloText1 {
+    color: rgb(0, 0, 0);
+    font-family: 'Poppins';
+    font-size: 5.5rem;
+    margin: 0 0 -40px 0;
+}
+
+.tituloText2 {
+    color: rgb(0, 0, 0);
+    font-family: 'PoppinsSimples';
+    font-size: 3rem;
+    margin: -10px 0 0 0;
+}
+
+.textoText {
+    color: rgb(0, 0, 0);
+    font-family: 'PoppinsSimples';
+    font-size: 1rem;
+    padding-left: 4rem;
+    width: auto;
+}
+
+.descricaoSobre {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-family: 'PoppinsSimples';
+    margin-top: 3rem;
+    width: 80%;
+    height: 10rem;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}

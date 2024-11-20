@@ -6,7 +6,7 @@ public class Emprego
     private string _tituloVaga;
     private string _descricaoVaga;
     private double _salario;
-    private int _enderecoID;
+    private int _empresaID;
     private int _beneficiarioID;
     private bool _ativo;
 
@@ -25,25 +25,49 @@ public class Emprego
     public string DescricaoVaga 
     {
         get { return _descricaoVaga; }
-        set { _descricaoVaga = value; }
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("A Descrição não pode ser vaia.");
+
+            _descricaoVaga = value;
+        }
     }
 
     public double Salario
     {
         get { return _salario; }
-        set { _salario = value; }
+        set
+        {
+            if(value <= 0)
+                throw new Exception("O Salário não pode ser zero ou negativo.");
+                
+            _salario = value;
+        }
     }
 
-    public int EnderecoID
+    public int EmpresaID
     {
-        get { return _enderecoID; }
-        set { _enderecoID = value; }
+        get { return _empresaID; }
+        set
+        {
+            if (value <= 0)
+                throw new ArgumentException("Empresa inválida.");
+
+            _empresaID = value;
+        }
     }
 
     public int BeneficiarioID
     {
         get { return _beneficiarioID; }
-        set { _beneficiarioID = value; }
+        set 
+        {
+            if(value <= 0)
+                throw new Exception("O ID do Beneficiário não pode ser zero ou negativo.");
+                
+            _beneficiarioID = value;
+        }
     }
 
     public bool Ativo 
@@ -54,12 +78,12 @@ public class Emprego
 
     public Emprego() { }
 
-    public Emprego(string tituloVaga, string descricaoVaga, double salario, int enderecoID, int beneficiarioID)
+    public Emprego(string tituloVaga, string descricaoVaga, double salario, int empresaID, int beneficiarioID)
     {
         TituloVaga = tituloVaga;
         DescricaoVaga = descricaoVaga;
         Salario = salario;
-        EnderecoID = enderecoID;
+        EmpresaID = empresaID;
         BeneficiarioID = beneficiarioID;
         Ativo = true;
     }

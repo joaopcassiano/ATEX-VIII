@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Data.SqlTypes;
 using Dapper;
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using MaisApoio.MaisApoio.Repositorio.Contexto;
-using Neo4j.Driver;
-
+using System.Data.Common;
 namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
 
 public class BeneficiarioRepositorio
 {
-    private MaisApoioContexto _banco = new MaisApoioContexto();
+    private MaisApoioContexto _banco;
 
-    public async Task<List<Beneficiario>> ObterTodos()
+    public BeneficiarioRepositorio()
     {
-        string sql = "SELECT * FROM Beneficiario";
+        _banco = new MaisApoioContexto();
+    }
+
+    public async Task<List<Beneficiario>> ObterTodosAsync()
+    {
+        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -26,78 +28,114 @@ public class BeneficiarioRepositorio
         return beneficiarios.ToList();
     }
 
-    public async Task CriarBeneficiarioNeo4j(Beneficiario beneficiario)
+    public async Task CarregarImagemAsync(string imagem, int id)
     {
-        var conexao = _banco.ConectarNeo4j();
+        string sql = "Insert into Beneficiario(ImagemPerfil) values (@imagem) WHERE BebeficiarioID = @id";
 
-        var query = @"
-            CREATE (b:Beneficiario {
-                ID: $ID, Nome: $Nome, Email: $Email, 
-                SituacaoEconomica: $SituacaoEconomica, DataNascimento: $DataNascimento, 
-                EnderecoID: $EnderecoID, Ativo: $Ativo
-            })";
+        var conexao = _banco.ConectarSqlServer();
 
-        await conexao.RunAsync(query, beneficiario);
+        conexao.Open();
+
+        await conexao.ExecuteAsync(sql, new { id = id, imagem = imagem });
+
+        conexao.Close();
+    }
+
+    public async Task<int> CriarAsync(Beneficiario beneficiario)
+    {
+
+        string sql = @"Insert into Beneficiario(nome,cpf,telefone,email,necessidade,senha,dataNascimento,situacaoEconomica,ativo) 
+        OUTPUT INSERTED.BeneficiarioID as ID
+        values (@nome,@cpf,@telefone,@email,@necessidade,@senha,@dataNascimento,@situacaoEconomica,@ativo);";
+
+        var conexao = _banco.ConectarSqlServer();
+
+        await conexao.OpenAsync();
+
+        var id = await conexao.QueryFirstAsync<int>(sql, new
+        {
+            nome = beneficiario.Nome,
+            cpf = beneficiario.CPF,
+            telefone = beneficiario.Telefone,
+            email = beneficiario.Email,
+            necessidade = beneficiario.Necessidade,
+            senha = beneficiario.Senha,
+            dataNascimento = beneficiario.DataNascimento,
+            situacaoEconomica = beneficiario.SituacaoEconomica,
+            ativo = beneficiario.Ativo
+        });
 
         await conexao.CloseAsync();
+
+        return id;
 
     }
 
-    public async Task<Beneficiario> ObterBeneficiarioNeo4j(int id)
+    public async Task AtualizarAsync(Beneficiario beneficiario)
     {
-        var conexao = _banco.ConectarNeo4j();
+        string sql = "UPDATE Beneficiario SET nome = @nome, necessidade = @necessidade, cpf = @cpf, telefone = @telefone, dataNascimento = @dataNascimento, situacaoEconomica = @situacaoEconomica, ativo = @ativo WHERE BebeficiarioID = @id";
 
-        var query = "MATCH (b:Beneficiario {ID: $ID}) RETURN b LIMIT 1";
+        var conexao = _banco.ConectarSqlServer();
 
-        var resultado = await conexao.RunAsync(query, new { ID = id });
+        conexao.Open();
 
-        var beneficiariotemp = await resultado.SingleAsync();
+        await conexao.ExecuteAsync(sql, new { id = beneficiario.ID, necessidade = beneficiario.Necessidade, telefone = beneficiario.Telefone, cpf = beneficiario.CPF, ativo = beneficiario.Ativo, nome = beneficiario.Nome, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica });
 
-        var bene = beneficiariotemp["b"].As<INode>();
+        conexao.Close();
+    }
 
-        var beneficiario = new Beneficiario()
-        {
-            ID = bene["Id"].As<int>(),
-            Nome = bene["Nome"].As<string>(),
-            Email = bene["Email"].As<string>(),
-            SituacaoEconomica = bene["SituacaoEconomica"].As<string>(),
-            DataNascimento = DateTime.Parse(bene["DataNascimento"].As<string>()),
-            EnderecoID = bene["EnderecoID"].As<int>(),
-            Ativo = bene["Ativo"].As<bool>()
-        };
+    public async Task<Beneficiario> ObterPorIdAsync(int id)
+    {
+        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario WHERE BebeficiarioID = @id";
 
-        await conexao.CloseAsync();
+        var conexao = _banco.ConectarSqlServer();
+
+        conexao.Open();
+
+        var beneficiario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { id = id });
+
+        conexao.Close();
 
         return beneficiario;
     }
 
-    public async Task AtualizarBeneficiarioNeo4j(Beneficiario beneficiario)
+    public async Task<Beneficiario> ObterPorEmailAsync(string email)
     {
-        var session = _banco.ConectarNeo4j();
+        string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Email = @email";
 
-        var query = @"
-            MATCH (b:Beneficiario {ID: $ID})
-            SET b.Nome = $Nome, b.Email = $Email, 
-                b.SituacaoEconomica = $SituacaoEconomica, 
-                b.DataNascimento = $DataNascimento, 
-                b.EnderecoID = $EnderecoID, b.Ativo = $Ativo";
+        var conexao = _banco.ConectarSqlServer();
 
-        await session.RunAsync(query, beneficiario);
+        conexao.Open();
 
-        await session.CloseAsync();
+        var beneficiario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { email = email });
 
+        conexao.Close();
+
+        return beneficiario;
     }
 
-    public async Task DeletarBeneficiarioNeo4j(int id)
+    public async Task<Beneficiario> LogarAsync(string email, string senha)
     {
-        var session = _banco.ConectarNeo4j();
+        string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Email = @email AND Senha = @senha";
 
-        var query = "MATCH (b:Beneficiario {ID: $ID}) DELETE b";
+        var conexao = _banco.ConectarSqlServer();
 
-        await session.RunAsync(query, new { ID = id });
+        conexao.Open();
 
-        await session.CloseAsync();
+        var beneficiario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { email = email, senha = senha });
 
+        conexao.Close();
+
+        return beneficiario;
+    }
+
+    public async Task ExclusaoFisicaAsync(int id)
+    {
+        string sql = "DELETE FROM Beneficiario WHERE BeneficiarioID = @id";
+        var conexao = _banco.ConectarSqlServer();
+        conexao.Open();
+        await conexao.ExecuteAsync(sql, new { id = id });
+        conexao.Close();
     }
 
 }

@@ -1,0 +1,58 @@
+.topBar{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    top:0;
+    width: 100%;
+    height: auto;
+    padding: 0.5rem 0;
+    box-shadow: 1px 1px 10px 4px rgba(90, 173, 241, 0.3);
+    z-index: 3;
+}
+
+.logoImagem{
+    width: 6.5rem;
+}
+
+.linkLogo{
+    text-decoration: none;
+    margin-left: 3%;
+}
+
+.link{
+    all: unset;
+    text-decoration: none;
+}
+
+.funcionalidades{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-right: 3%;
+}
+
+.nomePerfil{
+    font-family: 'Poppins';
+    font-size: 1.1rem;
+    
+    cursor: pointer;
+}
+
+.nomePerfil:hover{
+    color: #007BFF;
+}
+
+.fotoPerfil{
+    width: 5rem;
+    border-radius: 90px;
+    cursor: pointer;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}

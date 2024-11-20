@@ -5,9 +5,10 @@ public class Doacao
     private int _id;
     private string _tipoDoacao;
     private string _descricaoDoacao;
-    private float _quantidade;
+    private decimal _quantidade;
     private DateTime _dataDoacao;
     private int _beneficiarioID;
+    private int _doadorID;
     private bool _ativo;
 
     public int ID
@@ -18,28 +19,65 @@ public class Doacao
     public string TipoDoacao
     {
         get { return _tipoDoacao; }
-        set { _tipoDoacao = value; }
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new Exception("O Tipo da Doação não pode ser vazio.");
+
+            _tipoDoacao = value;
+        }
     }
     public string DescricaoDoacao
     {
         get { return _descricaoDoacao; }
-        set { _descricaoDoacao = value; }
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new Exception("A Descrição não pode ser vaia.");
+
+            _descricaoDoacao = value;
+        }
     }
-    public float Quantidade
+    public decimal Quantidade
     {
         get { return _quantidade; }
-        set { _quantidade = value; }
+        set
+        {
+            if (value <= 0)
+                throw new Exception("A Quantidade não pode ser zero ou negativa.");
+
+            _quantidade = value;
+        }
     }
     public DateTime DataDoacao
     {
         get { return _dataDoacao; }
         set { _dataDoacao = value; }
     }
-    public int beneficarioID
+    public int BeneficiarioID
     {
         get { return _beneficiarioID; }
-        set { _beneficiarioID = value; }
+        set
+        {
+            if (value <= 0)
+                throw new Exception("O ID do Beneficiário não pode ser zero ou negativo.");
+
+            _beneficiarioID = value;
+        }
     }
+
+    public int DoadorID
+    {
+        get { return _doadorID; }
+        set
+        {
+            if (value <= 0)
+                throw new Exception("O ID do Doador não pode ser zero ou negativo.");
+
+            _doadorID = value;
+        }
+    }
+
     public bool Ativo
     {
         get { return _ativo; }
@@ -48,22 +86,23 @@ public class Doacao
 
     public Doacao() { }
 
-    public Doacao(string tipoDoacao, string descricaoDoacao, float quantidade, DateTime dataDoacao, int beneficarioID)
+    public Doacao(string tipoDoacao, string descricaoDoacao, decimal quantidade, DateTime dataDoacao,int doadorID, int beneficarioID)
     {
-        _tipoDoacao = tipoDoacao;
-        _descricaoDoacao = descricaoDoacao;
-        _quantidade = quantidade;
-        _dataDoacao = dataDoacao;
-        _beneficiarioID = beneficarioID;
-        _ativo = true;
+        TipoDoacao = tipoDoacao;
+        DescricaoDoacao = descricaoDoacao;
+        Quantidade = quantidade;
+        DataDoacao = dataDoacao;
+        BeneficiarioID = beneficarioID;
+        DoadorID = doadorID;
+        Ativo = true;
     }
     public void Deletar()
     {
-        _ativo = false;
+        Ativo = false;
     }
     public void Restaurar()
     {
-        _ativo = true;
+        Ativo = true;
     }
 
 }

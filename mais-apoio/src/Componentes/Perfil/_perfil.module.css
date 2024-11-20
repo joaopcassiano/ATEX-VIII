@@ -1,0 +1,150 @@
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+    z-index: 1;
+    gap: 2rem;
+    padding: 3rem;
+}
+
+.conteudo_principal {
+    display: flex;
+    justify-content: first baseline;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    gap: 2rem;
+}
+
+.perfil {
+    height: 10rem;
+}
+
+.nome {
+    font-family: 'PoppinsSemiBold';
+    font-size: 1.7rem;
+}
+
+.cont {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.conteudo {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    font-family: 'PoppinsSemiBold';
+    gap: 1rem;
+    font-size: 1.1rem;
+}
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-weight: bold;
+    gap: 0.5rem;
+}
+
+.icone {
+    color: #007BFF;
+    font-size: 2rem;
+    padding: 0;
+    margin: 0;
+    font-style: normal;
+}
+
+
+.info_adicional{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    border: 2px solid #007BFF;
+    border-radius: 13px;
+    padding: 1.5rem;
+}
+
+.titulo_adicional{
+    font-family: 'Poppins';
+    font-size: 1.7rem;
+    color: #007BFF;
+}
+
+.infos_adicionais{
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    gap: 1rem;
+
+}
+
+.textos_adicionais{
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.texto_adicional{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    font-family: 'PoppinsSimples';
+}
+
+
+.imagem_adicional{
+    width: 8rem;
+    border-radius: 90px;
+    border: 1px solid #007BFF;
+}
+
+.iconeMenor{
+    min-width: 1rem;
+    font-size: 1rem;
+    color:#007BFF
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSemiBold';
+    src: url('../../Fontes/Poppins/Poppins-SemiBold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}

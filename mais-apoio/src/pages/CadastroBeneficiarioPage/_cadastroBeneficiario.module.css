@@ -1,0 +1,175 @@
+
+
+.conteudoCadastroUsuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    padding: 0;
+}
+
+.cadastroUsuario {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 70%;
+    border: #007BFF 2px solid;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 2rem;
+    padding: 2rem 0;
+}
+
+.formsCadastro {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    z-index: 2;
+}
+
+.fotoCadastro {
+    position: absolute;
+    right: -3%;
+    top: -3%;
+    height: 106%;
+    z-index: 1;
+    width: auto; 
+    margin: 0;
+}
+
+.formularioCadastro {
+    margin: 0 0 0 4rem;
+    padding: 0px;
+}
+
+.cadastroForms {
+    font-family: 'Poppins';
+    font-size: 4rem;
+    color: #007BFF;
+    width: auto;
+    padding: auto 0;
+}
+
+
+
+.cadaInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0 0 0.6rem 0;
+    width: 60%;
+}
+
+.labelCadastro {
+    color: #007BFF;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inputCadastro {
+    all: unset;
+    border: #007BFF solid;
+    font-size: 0.9rem;
+    border-width: 0 0 2px 0;
+    padding: 5px;
+    width: 100%;
+    color: #757575;
+}
+
+.iconeCadastro {
+    color: #007BFF;
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+    font-style: normal;
+}
+
+.inputEndereco {
+    position: relative;
+}
+
+.boxEndereco {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    top: 76%;
+    left: 5.85%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+    width: 48%;
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+    margin: 0;
+    border-radius: 0px 0px 30px 30px;
+    border: #007BFF 1px solid;
+    color: #757575;
+}
+
+.maiorBoxEndereco{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    padding: 0;
+    gap: 0.5rem;
+}
+
+.iconeBoxEndereco{
+    min-width: 1rem;
+    max-width: 1rem;
+    font-size: 1rem;
+    color:#007BFF
+}
+
+.inputMaiorBoxEndereco{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    border-color: #007BFF;
+    border-width: 0 0 2px 0;
+    border-style: solid;
+}
+
+.inputBoxEndereco{
+    all: unset;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.4rem;
+    width: 100%;
+    color: #757575;
+}
+
+.iconeMenorBoxEndereco{
+    min-width: 1rem;
+    font-size: 1rem;
+    color:#007BFF
+}
+
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}

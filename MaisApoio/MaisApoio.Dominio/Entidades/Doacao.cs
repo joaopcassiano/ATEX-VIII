@@ -8,6 +8,7 @@ public class Doacao
     private decimal _quantidade;
     private DateTime _dataDoacao;
     private int _beneficiarioID;
+    private int _doadorID;
     private bool _ativo;
 
     public int ID
@@ -20,7 +21,7 @@ public class Doacao
         get { return _tipoDoacao; }
         set
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 throw new Exception("O Tipo da Doação não pode ser vazio.");
 
             _tipoDoacao = value;
@@ -31,7 +32,7 @@ public class Doacao
         get { return _descricaoDoacao; }
         set
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 throw new Exception("A Descrição não pode ser vaia.");
 
             _descricaoDoacao = value;
@@ -42,9 +43,9 @@ public class Doacao
         get { return _quantidade; }
         set
         {
-            if(value <= 0)
+            if (value <= 0)
                 throw new Exception("A Quantidade não pode ser zero ou negativa.");
-                
+
             _quantidade = value;
         }
     }
@@ -56,14 +57,27 @@ public class Doacao
     public int BeneficiarioID
     {
         get { return _beneficiarioID; }
-        set 
+        set
         {
-            if(value <= 0)
+            if (value <= 0)
                 throw new Exception("O ID do Beneficiário não pode ser zero ou negativo.");
-                
+
             _beneficiarioID = value;
         }
     }
+
+    public int DoadorID
+    {
+        get { return _doadorID; }
+        set
+        {
+            if (value <= 0)
+                throw new Exception("O ID do Doador não pode ser zero ou negativo.");
+
+            _doadorID = value;
+        }
+    }
+
     public bool Ativo
     {
         get { return _ativo; }
@@ -72,13 +86,14 @@ public class Doacao
 
     public Doacao() { }
 
-    public Doacao(string tipoDoacao, string descricaoDoacao, decimal quantidade, DateTime dataDoacao, int beneficarioID)
+    public Doacao(string tipoDoacao, string descricaoDoacao, decimal quantidade, DateTime dataDoacao,int doadorID, int beneficarioID)
     {
         TipoDoacao = tipoDoacao;
         DescricaoDoacao = descricaoDoacao;
         Quantidade = quantidade;
         DataDoacao = dataDoacao;
         BeneficiarioID = beneficarioID;
+        DoadorID = doadorID;
         Ativo = true;
     }
     public void Deletar()

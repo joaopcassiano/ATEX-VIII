@@ -1,26 +1,35 @@
-using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
-public class Beneficiario
+public class Empresa
 {
     private int _id;
     private string _nome;
-    private string _cpf;
+    private string _segmentoMercado;
     private string _telefone;
-    private DateTime _dataNascimento;
-    private string _necessidade;
-    private decimal _situacaoEconomica;
     private string _email;
     private string _senha;
     private string? _imagemPerfil;
     private bool _ativo;
+    private string _cnpj;
 
     public int ID
     {
         get { return _id; }
         set { _id = value; }
+    }
+
+    public string SegmentoMercado
+    {
+        get { return _segmentoMercado; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Segmento de mercado não pode ser vazio.");
+
+            _segmentoMercado = value;
+        }
     }
 
     public string Nome
@@ -35,17 +44,17 @@ public class Beneficiario
         }
     }
 
-    public string CPF
+    public string CNPJ
     {
-        get { return _cpf; }
+        get { return _cnpj; }
         set
         {
-            if (string.IsNullOrEmpty(value) || value.Length != 14)
+            if (string.IsNullOrEmpty(value) || value.Length != 18)
             {
-                throw new Exception("CPF inválido.");
+                throw new Exception("CNPJ inválido.");
             }
 
-            _cpf = value;
+            _cnpj = value;
         }
     }
 
@@ -60,35 +69,10 @@ public class Beneficiario
         }
     }
 
-    public DateTime DataNascimento
+    public string? ImagemPerfil
     {
-        get { return _dataNascimento; }
-        set
-        {
-            if (value >= DateTime.Now)
-                throw new ArgumentException("Data de nascimento inválida.");
-
-            _dataNascimento = value;
-        }
-    }
-
-    public string Necessidade
-    {
-        get { return _necessidade; }
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Necessidade não pode ser vazia.");
-
-            _necessidade = value;
-        }
-    }
-
-    public decimal SituacaoEconomica
-    {
-        get { return _situacaoEconomica; }
-        set
-        { _situacaoEconomica = value; }
+        get { return _imagemPerfil; }
+        set { _imagemPerfil = value; }
     }
 
     public string Email
@@ -117,33 +101,25 @@ public class Beneficiario
         }
     }
 
-    public string ImagemPerfil
-    {
-        get { return _imagemPerfil; }
-        set { _imagemPerfil = value; }
-    }
-
     public bool Ativo
     {
         get { return _ativo; }
         set { _ativo = value; }
     }
 
-    public Beneficiario()
+    public Empresa()
     {
 
     }
 
-    public Beneficiario(string nome, string cpf, string necessidade, string telefone, string email, decimal situacaoEconomica, DateTime dataNascimento, string senha)
+    public Empresa(string nome, string cnpj, string segmentoMercado, string telefone, string email, DateTime dataNascimento, string senha)
     {
         Nome = nome;
-        CPF = cpf;
+        CNPJ = cnpj; 
+        SegmentoMercado = segmentoMercado;
         Telefone = telefone;
-        Necessidade = necessidade;
         Email = email;
         Senha = senha;
-        SituacaoEconomica = situacaoEconomica;
-        DataNascimento = dataNascimento;
         Ativo = true;
     }
 
@@ -156,4 +132,5 @@ public class Beneficiario
     {
         _ativo = true;
     }
+
 }

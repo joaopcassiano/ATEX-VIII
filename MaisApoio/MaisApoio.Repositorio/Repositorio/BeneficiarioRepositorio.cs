@@ -28,18 +28,15 @@ public class BeneficiarioRepositorio
         return beneficiarios.ToList();
     }
 
-    public async Task CarregarImagemAsync(IFormFile file, int id)
+    public async Task CarregarImagemAsync(string imagem, int id)
     {
-        var ms = new MemoryStream();
-        await file.CopyToAsync(ms);
-
-        string sql = "Insert into Beneficiario(ImagemPerfil) values (@arquivo) WHERE BebeficiarioID = @id";
+        string sql = "Insert into Beneficiario(ImagemPerfil) values (@imagem) WHERE BebeficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
-        await conexao.ExecuteAsync(sql, new { id = id, arquivo = ms.ToArray() });
+        await conexao.ExecuteAsync(sql, new { id = id, imagem = imagem });
 
         conexao.Close();
     }

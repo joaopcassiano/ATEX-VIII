@@ -1,21 +1,19 @@
-using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
-public class Beneficiario
+public class Voluntario
 {
     private int _id;
     private string _nome;
-    private string _cpf;
+    private string _areaAtuacao;
     private string _telefone;
-    private DateTime _dataNascimento;
-    private string _necessidade;
-    private decimal _situacaoEconomica;
     private string _email;
     private string _senha;
+    private DateTime _dataNascimento;
     private string? _imagemPerfil;
     private bool _ativo;
+    private string _cpf;
 
     public int ID
     {
@@ -35,6 +33,17 @@ public class Beneficiario
         }
     }
 
+    public string AreaAtuacao
+    {
+        get { return _areaAtuacao; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Area de atuação não pode ser vazia.");
+
+            _areaAtuacao = value;
+        }
+    }
     public string CPF
     {
         get { return _cpf; }
@@ -72,23 +81,10 @@ public class Beneficiario
         }
     }
 
-    public string Necessidade
+    public string? ImagemPerfil
     {
-        get { return _necessidade; }
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Necessidade não pode ser vazia.");
-
-            _necessidade = value;
-        }
-    }
-
-    public decimal SituacaoEconomica
-    {
-        get { return _situacaoEconomica; }
-        set
-        { _situacaoEconomica = value; }
+        get { return _imagemPerfil; }
+        set { _imagemPerfil = value; }
     }
 
     public string Email
@@ -117,32 +113,25 @@ public class Beneficiario
         }
     }
 
-    public string ImagemPerfil
-    {
-        get { return _imagemPerfil; }
-        set { _imagemPerfil = value; }
-    }
-
     public bool Ativo
     {
         get { return _ativo; }
         set { _ativo = value; }
     }
 
-    public Beneficiario()
+    public Voluntario()
     {
 
     }
 
-    public Beneficiario(string nome, string cpf, string necessidade, string telefone, string email, decimal situacaoEconomica, DateTime dataNascimento, string senha)
+    public Voluntario(string nome, string cpf, string telefone, string email, DateTime dataNascimento, string senha, string areaAtuacao)
     {
         Nome = nome;
         CPF = cpf;
         Telefone = telefone;
-        Necessidade = necessidade;
+        AreaAtuacao = areaAtuacao;
         Email = email;
         Senha = senha;
-        SituacaoEconomica = situacaoEconomica;
         DataNascimento = dataNascimento;
         Ativo = true;
     }
@@ -156,4 +145,5 @@ public class Beneficiario
     {
         _ativo = true;
     }
+
 }

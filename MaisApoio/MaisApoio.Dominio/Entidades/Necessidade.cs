@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Necessidade
@@ -8,6 +10,7 @@ public class Necessidade
     private DateTime _dataRegistro;
     private string _prioridade;
     private int _beneficiarioID;
+    private int _voluntarioID;
     private bool _ativo;
 
     public int ID
@@ -53,6 +56,20 @@ public class Necessidade
             _beneficiarioID = value;
         }
     }
+
+    public int VoluntarioID
+    {
+        get { return _voluntarioID; }
+        set 
+        {
+            if(value <= 0)
+                throw new Exception("O ID do Voluntario não pode ser zero ou negativo.");
+                
+            _voluntarioID = value;
+        }
+    }
+
+
     public bool Ativo
     {
         get { return _ativo; }
@@ -60,12 +77,13 @@ public class Necessidade
     }
     public Necessidade() { }
 
-    public Necessidade(string descricao, DateTime dataRegistro, string prioridade, int beneficarioID)
+    public Necessidade(string descricao, DateTime dataRegistro, string prioridade, int beneficarioID, int voluntarioID)
     {
         Descricao = descricao;
         DataRegistro = dataRegistro;
         Prioridade = prioridade;
         BeneficiarioID = beneficarioID;
+        VoluntarioID = voluntarioID;
         Ativo = true;
     }
 

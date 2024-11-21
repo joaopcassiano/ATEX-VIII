@@ -96,11 +96,11 @@ public class BeneficiarioRepositorio
 
         conexao.Open();
 
-        var beneficiario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { id = id });
+        var beneficiarios = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { id = id }).ToList;
 
         conexao.Close();
 
-        return beneficiario;
+        return beneficiarios;
     }
 
     public async Task<Beneficiario> ObterPorEmailAsync(string email)

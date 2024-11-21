@@ -6,6 +6,8 @@ public class Beneficiario
 {
     private int _id;
     private string _nome;
+
+    private string _cpf;
     private DateTime _dataNascimento;
     private int _enderecoID;
     private string _situacaoEconomica;
@@ -30,6 +32,17 @@ public class Beneficiario
 
             _nome = value;
         }
+    }
+
+    public string Cpf 
+    {
+        get { return _cpf; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) ||!Regex.IsMatch(value, @"^\d{3}\.\d{3}\.\d{3}-\d{2}$"))
+                throw new ArgumentException("CPF inválido.");
+                
+            _cpf = value;
     }
 
     public DateTime DataNascimento
@@ -132,5 +145,8 @@ public class Beneficiario
     public void Restaurar()
     {
         _ativo = true;
+    }
+
+
     }
 }

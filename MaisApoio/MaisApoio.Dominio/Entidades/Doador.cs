@@ -3,6 +3,8 @@ namespace MaisApoio.MaisApoio.Dominio.Entidades;
 public class Doador
 {
     private int _id;
+
+    private byte[]? _imagemPerfil;
     private string _nome;
     private string _telefone;
     private int _enderecoID;
@@ -25,6 +27,13 @@ public class Doador
             _nome = value;
         }
     }
+    public byte[]? ImagemPerfil
+    {
+        get { return _imagemPerfil; }
+        set { _imagemPerfil = value; }
+    }
+
+    
     public int EnderecoID
     {
         get { return _enderecoID; }

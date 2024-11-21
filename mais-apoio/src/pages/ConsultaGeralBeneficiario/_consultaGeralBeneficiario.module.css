@@ -1,0 +1,74 @@
+.corpo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+.box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border: #007BFF 2px solid;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    gap: 1.5rem;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+.titulo{
+    font-family: 'Poppins';
+    font-size: 1.3rem;
+    color: #007BFF;
+    width: 100%;
+    align-items: first baseline;
+}
+
+.titulo_maior{
+    font-family: 'Poppins';
+    font-size: 1.8rem;
+    color: #007BFF;
+    width: 100%;
+    align-items: first baseline;
+}
+
+
+.conteudo{
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+.texto_adicional{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    font-family: 'PoppinsSimples';
+}
+
+.imagem{
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    border: 1px solid #007BFF;
+    object-fit: cover;
+    display: inline-block;
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box; 
+}

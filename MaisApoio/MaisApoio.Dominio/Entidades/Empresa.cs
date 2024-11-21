@@ -1,19 +1,37 @@
+using System.Text.RegularExpressions;
+
 namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Empresa
+{
     private int _id;
     private string _nome;
+    private string _segmentoMercado;
     private string _telefone;
     private string _email;
-    private string _enderecoID;
-    private string _cnpj;
+    private string _senha;
+    private string? _imagemPerfil;
     private bool _ativo;
+    private string _cnpj;
 
     public int ID
     {
         get { return _id; }
         set { _id = value; }
     }
+
+    public string SegmentoMercado
+    {
+        get { return _segmentoMercado; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Segmento de mercado não pode ser vazio.");
+
+            _segmentoMercado = value;
+        }
+    }
+
     public string Nome
     {
         get { return _nome; }
@@ -25,66 +43,94 @@ public class Empresa
             _nome = value;
         }
     }
-    public int EnderecoID
-    {
-        get { return _enderecoID; }
-        set
-        {
-            if (value <= 0)
-                throw new ArgumentException("Endereço inválido.");
 
-            _enderecoID = value;
-        }
-    }
     public string CNPJ
     {
         get { return _cnpj; }
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("CNPJ não pode ser vazio.");
+            if (string.IsNullOrEmpty(value) || value.Length != 18)
+            {
+                throw new Exception("CNPJ inválido.");
+            }
+
+            _cnpj = value;
         }
     }
+
     public string Telefone
     {
         get { return _telefone; }
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Telefone não pode ser vazio.");
+            if (string.IsNullOrEmpty(value) || value.Length != 15)
+                throw new Exception("Telefone inválido.");
+            _telefone = value;
         }
     }
+
+    public string? ImagemPerfil
+    {
+        get { return _imagemPerfil; }
+        set { _imagemPerfil = value; }
+    }
+
     public string Email
     {
         get { return _email; }
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Email não pode ser vazio.");
+            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+            if (!emailRegex.IsMatch(value) || string.IsNullOrEmpty(value))
+                throw new ArgumentException("Email inválido.");
+
+            _email = value;
         }
     }
+
+    public string Senha
+    {
+        get { return _senha; }
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentException("Senha inválida.");
+
+            _senha = value;
+        }
+    }
+
     public bool Ativo
     {
         get { return _ativo; }
         set { _ativo = value; }
     }
 
-    public Empresa() { }
+    public Empresa()
+    {
 
-    public Empresa(string nome, string telefone, string email, int enderecoID, string cnpj)
+    }
+
+    public Empresa(string nome, string cnpj, string segmentoMercado, string telefone, string email, DateTime dataNascimento, string senha)
     {
         Nome = nome;
+        CNPJ = cnpj; 
+        SegmentoMercado = segmentoMercado;
         Telefone = telefone;
         Email = email;
-        EnderecoID = enderecoID;
-        CNPJ = cnpj;
+        Senha = senha;
         Ativo = true;
     }
+
     public void Deletar()
     {
-        Ativo = false;
+        _ativo = false;
     }
+
     public void Restaurar()
     {
-        Ativo = true;
+        _ativo = true;
     }
+
+}

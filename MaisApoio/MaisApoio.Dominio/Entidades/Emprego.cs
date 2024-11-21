@@ -6,7 +6,7 @@ public class Emprego
     private string _tituloVaga;
     private string _descricaoVaga;
     private double _salario;
-    private int _enderecoID;
+    private int _empresaID;
     private int _beneficiarioID;
     private bool _ativo;
 
@@ -46,15 +46,15 @@ public class Emprego
         }
     }
 
-    public int EnderecoID
+    public int EmpresaID
     {
-        get { return _enderecoID; }
+        get { return _empresaID; }
         set
         {
             if (value <= 0)
-                throw new ArgumentException("Endereço inválido.");
+                throw new ArgumentException("Empresa inválida.");
 
-            _enderecoID = value;
+            _empresaID = value;
         }
     }
 
@@ -78,12 +78,12 @@ public class Emprego
 
     public Emprego() { }
 
-    public Emprego(string tituloVaga, string descricaoVaga, double salario, int enderecoID, int beneficiarioID)
+    public Emprego(string tituloVaga, string descricaoVaga, double salario, int empresaID, int beneficiarioID)
     {
         TituloVaga = tituloVaga;
         DescricaoVaga = descricaoVaga;
         Salario = salario;
-        EnderecoID = enderecoID;
+        EmpresaID = empresaID;
         BeneficiarioID = beneficiarioID;
         Ativo = true;
     }

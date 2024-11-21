@@ -1,7 +1,5 @@
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using MaisApoio.MaisApoio.Repositorio.Repositorio;
-using MaisApoio.Service;
-using System.Data.Common;
 
 namespace MaisApoio.Aplicacao;
 
@@ -115,14 +113,15 @@ public class BeneficiarioAplicacao
         return beneficiarioObtido;
     }
 
-    public async Task CarregarImagemAsync(IFormFile file, int id)
+    public async Task CarregarImagemAsync(string imagem, int id)
     {
-        await _beneficiarioRepositorio.CarregarImagemAsync(file, id);
+        await _beneficiarioRepositorio.CarregarImagemAsync(imagem, id);
     }
 
     public async Task ExclusaoFisicaAsync(int id){
         await _beneficiarioRepositorio.ExclusaoFisicaAsync(id);
     }
+    
     public async Task<int> LogarAsync(string email, string senha)
     {
         Beneficiario beneficiarioObtido = await _beneficiarioRepositorio.ObterPorEmailAsync(email);

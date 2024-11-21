@@ -30,6 +30,7 @@ const CadastroBeneficiario = () => {
     const [existeRua, setExisteRua] = useState(false);
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
+    const [imageWidth, setImageWidth] = useState(0);
     const [beneficiario, setBeneficiario] = useState({
         nome: '',
         cpf: '',
@@ -227,12 +228,22 @@ const CadastroBeneficiario = () => {
         }
     };
 
+    const handleImageLoad = (event) => {
+        const width = event.target.width; 
+        setImageWidth(width);
+      };
+    
+      useEffect(() => {
+        if (imageWidth > 0) {
+          console.log(`Largura da imagem: ${imageWidth}px`);
+        }
+      }, [imageWidth]);
 
     return (
         <>
             <div className={styles.conteudoCadastroUsuario}>
                 <div className={styles.cadastroUsuario}>
-                    <div className={styles.formsCadastro}>
+                    <div style={{marginRight: imageWidth? `calc(${imageWidth}px - ${(imageWidth * 0.6) / 100}%)`: '0'}} className={styles.formsCadastro}>
                         <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
                             <div className={styles.cadastroForms}>
                                 Cadastro
@@ -430,7 +441,7 @@ const CadastroBeneficiario = () => {
                             <Botao onClick={async () => { await BeneficiarioService.Criar(beneficiario) }} estilo='cadastrarConfirma'>Cadastra-se</Botao>
                         </form>
                     </div>
-                    <img className={styles.fotoCadastro} src={imagemCadastro} alt='imagemCadastro'></img>
+                    <img className={styles.fotoCadastro} onLoad={handleImageLoad} src={imagemCadastro} alt='imagemCadastro'></img>
                 </div>
             </div>
         </>

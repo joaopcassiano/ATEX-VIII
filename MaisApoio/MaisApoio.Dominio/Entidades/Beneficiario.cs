@@ -13,7 +13,7 @@ public class Beneficiario
     private string _situacaoEconomica;
     private string _email;
     private string _senha;
-    private byte[]? _imagemPerfil;
+    private string? _imagemPerfil;
     private bool _ativo;
 
     public int ID 
@@ -109,7 +109,7 @@ public class Beneficiario
         }
     }
 
-    public byte[]? ImagemPerfil
+    public string ImagemPerfil
     {
         get { return _imagemPerfil; }
         set { _imagemPerfil = value; }

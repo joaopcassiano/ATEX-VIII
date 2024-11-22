@@ -19,30 +19,34 @@ const Beneficiario = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-
-        const ObterBeneficiario = async () => {
-            try {
-                const resposta = await BeneficiarioService.ObterPorId(id)
-                setBeneficiario(resposta?.data)
-                setLoading(false)
-            }
-            catch (error) {
-                const errorMessage = error.response?.data || "Erro desconhecido";
-                toast.error(
-                    `Erro ao carregar dados do beneficiário: ${errorMessage}`,
-                    {
-                        position: "top-center",
-                        autoClose: 3000,
-                    }
-                );
-                setLoading(false);
-                navigate('../home/apresentacao');
-            }
-        }
-
         ObterBeneficiario()
-
     }, [])
+
+    const ObterBeneficiario = async () => {
+        try {
+            const resposta = await BeneficiarioService.ObterPorId(id)
+            setBeneficiario(resposta?.data)
+            setLoading(false)
+            console.log("aaaaaaaaaaaaaaaaaaaaaa")
+            toast.success("Informações carregadas com sucesso!", {
+                position: "top-center",
+                autoClose: 3000
+            });
+        }
+        catch (error) {
+            const errorMessage = error.response?.data || "Erro desconhecido";
+            toast.error(
+                `Erro ao carregar dados do beneficiário: ${errorMessage}`,
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                }
+            );
+            setLoading(false);
+            navigate('../home/apresentacao');
+        }
+    }
+
 
     return (
         <>
@@ -83,7 +87,6 @@ const Beneficiario = () => {
                                     }
                                 </Conteudo>
                             </CorpoInferior>
-
                         </>
                     )
                 }

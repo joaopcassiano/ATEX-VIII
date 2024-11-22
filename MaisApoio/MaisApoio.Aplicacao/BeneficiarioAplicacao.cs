@@ -115,6 +115,18 @@ public class BeneficiarioAplicacao
 
     public async Task CarregarImagemAsync(string imagem, int id)
     {
+        if(imagem == null)
+        {
+            throw new Exception("Imagem não pode ser vazia.");
+        }
+
+        var beneficiarioID = await _beneficiarioRepositorio.ObterPorIdAsync(id);
+
+        if(beneficiarioID == null)
+        {
+            throw new Exception("Beneficiario não encontrado.");
+        }
+
         await _beneficiarioRepositorio.CarregarImagemAsync(imagem, id);
     }
 

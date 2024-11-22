@@ -33,6 +33,7 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                         state={usuario}>
                         <h3 className={styles.nomePerfil}> Olá {usuario?.nome?.split(" ")[0]},</h3>
                     </Link>
+                    <img src="https://drive.google.com/uc?id=1AYN7jYy7FR7RLCAR4V_LI9Ys2ubnTcV_" alt="perfil" className={styles.fotoPerfil}></img>
 
                     {
                         (
@@ -45,14 +46,15 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                                                 'perfil' : '/home'
                                         }
                                         state={usuario}>
-                                        <img src={usuario.imagemPerfil} className={styles.fotoPerfil}></img>
+                                        <img src="https://drive.google.com/uc?id=1AYN7jYy7FR7RLCAR4V_LI9Ys2ubnTcV_" className={styles.fotoPerfil}></img>
                                     </Link>
                                 </>
                                 :
                                 <>
                                     <Link
                                         to={"carregar-imagem"}
-                                        className={styles.semFoto}>
+                                        className={styles.semFoto}
+                                        state={{tipoUser: tipoUsuario, id: usuario.id}}>
                                         <BsCamera className={styles.camera}></BsCamera>
                                         Adicionar foto
                                     </Link>

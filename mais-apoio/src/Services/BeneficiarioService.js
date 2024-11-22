@@ -60,5 +60,17 @@ export default {
             console.error('Erro ao buscar por ID:', error);
             throw error;
         }
+    },
+    async CarregarImagemo(imagem,id){
+        try {
+            const response = await axios.post(`http://localhost:5233/Beneficiario/api/carregar-imagem/${id}`, {
+                imagem: imagem
+            });
+            console.log(response)
+        }
+        catch (error) {
+            console.error('Erro ao carregar imagem:', error);
+            throw error;
+        }
     }
 }

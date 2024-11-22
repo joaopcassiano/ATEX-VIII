@@ -8,7 +8,8 @@ import empresaAjuda from '../../assets/empresaAjuda.png';
 import Botao from '../../Componentes/Botao/Botao';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from 'react-bootstrap/Carousel'
+;
 
 const ConteudoAreaParaAjudar = () => {
 

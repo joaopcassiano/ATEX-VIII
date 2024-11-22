@@ -241,6 +241,9 @@ cursor: pointer;
 }
 
 .cadastrarLogin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'PoppinsSimples';
     display: flex;
     align-items: center;
@@ -257,13 +260,11 @@ cursor: pointer;
     color: #007BFF;
     margin-left: 5px;
     cursor: pointer;
-
+    font-size: 0.6rem;
 }
 
 .cadastroLogin:hover{
     color: #4b4b4b;
-    margin-left: 5px;
-
 }
 
 .bolaClara{

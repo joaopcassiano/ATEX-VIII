@@ -19,6 +19,8 @@ import Perfil from './Componentes/Perfil/Perfil';
 import ConsultarDoacoes from './pages/ConsultarDoacoesPage/ConsultarDoacoes';
 import ConsultaGeralBeneficiario from './pages/ConsultaGeralBeneficiario/ConsultaGeralBeneficiario';
 import InformacoesBeneficiario from './pages/InformacoesBeneficiario/InformacoesBeneficiario';
+import CarregarImagem from './pages/CarregarImagem/CarregarImagem';
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -43,6 +45,7 @@ root.render(
           <Route path="consultar-doacoes" element={<ConsultarDoacoes />} />
           <Route path="consulta-geral" element={<ConsultaGeralBeneficiario />} />
           <Route path="informacoes" element={<informacoesBeneficiario />} />
+          <Route path="carregar-imagem" element={<CarregarImagem />} />
         </Route>
       </Routes>
     </BrowserRouter>

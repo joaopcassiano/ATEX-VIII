@@ -86,7 +86,7 @@ public class BeneficiarioRepositorio
 
     public async Task<Beneficiario> ObterPorIdAsync(int id)
     {
-        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario WHERE BebeficiarioID = @id";
+        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario WHERE BeneficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 

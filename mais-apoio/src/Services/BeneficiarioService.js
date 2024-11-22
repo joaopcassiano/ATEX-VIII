@@ -8,7 +8,7 @@ export default {
                 cpf: beneficiario.cpf,
                 telefone: beneficiario.telefone,
                 dataNascimento: new Date(beneficiario.dataNascimento).toISOString(),
-                situacaoEconomica: parseFloat(beneficiario.situacaoEconomica.replace("R$ ",'').replace(".",'').replace(",",'.')),
+                situacaoEconomica: parseFloat(beneficiario.situacaoEconomica.replace("R$ ", '').replace(".", '').replace(",", '.')),
                 email: beneficiario.email,
                 senha: beneficiario.senha,
                 necessidade: beneficiario.necessidade,
@@ -16,7 +16,7 @@ export default {
                 bairro: beneficiario.bairro,
                 cidade: beneficiario.cidade,
                 estado: beneficiario.estado,
-                numero: parseInt(beneficiario.numero), 
+                numero: parseInt(beneficiario.numero),
                 complemento: beneficiario.complemento,
                 cep: beneficiario.cep.replace(/(\d{2})(\d{3})(\d{3})/, "$1.$2-$3")
             });
@@ -30,6 +30,20 @@ export default {
                 console.error("Erro na requisição:", error.message);
             }
         }
+    },
+
+    async Logar(email, senha) {
+
+        const response = await axios.post("http://localhost:5233/Beneficiario/api/logar", {
+            email: email,
+            senha: senha
+        });
+
+        return response;
+    },
+
+    async ObterPorId(id) {
+        const response = await axios.get(`http://localhost:5233/Beneficiario/api/obterPorId/${id}`);
+        return response;
     }
-    
 }

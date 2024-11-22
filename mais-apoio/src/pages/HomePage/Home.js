@@ -8,6 +8,9 @@ import { FiAtSign } from "react-icons/fi";
 import { GoLock } from "react-icons/go";
 import { BsX } from "react-icons/bs";
 import { Link, Outlet } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import BeneficiarioService from '../../Services/BeneficiarioService'
+import { ToastContainer, toast } from "react-toastify";
 
 const Home = () => {
     const [visivelLogin, setVisivelLogin] = useState(false)
@@ -16,6 +19,9 @@ const Home = () => {
     const boxLoginRef = useRef(null);
     const [tipoUsuario, setTipoUsuario] = useState(1);
     const [trocarSenha, setTrocarSenha] = useState(1);
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const navigate = useNavigate();
 
     const Cor = {
         bolaEscura: styles.bolaEscura,
@@ -29,8 +35,37 @@ const Home = () => {
         }
     };
 
+    const login = async () => {
+        try {
+            if (tipoUsuario === 1) {
+
+            }
+            else if (tipoUsuario === 2) {
+
+            }
+            else if (tipoUsuario === 3) {
+
+            }
+            else if (tipoUsuario === 4) {
+                const response = await BeneficiarioService.Logar(email, senha)
+                console.log(response)
+                navigate('../beneficiario', { state: response.data })
+
+            }
+        }
+        catch (error) {
+            console.error(error)
+            toast.error(`Erro ao logar: ${error.response.data}!`, {
+                position: "top-center",
+                autoClose: 3000
+            });
+        }
+
+    }
+
     return (
         <>
+            <ToastContainer />
             <div className={styles.corpo}>
                 <TopBar valorLogin={(a) => { setVisivelLogin(a); setTrocarSenha(1); }} />
                 <div className={styles.conteudo}>
@@ -106,24 +141,33 @@ const Home = () => {
                                         <>
                                             <div className={styles.inputLogin}>
                                                 <FiAtSign className={styles.iconeLogin} />
-                                                <InputMask type='email' className={styles.inputL} placeholder='Digite seu email'></InputMask>
+                                                <InputMask
+                                                    type='email'
+                                                    className={styles.inputL}
+                                                    placeholder='Digite seu email'
+                                                    value={email}
+                                                    onChange={(event) =>
+                                                        setEmail(event.target.value)
+                                                    }
+                                                ></InputMask>
                                             </div>
                                             <div className={styles.inputLogin}>
                                                 <GoLock className={styles.iconeLogin} />
-                                                <InputMask type='password' className={styles.inputL} placeholder='Digite sua senha'></InputMask>
+                                                <InputMask
+                                                    type='password'
+                                                    className={styles.inputL}
+                                                    placeholder='Digite sua senha'
+                                                    value={senha}
+                                                    onChange={(event) =>
+                                                        setSenha(event.target.value)
+                                                    }
+                                                ></InputMask>
                                             </div>
                                             <div onClick={() => { setTrocarSenha(2) }} className={styles.esqueceuLogin}>
                                                 Esqueceu sua senha?
                                             </div>
-                                            <Link
-                                                to={tipoUsuario === 4 ? 
-                                                    '../beneficiario'
-                                                    :
-                                                    ''
-                                                }
-                                                className={styles.link}>
-                                                <Botao estilo='confirmarLogin'>Entrar</Botao>
-                                            </Link>
+
+                                            <Botao onClick={login} estilo='confirmarLogin'>Entrar</Botao>
                                         </>
                                         :
                                         trocarSenha === 2 ?
@@ -155,7 +199,7 @@ const Home = () => {
                             </div>
 
                             <div className={styles.cadastrarLogin}>
-                                Não possui um cadastro ainda?  <p className={styles.cadastroLogin} onClick={() => { setOpcao(6); setVisivelLogin(false) }}>Cadastre-se</p>
+                                <p>Não possui um cadastro ainda?</p>  <p className={styles.cadastroLogin} onClick={() => { setVisivelLogin(false); navigate('todos-cadastros') }}>Cadastre-se</p>
                             </div>
                         </div>
                     </div>

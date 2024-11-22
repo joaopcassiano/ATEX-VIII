@@ -93,7 +93,7 @@ public class BeneficiarioRepositorio
 
         conexao.Open();
 
-        var beneficiarios = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { id = id }).ToList;
+        var beneficiarios = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { id = id }).ToList();
 
         conexao.Close();
 
@@ -108,11 +108,11 @@ public class BeneficiarioRepositorio
 
         conexao.Open();
 
-        var beneficiario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { email = email });
+        var beneficiarios = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { email = email }).ToList();
 
         conexao.Close();
 
-        return beneficiario;
+        return beneficiarios;
     }
 
     public async Task<Beneficiario> LogarAsync(string email, string senha)
@@ -144,8 +144,9 @@ public class BeneficiarioRepositorio
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE CPF = @cpf";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { cpf = cpf });
+        var beneficiarios = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { cpf = cpf });
         conexao.Close();
+        return beneficiarios;
     }
 
     public async Task<Beneficiario> ObterPorNomeAsync(string nome)
@@ -153,16 +154,18 @@ public class BeneficiarioRepositorio
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Nome = @nome";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { nome = nome });
+        var beneficiarios = await conexao.QueryFirstOrDefaultAsync<Beneficiario>(sql, new { nome = nome }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
     public async Task<List<Beneficiario>> ObterPorNomeNecessidadeAsync(string nome, string necessidade)
     {
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Nome = @nome AND Necessidade = @necessidade";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { nome = nome, necessidade = necessidade });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { nome = nome, necessidade = necessidade }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
     
     public async Task<List<Beneficiario>> ObterPorNomeSituacaoEconomicaAsync(string nome, string situacaoEconomica)
@@ -170,40 +173,45 @@ public class BeneficiarioRepositorio
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Nome = @nome AND SituacaoEconomica = @situacaoEconomica";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { nome = nome, situacaoEconomica = situacaoEconomica });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { nome = nome, situacaoEconomica = situacaoEconomica }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
     public async Task<List<Beneficiario>> ObterPorNecessidadeSituacaoEconomicaAsync(string necessidade, string situacaoEconomica)
     {
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Necessidade = @necessidade AND SituacaoEconomica = @situacaoEconomica";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { necessidade = necessidade, situacaoEconomica = situacaoEconomica });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { necessidade = necessidade, situacaoEconomica = situacaoEconomica }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
     public async Task<List<Beneficiario>> ObterPorNomeNecessidadeSituacaoEconomicaAsync(string nome, string necessidade, string situacaoEconomica)  
     {
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE Nome = @nome AND Necessidade = @necessidade AND SituacaoEconomica = @situacaoEconomica";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { nome = nome, necessidade = necessidade, situacaoEconomica = situacaoEconomica });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { nome = nome, necessidade = necessidade, situacaoEconomica = situacaoEconomica }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
     public async Task<List<Beneficiario>> ObterPorDataDeNascimentoAsync(datetime dataNascimento)
     {
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE DataNascimento = @dataNascimento";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
     public async Task<List<Beneficiario>> ObterPorDataDeNascimentoNecessidadeAsync(datetime dataNascimento, string necessidade)
     {
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE DataNascimento = @dataNascimento AND Necessidade = @necessidade";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento, necessidade = necessidade });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento, necessidade = necessidade }).ToList();
         conexao.Close();
+        return beneficiarios;
 
     }
     public async Task<List<Beneficiario>> ObterPorDataDeNascimentoSituacaoEconomicaAsync(datetime dataNascimento, string situacaoEconomica)
@@ -211,16 +219,18 @@ public class BeneficiarioRepositorio
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE DataNascimento = @dataNascimento AND SituacaoEconomica = @situacaoEconomica";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento, situacaoEconomica = situacaoEconomica });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento, situacaoEconomica = situacaoEconomica }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
     public async Task<List<Beneficiario>> ObterPorDataDeNascimentoNomeAsync(datetime dataNascimento, string nome)
     {
         string sql = "SELECT BeneficiarioID as ID, * FROM Beneficiario WHERE DataNascimento = @dataNascimento AND Nome = @nome";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        var beneficiario = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento, nome = nome });
+        var beneficiarios = await conexao.QueryAsync<Beneficiario>(sql, new { dataNascimento = dataNascimento, nome = nome }).ToList();
         conexao.Close();
+        return beneficiarios;
     }
 
 

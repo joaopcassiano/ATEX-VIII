@@ -44,6 +44,11 @@ root.render(
           <Route path="consulta-geral" element={<ConsultaGeralBeneficiario />} />
           <Route path="informacoes" element={<informacoesBeneficiario />} />
         </Route>
+        <Routh path="/empresa" element={<Empresa />} />
+          <Route path="perfil" element={<Perfil tipoUsuario='Empresa' />} />
+          <Route path="consultar-doacoes" element={<ConsultarDoacoes />} />
+          <Route path="consulta-geral" element={<ConsultaGeralEmpresa />} />
+          <Route path="informacoes" element={<InformacoesEmpresa />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

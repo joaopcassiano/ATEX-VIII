@@ -270,7 +270,5 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 return voluntarios;
             }
         }
-
-
     }
 }

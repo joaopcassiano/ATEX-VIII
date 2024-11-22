@@ -16,7 +16,7 @@ CREATE TABLE Beneficiario(
 	DataNascimento Datetime not null,
 	Necessidade varchar(100) not null,
 	SituacaoEconomica Decimal(18,2) not null,
-	ImagemPerfil Varbinary(max) null,
+	ImagemPerfil Varchar(max) null,
 	Ativo Bit not null
 );
 

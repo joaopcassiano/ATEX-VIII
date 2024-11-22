@@ -17,7 +17,10 @@ const Botao = ({ children, estilo , onClick, referencia}) => {
         inputCadastro: styles.inputCadastro,
         boxAjuda: styles.boxAjuda,
         bolinhaLogin: styles.bolinhaLogin,
-        confirmarLogin: styles.confirmarLogin
+        confirmarLogin: styles.confirmarLogin,
+        editar_perfil: styles.editar_perfil,
+        sideBar: styles.sideBar,
+        pesquisar: styles.pesquisar
     }
 
     return (

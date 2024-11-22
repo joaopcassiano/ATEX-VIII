@@ -9,12 +9,13 @@ public class Beneficiario
     private string _nome;
     private string _cpf;
     private string _telefone;
+
     private DateTime _dataNascimento;
     private string _necessidade;
     private decimal _situacaoEconomica;
     private string _email;
     private string _senha;
-    private byte[]? _imagemPerfil;
+    private string? _imagemPerfil;
     private bool _ativo;
 
     public int ID
@@ -58,6 +59,17 @@ public class Beneficiario
                 throw new Exception("Telefone inválido.");
             _telefone = value;
         }
+    }
+
+    public string Cpf 
+    {
+        get { return _cpf; }
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value) ||!Regex.IsMatch(value, @"^\d{3}\.\d{3}\.\d{3}-\d{2}$"))
+                throw new ArgumentException("CPF inválido.");
+                
+            _cpf = value;
     }
 
     public DateTime DataNascimento
@@ -117,7 +129,7 @@ public class Beneficiario
         }
     }
 
-    public byte[]? ImagemPerfil
+    public string ImagemPerfil
     {
         get { return _imagemPerfil; }
         set { _imagemPerfil = value; }
@@ -155,5 +167,8 @@ public class Beneficiario
     public void Restaurar()
     {
         _ativo = true;
+    }
+
+
     }
 }

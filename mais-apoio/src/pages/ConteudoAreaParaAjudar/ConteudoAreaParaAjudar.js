@@ -6,61 +6,34 @@ import doadorAjuda from '../../assets/doadorAjuda.png';
 import voluntarioAjuda from '../../assets/voluntarioAjuda.png';
 import empresaAjuda from '../../assets/empresaAjuda.png';
 import Botao from '../../Componentes/Botao/Botao';
-import { useEffect, useState } from 'react';
-import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from 'react-bootstrap/Carousel'
+;
 
 const ConteudoAreaParaAjudar = () => {
-    const [indice, setIndice] = useState(0);
 
-    const Cor = {
-        escuro: styles.escuro,
-        claro: styles.claro
-    }
+    const [index, setIndex] = useState(0);
 
-    const imagensCarrosel = [
-        empresaCarrosel,
-        doadorCarrosel,
-        voluntarioCarrosel
-    ]
-
-    const proximaImagem = () => {
-        setIndice((indiceAtual) => (indiceAtual + 1) % imagensCarrosel.length);
+    const handleSelect = (selectedIndex) => {
+        setIndex(selectedIndex);
     };
-
-    const imagemAnterior = () => {
-        setIndice((indiceAtual) =>
-            indiceAtual === 0 ? imagensCarrosel.length - 1 : indiceAtual - 1
-        );
-    };
-
-    useEffect(() => {
-        const intervalo = setInterval(proximaImagem, 5000);
-        return () => clearInterval(intervalo);
-    }, []);
 
     return (
         <>
             <div className={styles.carrosel}>
-                <div className={styles.imagens}>
-                    <img src={imagensCarrosel[indice]} alt={`Imagem ${indice + 1}`} className={styles.imagensCarrosel} />
-                    <Botao onClick={imagemAnterior} estilo='setaEsquerda'><BsChevronLeft style={{ fontSize: '3rem', margin: '0', padding: '0', color: '#ffffff', cursor: 'pointer' }} /></Botao>
-                    <Botao onClick={proximaImagem} estilo='setaDireita'><BsChevronRight style={{ fontSize: '3rem', margin: '0', padding: '0', color: '#ffffff', cursor: 'pointer' }} /></Botao>
-
-                </div>
-                <div className={styles.bolas}>
-                    <div className={styles.bola}>
-                        <button onClick={() => setIndice(0)} className={`${styles.bola1} ${indice === 0 ? Cor['escuro'] : Cor['claro']}`}></button>
-                    </div>
-                    <div className={styles.bola}>
-                        <button onClick={() => { setIndice(1) }} className={`${styles.bola2} ${indice === 1 ? Cor['escuro'] : Cor['claro']}`}></button>
-                    </div>
-                    <div className={styles.bola}>
-                        <button onClick={() => { setIndice(2) }} className={`${styles.bola3} ${indice === 2 ? Cor['escuro'] : Cor['claro']}`}></button>
-                    </div>
-                </div>
+                <Carousel activeIndex={index} onSelect={handleSelect}>
+                    <Carousel.Item>
+                        <img src={voluntarioCarrosel} alt="Imagem Voluntario" className={styles.imagensCarrosel} />         
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <img src={doadorCarrosel} alt="Imagem Doadores" className={styles.imagensCarrosel} />
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <img src={empresaCarrosel} alt="Imagem Empresa" className={styles.imagensCarrosel} />
+                    </Carousel.Item>
+                </Carousel>
             </div>
-
             <div className={styles.linkAjuda}>
                 <div className={styles.tituloAjuda}>
                     Quero me candidatar como:
@@ -85,7 +58,7 @@ const ConteudoAreaParaAjudar = () => {
                         </Botao>
                     </Link>
                 </div>
-            </div >
+            </div>
         </>
     )
 }

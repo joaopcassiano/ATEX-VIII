@@ -1,0 +1,103 @@
+.conteudo{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.botoes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 2rem;
+    height: 100%;
+    width: 100%;
+}
+
+.botao {
+    all: unset;
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .imagens{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    background-color: black;
+  }
+
+  .sem_imagem{
+
+  }
+
+  .com_imagem{
+    width: 25rem;
+    height: 25rem;
+    border: #0056b3 solid 3px;
+  }
+  
+  .botao:hover {
+    background-color: #0056b3;
+  }
+
+  .titulo{
+    font-family: 'Poppins';
+    font-size: 2rem;
+    color: #007bff;
+    text-align: center;
+  }
+
+.file_upload_container {
+    position: relative;
+    display: inline-block;
+    font-family: 'Poppins';
+  }
+
+  .file_input {
+    display: none;
+  }
+  
+  .file_label {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .file_label:hover {
+    background-color: #0056b3;
+  }
+  
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}

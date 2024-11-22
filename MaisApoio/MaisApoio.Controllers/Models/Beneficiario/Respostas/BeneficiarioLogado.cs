@@ -6,30 +6,30 @@ namespace MaisApoio.MaisApoio.Controllers.Models;
 
 public class BeneficiarioLogado
 {
-    public int _id { get; set; }
-    public string _nome { get; set; }
-    public string _cpf { get; set; }
-    public string _telefone { get; set; }
-    public DateTime _dataNascimento { get; set; }
-    public string _necessidade { get; set; }
-    public decimal _situacaoEconomica { get; set; }
-    public string _email { get; set; }
-    public string? _imagemPerfil { get; set; }
-    public bool _ativo { get; set; }
+    public int Id { get; set; }
+    public string Nome { get; set; }
+    public string Cpf { get; set; }
+    public string Telefone { get; set; }
+    public DateTime DataNascimento { get; set; }
+    public string Necessidade { get; set; }
+    public decimal SituacaoEconomica { get; set; }
+    public string Email { get; set; }
+    public string? ImagemPerfil { get; set; }
+    public bool Ativo { get; set; }
 
     public BeneficiarioLogado() {}
     public BeneficiarioLogado(Beneficiario beneficiario)
     {
-        _id = beneficiario.ID;
-        _nome = beneficiario.Nome;
-        _cpf = beneficiario.CPF;
-        _telefone = beneficiario.Telefone;
-        _dataNascimento = beneficiario.DataNascimento;
-        _necessidade = beneficiario.Necessidade;
-        _situacaoEconomica = beneficiario.SituacaoEconomica;
-        _email = beneficiario.Email;
-        _imagemPerfil = beneficiario.ImagemPerfil;
-        _ativo = beneficiario.Ativo;
+        Id = beneficiario.ID;
+        Nome = beneficiario.Nome;
+        Cpf = beneficiario.CPF;
+        Telefone = beneficiario.Telefone;
+        DataNascimento = beneficiario.DataNascimento;
+        Necessidade = beneficiario.Necessidade;
+        SituacaoEconomica = beneficiario.SituacaoEconomica;
+        Email = beneficiario.Email;
+        ImagemPerfil = beneficiario.ImagemPerfil;
+        Ativo = beneficiario.Ativo;
     }
 
 }

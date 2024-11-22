@@ -29,21 +29,33 @@ export default {
             } else {
                 console.error("Erro na requisição:", error.message);
             }
+            throw error;
         }
     },
 
     async Logar(email, senha) {
+        try {
+            const response = await axios.post("http://localhost:5233/Beneficiario/api/logar", {
+                email: email,
+                senha: senha
+            });
 
-        const response = await axios.post("http://localhost:5233/Beneficiario/api/logar", {
-            email: email,
-            senha: senha
-        });
-
-        return response;
+            return response;
+        }
+        catch (error) {
+            console.error('Erro ao logar:', error);
+            throw error;
+        }
     },
 
     async ObterPorId(id) {
-        const response = await axios.get(`http://localhost:5233/Beneficiario/api/obterPorId/${id}`);
-        return response;
+        try {
+            const response = await axios.get(`http://localhost:5233/Beneficiario/api/obterPorId/${id}`);
+            return response;
+        }
+        catch (error) {
+            console.error('Erro ao buscar por ID:', error);
+            throw error;
+        }
     }
 }

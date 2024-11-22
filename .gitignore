@@ -8,6 +8,9 @@ nupkg/
 # Visual Studio Code
 .vscode/
 
+node_modules/
+.cache/
+
 # Rider
 .idea/
 

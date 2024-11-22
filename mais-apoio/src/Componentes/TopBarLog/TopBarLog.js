@@ -31,14 +31,12 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                         }
 
                         state={usuario}>
-                        <h3 className={styles.nomePerfil}> Olá {usuario.nome.split(" ")[0]},</h3>
+                        <h3 className={styles.nomePerfil}> Olá {usuario?.nome?.split(" ")[0]},</h3>
                     </Link>
-
-
 
                     {
                         (
-                            usuario.imagemPerfil ?
+                            usuario?.imagemPerfil ?
                                 <>
                                     <Link
                                         className={styles.link}

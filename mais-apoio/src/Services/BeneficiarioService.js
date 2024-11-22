@@ -7,8 +7,11 @@ export default {
                 nome: beneficiario.nome,
                 cpf: beneficiario.cpf,
                 telefone: beneficiario.telefone,
-                dataNascimento: new Date(beneficiario.dataNascimento).toISOString(),
-                situacaoEconomica: parseFloat(beneficiario.situacaoEconomica.replace("R$ ", '').replace(".", '').replace(",", '.')),
+                dataNascimento: (() => {
+                    const data = beneficiario.dataNascimento ? new Date(beneficiario.dataNascimento) : null;
+                    return data instanceof Date && !isNaN(data) ? data.toISOString() : new Date().toISOString();
+                })(),
+                situacaoEconomica: parseFloat(beneficiario.situacaoEconomica.replace("R$ ", '').replace(".", '').replace(",", '.') || 0),
                 email: beneficiario.email,
                 senha: beneficiario.senha,
                 necessidade: beneficiario.necessidade,
@@ -16,12 +19,12 @@ export default {
                 bairro: beneficiario.bairro,
                 cidade: beneficiario.cidade,
                 estado: beneficiario.estado,
-                numero: parseInt(beneficiario.numero),
+                numero: parseInt(beneficiario.numero) || 0,
                 complemento: beneficiario.complemento,
                 cep: beneficiario.cep.replace(/(\d{2})(\d{3})(\d{3})/, "$1.$2-$3")
             });
-
             console.log("Cadastro realizado com sucesso!");
+            return response;
 
         } catch (error) {
             if (error.response) {
@@ -29,6 +32,7 @@ export default {
             } else {
                 console.error("Erro na requisição:", error.message);
             }
+            throw error;
         }
     },
 

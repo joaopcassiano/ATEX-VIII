@@ -21,6 +21,11 @@ import ConsultaGeralBeneficiario from './pages/ConsultaGeralBeneficiario/Consult
 import InformacoesBeneficiario from './pages/InformacoesBeneficiario/InformacoesBeneficiario';
 import CarregarImagem from './pages/CarregarImagem/CarregarImagem';
 import "react-toastify/dist/ReactToastify.css";
+import InformacoesEmpresa from './pages/InformacoesEmpresa/informacoesEmpresa';
+import ConsultaGeralEmpresa from './pages/ConteudoAreaEmpresa/ConteudoAreaEmpresa';
+import ConsultarEmpregos from './pages/ConsultaEmpregosPage/ConsultaEmpregos';
+import Empresa from './pages/EmpresaPage/Empresa'; 
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -45,6 +50,13 @@ root.render(
           <Route path="consultar-doacoes" element={<ConsultarDoacoes />} />
           <Route path="consulta-geral" element={<ConsultaGeralBeneficiario />} />
           <Route path="informacoes" element={<informacoesBeneficiario />} />
+          <Route path="carregar-imagem" element={<CarregarImagem />} />
+        </Route>
+        <Route path="/empresa" element={<Empresa />}>
+          <Route path="perfil" element={<Perfil tipoUsuario='Empresa' />} />
+          <Route path="consultar-empregos" element={<ConsultarEmpregos />} />
+          <Route path="consulta-geral" element={<ConsultaGeralEmpresa />} />
+          <Route path="informacoes" element={<InformacoesEmpresa />} />
           <Route path="carregar-imagem" element={<CarregarImagem />} />
         </Route>
       </Routes>

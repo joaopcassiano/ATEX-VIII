@@ -38,22 +38,21 @@ const CarregarImagem = (tipoUsuario, id) => {
                 formData.append("file", blob, "cropped-file.png");
 
                 try {
-                    const response = await axios.post("http://localhost:5233/api/GoogleDrive/upload", formData, {
+                    const response = await axios.post("http://localhost:5233/api/ImageUpload/upload", formData, {
                         headers: {
                             "Content-Type": "multipart/form-data",
                         },
                     });
 
                     if (response.status === 200) {
-                        console.log("URL da imagem:", response.data.url);
-                        setCroppedImage(URL.createObjectURL(blob));
+                        console.log("URL da imagem:", response.data.imageUrl);
 
                         console.log(informacoesUsuario.tipoUser)
 
                         if (informacoesUsuario.tipoUser === 'Beneficiario') {
                             try
                             {
-                                const resposta = await BeneficiarioService.CarregarImagemo(response?.data?.url,informacoesUsuario.id)
+                                const resposta = await BeneficiarioService.CarregarImagemo(response?.data?.imageUrl,informacoesUsuario.id)
                                 console.log(resposta)
                             }
                             catch (error)

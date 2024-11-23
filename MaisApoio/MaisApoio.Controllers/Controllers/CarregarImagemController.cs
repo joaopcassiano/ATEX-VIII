@@ -1,73 +1,85 @@
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
-namespace GoogleDriveUploader.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class ImageUploadController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class GoogleDriveController : ControllerBase
+    private readonly HttpClient _httpClient;
+    private const string GitHubApiBaseUrl = "https://api.github.com";
+    private const string Owner = "AndersonCaproni";
+    private const string Repo = "FotosPerfil";
+    private const string Branch = "main";
+    private const string Token = "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";
+
+    public ImageUploadController()
     {
-        private readonly DriveService _driveService;
+        _httpClient = new HttpClient();
+        _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("NomeDaAplicacao", "1.0"));
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", Token);
+    }
 
-        public GoogleDriveController()
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadImage(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest("Nenhuma imagem foi enviada.");
+
+        using (var stream = file.OpenReadStream())
         {
-            // Inicializa a autenticação com o arquivo JSON
-            var credential = GoogleCredential.FromFile(@"C:\Users\anderson\Desktop\Html\Repositorio\maisapoio-7d555b0f8ea9.json")
-                .CreateScoped(DriveService.ScopeConstants.DriveFile);
+            var fileBytes = new byte[file.Length];
+            await stream.ReadAsync(fileBytes, 0, (int)file.Length);
+            var base64Content = Convert.ToBase64String(fileBytes);
+            var fileName = file.FileName;
 
-            _driveService = new DriveService(new BaseClientService.Initializer
+            string randon = new Random().Next(1000,100000).ToString();
+            string data = DateTime.Now.ToString();
+            string guid = Guid.NewGuid().ToString();
+            var gitHubPath = $"images/{guid}_{data}_{randon}-{fileName}";
+
+            var url = $"{GitHubApiBaseUrl}/repos/{Owner}/{Repo}/contents/{gitHubPath}";
+
+            var payload = new
             {
-                HttpClientInitializer = credential,
-                ApplicationName = "GoogleDriveUploader",
-            });
-        }
+                message = $"Upload de imagem {fileName}",
+                content = base64Content,
+                branch = Branch
+            };
 
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-                return BadRequest(new { message = "Nenhum arquivo foi enviado." }); // Resposta como JSON
+            var response = await _httpClient.PutAsJsonAsync(url, payload);
 
-            try
+            if (response.IsSuccessStatusCode)
             {
-                // Cria a solicitação de upload usando o stream do arquivo
-                using var fileStream = file.OpenReadStream();
-                var fileMetadata = new Google.Apis.Drive.v3.Data.File
-                {
-                    Name = file.FileName
-                };
 
-                var request = _driveService.Files.Create(fileMetadata, fileStream, file.ContentType);
-                request.Fields = "id";
-                var response = await request.UploadAsync();
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var gitHubResponse = JsonConvert.DeserializeObject<GitHubResponse>(jsonResponse);
 
-                if (response.Status != Google.Apis.Upload.UploadStatus.Completed)
+                if (gitHubResponse?.content?.download_url != null)
                 {
-                    return StatusCode(500, new { message = "Erro ao fazer upload para o Google Drive." }); // Resposta como JSON
+                    return Ok(new { imageUrl = gitHubResponse.content.download_url });
                 }
 
-                // Torna o arquivo público
-                var fileId = request.ResponseBody.Id;
-                var permission = new Google.Apis.Drive.v3.Data.Permission
-                {
-                    Role = "reader",
-                    Type = "anyone",
-                };
-                await _driveService.Permissions.Create(permission, fileId).ExecuteAsync();
-
-                // Cria a URL pública
-                var fileUrl = $"https://drive.google.com/uc?id={fileId}";
-
-                return Ok(new { url = fileUrl }); // Retorno como JSON
+                return BadRequest("Erro ao obter a URL do arquivo.");
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Erro ao fazer upload: {ex.Message}");
-                return StatusCode(500, new { message = "Erro interno ao processar o arquivo." }); // Resposta como JSON
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                return StatusCode((int)response.StatusCode, errorResponse);
             }
         }
     }
+}
+
+public class GitHubResponse
+{
+    public Content content { get; set; }
+}
+
+public class Content
+{
+    public string download_url { get; set; }
 }

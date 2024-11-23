@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const TopBarLog = ({ usuario, tipoUsuario }) => {
     const [trocarfoto, setTrocarfoto] = useState(false);
-    console.log("usuario aqui " , usuario);
+    console.log("usuario aqui ", usuario);
     return (
         <>
             <div className={styles.topBar}>
@@ -33,8 +33,6 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                         state={usuario}>
                         <h3 className={styles.nomePerfil}> Olá {usuario?.nome?.split(" ")[0]},</h3>
                     </Link>
-                    <img src="https://drive.google.com/uc?id=1AYN7jYy7FR7RLCAR4V_LI9Ys2ubnTcV_" alt="perfil" className={styles.fotoPerfil}></img>
-
                     {
                         (
                             usuario?.imagemPerfil ?
@@ -46,7 +44,7 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                                                 'perfil' : '/home'
                                         }
                                         state={usuario}>
-                                        <img src="https://drive.google.com/uc?id=1AYN7jYy7FR7RLCAR4V_LI9Ys2ubnTcV_" className={styles.fotoPerfil}></img>
+                                        <img src={usuario.imagemPerfil} className={styles.fotoPerfil}></img>
                                     </Link>
                                 </>
                                 :
@@ -54,7 +52,7 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                                     <Link
                                         to={"carregar-imagem"}
                                         className={styles.semFoto}
-                                        state={{tipoUser: tipoUsuario, id: usuario.id}}>
+                                        state={{ tipoUser: tipoUsuario, id: usuario.id }}>
                                         <BsCamera className={styles.camera}></BsCamera>
                                         Adicionar foto
                                     </Link>

@@ -169,7 +169,24 @@ public class BeneficiarioController : ControllerBase
 
     }
 
-    [HttpPost]
+    [HttpPut]
+    [Route("trocar-senha/{id}")]
+    public async Task<IActionResult> TrocarSenha([FromRoute] int id, [FromBody] BeneficiarioTrocarSenha beneficiarioTrocarSenha)
+    {
+        try
+        {
+            await _beneficiarioAplicacao.TrocarDeSenhaAsync(id,beneficiarioTrocarSenha.ConfirmarSenha, beneficiarioTrocarSenha.Senha);
+
+            return Ok("Senha trocada com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
+    [HttpPut]
     [Route("carregar-imagem/{id}")]
     public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] ImagemCarregada imagem)
     {

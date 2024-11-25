@@ -1,37 +1,50 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useOutletContext } from 'react-router-dom';
 import styles from './_perfil.module.css';
 import Botao from '../Botao/Botao';
 import { CiCalendar } from 'react-icons/ci';
-import { BsArrowReturnRight, BsBucket, BsEnvelopeAt } from 'react-icons/bs';
+import { BsArrowReturnRight, BsBucket, BsCamera, BsEnvelopeAt } from 'react-icons/bs';
 import { FiAtSign, FiNavigation2 } from 'react-icons/fi';
 
 const Perfil = ({ tipoUsuario }) => {
     const location = useLocation()
     const usuario = location.state || {};
+    const { beneficiario, atualizar, editar } = useOutletContext();
 
     return (
         <>
             <div className={styles.box}>
                 <div className={styles.conteudo_principal}>
-                    <img className={styles.perfil} src={usuario.perfil} alt="Foto do Usuário" />
+                    <Link
+                        to={"../carregar-imagem"}
+                        className={styles.foto}
+                        state={{ tipoUser: tipoUsuario, id: usuario.id }}>
+                        <div className={styles.botaoImagem}>
+                            <BsCamera className={styles.camera}></BsCamera>
+                            Alterar foto
+                        </div>
+                        <img className={styles.perfil} src={usuario.imagemPerfil} alt="Foto do Usuário">
+                        </img>
+                    </Link>
                     <div className={styles.cont}>
                         <p className={styles.nome} >{usuario.nome}</p>
-                        <Botao estilo='editar_perfil'>
+                        <Botao onClick={() => { editar() }} estilo='editar_perfil'>
                             Editar perfil
                         </Botao>
                     </div>
                 </div>
                 <div className={styles.conteudo}>
                     <div className={styles.info}>
-                        <BsEnvelopeAt className={styles.icone} />{usuario.email}
+                        <BsEnvelopeAt className={styles.icone} />
+                        <p className={styles.textoInfo} >{usuario.email}</p>
                     </div>
                     <div className={styles.info}>
-                        <CiCalendar className={styles.icone} />   {usuario.dataNascimento}
+                        <CiCalendar className={styles.icone} />
+                        <p className={styles.textoInfo} >{new Date(usuario.dataNascimento).toLocaleDateString('pt-BR')}</p>
                     </div>
                 </div>
             </div>
             <div className={styles.info_adicional}>
-                {
+                {/* {
                     tipoUsuario === 'Beneficiario' ?
                         <>
                             <div className={styles.infos_adicionais}>
@@ -58,7 +71,7 @@ const Perfil = ({ tipoUsuario }) => {
                         :
                         <>
                         </>
-                }
+                } */}
             </div>
         </>
     )

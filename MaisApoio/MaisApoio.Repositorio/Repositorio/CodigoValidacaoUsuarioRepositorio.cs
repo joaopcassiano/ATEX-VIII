@@ -24,7 +24,7 @@ public class CodigoValidacaoUsuarioRepositorio
 
         if ((int)tipoUsuario == 1)
         {
-            sql = "SELECT * FROM Beneficiario WHERE Email LIKE @email";
+            sql = "SELECT * FROM Voluntario WHERE Email LIKE @email";
         }
         else if ((int)tipoUsuario == 2)
         {
@@ -36,7 +36,7 @@ public class CodigoValidacaoUsuarioRepositorio
         }
         else
         {
-            sql = "SELECT * FROM Voluntario WHERE Email LIKE @email";
+            sql = "SELECT * FROM Beneficiario WHERE Email LIKE @email";
         }
 
         var conexao = _banco.ConectarSqlServer();
@@ -55,16 +55,16 @@ public class CodigoValidacaoUsuarioRepositorio
         string sqlCodigo = "Insert into CodigoValidacaoUsuario(tipoUsuario,email,codigo,dataExpiracao) VALUES (@tipoUsuario, @email, @codigo, @dataExpiracao)";
 
         await conexao.ExecuteAsync(sqlCodigo, new { tipoUsuario = codigo.TipoUsuario, email = codigo.Email, codigo = codigo.Codigo, dataExpiracao = codigo.DataExpiracao });
-        
+
         conexao.Close();
-        
+
         return aleatoria;
-        
+
     }
 
-    public async Task<bool> VerificarCodigoAsync(string email, TipoUsuario tipoUsuario, int codigo)
+    public async Task<int> VerificarCodigoAsync(string email, TipoUsuario tipoUsuario, int codigo)
     {
-        string sql = "SELECT TOP 1 * FROM CodigoValidacaoUsuario WHERE Email LIKE @email AND TipoUsuario = @tipoUsuario AND DataExpiracao > GETDATE() ORDER BY DataExpiracao DESC;";
+        string sql = "SELECT TOP 1 CodigoValidacaoUsuarioID as Id,* FROM CodigoValidacaoUsuario WHERE Email = @email AND TipoUsuario = @tipoUsuario AND DataExpiracao > GETDATE() AND Uso is null ORDER BY DataExpiracao DESC;";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -72,15 +72,37 @@ public class CodigoValidacaoUsuarioRepositorio
 
         var usuarioCodigo = await conexao.QueryFirstOrDefaultAsync<CodigoValidacaoUsuario>(sql, new { tipoUsuario = tipoUsuario, email = email });
 
-        conexao.Close();
-
         if ((usuarioCodigo == null) || (usuarioCodigo.Codigo != codigo))
         {
             throw new Exception("Código invalido");
         }
 
-        return true;
+        sql = $@"Update CodigoValidacaoUsuario SET Uso = @data Where CodigoValidacaoUsuarioID = @id;";
+
+        await conexao.ExecuteAsync(sql, new { id = usuarioCodigo.ID, data = DateTime.Now });
+
+        if ((int)tipoUsuario == 1)
+        {
+            sql = "SELECT VoluntarioID as Id FROM Voluntario WHERE Email LIKE @email";
+        }
+        else if ((int)tipoUsuario == 2)
+        {
+            sql = "SELECT DoadorID as Id FROM Doador WHERE Email LIKE @email";
+        }
+        else if ((int)tipoUsuario == 3)
+        {
+            sql = "SELECT EmpresaID as Id FROM Empresa WHERE Email LIKE @email";
+        }
+        else
+        {
+            sql = "SELECT BeneficiarioID as Id FROM Beneficiario WHERE Email LIKE @email";
+        }
+
+        var usuarioId = await conexao.QueryFirstOrDefaultAsync<int>(sql, new { email = email });
+
+        conexao.Close();
+
+        return usuarioId;
 
     }
-
 }

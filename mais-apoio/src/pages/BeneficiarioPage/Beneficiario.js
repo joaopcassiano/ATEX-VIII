@@ -2,13 +2,14 @@ import TopBarLog from '../../Componentes/TopBarLog/TopBarLog';
 import styles from './_beneficiario.module.css';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Conteudo from '../../Componentes/Conteudo/Conteudo';
 import CorpoInferior from '../../Componentes/CorpoInferioe/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
 import { ToastContainer, toast } from "react-toastify";
 import BeneficiarioService from '../../Services/BeneficiarioService'
 import Loader from '../../Componentes/Loader/Loader';
+import EditarBeneficiario from '../EditarBeneficiario/EditarBeneficiario';
 
 const Beneficiario = () => {
     const navigate = useNavigate();
@@ -17,17 +18,19 @@ const Beneficiario = () => {
     const [id] = useState(location.state);
     const [beneficiario, setBeneficiario] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [editar, setEditar] = useState(false);
+    const escuroRef = useRef(null);
+    const boxEditarRef = useRef(null);
 
     useEffect(() => {
         ObterBeneficiario()
-    }, [])
+    }, [atualizar])
 
     const ObterBeneficiario = async () => {
         try {
             const resposta = await BeneficiarioService.ObterPorId(id)
             setBeneficiario(resposta?.data)
             setLoading(false)
-            console.log("aaaaaaaaaaaaaaaaaaaaaa")
             toast.success("Informações carregadas com sucesso!", {
                 position: "top-center",
                 autoClose: 3000
@@ -47,6 +50,21 @@ const Beneficiario = () => {
         }
     }
 
+    const fecharBoxEditar = (event) => {
+        if (boxEditarRef.current && !boxEditarRef.current.contains(event.target)) {
+            setEditar(false);
+        }
+    };
+
+    const handleAtualizar = () => {
+        setAtualizar(prev => !prev);
+    };
+
+
+    const handleEditar = () => {
+        setEditar(true);
+        console.log("Mudou")
+    };
 
     return (
         <>
@@ -57,13 +75,24 @@ const Beneficiario = () => {
                         <Loader />
                         :
                         <>
+                            {
+                                editar &&
+                                <>
+                                    <div onClick={fecharBoxEditar} ref={escuroRef} className={styles.escuroTela}>
+                                        <div ref={boxEditarRef} className={styles.boxEditar}>
+                                            <EditarBeneficiario usuario={beneficiario}/>
+                                        </div>
+                                    </div>
+                                </>
+                            }
+
                             <TopBarLog usuario={beneficiario} tipoUsuario='Beneficiario' />
                             <CorpoInferior>
                                 <SideBar>
                                     <Link
                                         className={styles.link}
                                         to='./consulta-geral'
-                                        state={beneficiario}>
+                                        state={{ beneficiario, atualizar: handleAtualizar }}>
                                         <Botao estilo='sideBar'>
                                             Consultar histórico geral
                                         </Botao>
@@ -71,7 +100,7 @@ const Beneficiario = () => {
                                     <Link
                                         className={styles.link}
                                         to='./consultar-doacoes'
-                                        state={beneficiario}>
+                                        state={{ beneficiario, atualizar: handleAtualizar }}>
                                         <Botao estilo='sideBar'>
                                             Consultar histórico de doações
                                         </Botao>
@@ -83,7 +112,7 @@ const Beneficiario = () => {
                                             oi
                                         </>
                                         :
-                                        <Outlet />
+                                        <Outlet context={{ beneficiario, atualizar: handleAtualizar, editar: handleEditar}} />
                                     }
                                 </Conteudo>
                             </CorpoInferior>

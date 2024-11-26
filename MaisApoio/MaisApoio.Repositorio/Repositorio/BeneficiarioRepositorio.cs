@@ -30,7 +30,7 @@ public class BeneficiarioRepositorio
 
     public async Task CarregarImagemAsync(string imagem, int id)
     {
-        string sql = "Insert into Beneficiario(ImagemPerfil) values (@imagem) WHERE BebeficiarioID = @id";
+        string sql = "update Beneficiario set ImagemPerfil = @imagem where BeneficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 

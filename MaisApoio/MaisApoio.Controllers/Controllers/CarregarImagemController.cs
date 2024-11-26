@@ -15,7 +15,7 @@ namespace GoogleDriveUploader.Controllers
         public GoogleDriveController()
         {
             // Inicializa a autenticação com o arquivo JSON
-            var credential = GoogleCredential.FromFile(@"C:\Users\ander\OneDrive\Desktop\RepositorioGit\maisapoio-7d555b0f8ea9.json")
+            var credential = GoogleCredential.FromFile(@"C:\Users\anderson\Desktop\Html\Repositorio\maisapoio-7d555b0f8ea9.json")
                 .CreateScoped(DriveService.ScopeConstants.DriveFile);
 
             _driveService = new DriveService(new BaseClientService.Initializer

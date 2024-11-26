@@ -1,13 +1,22 @@
 import axios from 'axios';
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Cropper } from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import styles from "./_carregarImagem.module.css";
+import { useLocation, useNavigate } from 'react-router-dom';
+import BeneficiarioService from '../../Services/BeneficiarioService';
 
-const CarregarImagem = () => {
+const CarregarImagem = (tipoUsuario, id) => {
     const cropperRef = useRef(null);
     const [image, setImage] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
+    const navigate = useNavigate();
+    const location = useLocation()
+    const [informacoesUsuario] = useState(location.state || { tipoUsuario: '', id: 0 })
+
+    useEffect(() => {
+        console.log(informacoesUsuario)
+    }, [informacoesUsuario])
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -31,13 +40,38 @@ const CarregarImagem = () => {
                 try {
                     const response = await axios.post("http://localhost:5233/api/GoogleDrive/upload", formData, {
                         headers: {
-                            "Content-Type": "multipart/form-data", 
+                            "Content-Type": "multipart/form-data",
                         },
                     });
 
                     if (response.status === 200) {
                         console.log("URL da imagem:", response.data.url);
                         setCroppedImage(URL.createObjectURL(blob));
+
+                        console.log(informacoesUsuario.tipoUser)
+
+                        if (informacoesUsuario.tipoUser === 'Beneficiario') {
+                            try
+                            {
+                                const resposta = await BeneficiarioService.CarregarImagemo(response?.data?.url,informacoesUsuario.id)
+                                console.log(resposta)
+                            }
+                            catch (error)
+                            {
+                                console.error("Erro ao carregar imagem:", error.message);
+                            }
+                            
+                        }
+                        else if (informacoesUsuario.tipoUsuario === 'Doador') {
+
+                        }
+                        else if (informacoesUsuario.tipoUsuario === 'Voluntario') {
+
+                        }
+                        else if (informacoesUsuario.tipoUsuario === 'Empresa') {
+
+                        }
+
                     } else {
                         console.error("Erro ao fazer upload:", response.data.message);
                     }

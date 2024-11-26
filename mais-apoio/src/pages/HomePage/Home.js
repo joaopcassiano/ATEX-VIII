@@ -2,12 +2,12 @@ import Botao from '../../Componentes/Botao/Botao';
 import logo from '../../assets/logo.png';
 import styles from './_home.module.css';
 import TopBar from '../../Componentes/TopBar/TopBar';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import InputMask from 'react-input-mask';
 import { FiAtSign } from "react-icons/fi";
 import { GoLock } from "react-icons/go";
 import { BsX } from "react-icons/bs";
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import BeneficiarioService from '../../Services/BeneficiarioService'
 import { ToastContainer, toast } from "react-toastify";
@@ -27,7 +27,7 @@ const Home = () => {
         bolaEscura: styles.bolaEscura,
         bolaClara: styles.bolaClara
     }
-
+    
     const fecharBoxLogin = (event) => {
         if (boxLoginRef.current && !boxLoginRef.current.contains(event.target)) {
             setVisivelLogin(false);

@@ -16,7 +16,8 @@ import { IoCallOutline } from "react-icons/io5";
 import AcharCep from '../../Services/Endereco'
 import { BsArrowReturnRight } from "react-icons/bs";
 import { BsBucket } from "react-icons/bs";
-
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const CadastroBeneficiario = () => {
     const [visivelEndereco, setVisivelEndereco] = useState(false)
@@ -30,6 +31,7 @@ const CadastroBeneficiario = () => {
     const [existeRua, setExisteRua] = useState(false);
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
+    const navigate = useNavigate();
     const [imageWidth, setImageWidth] = useState(0);
     const [beneficiario, setBeneficiario] = useState({
         nome: '',
@@ -229,21 +231,48 @@ const CadastroBeneficiario = () => {
     };
 
     const handleImageLoad = (event) => {
-        const width = event.target.width; 
+        const width = event.target.width;
         setImageWidth(width);
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         if (imageWidth > 0) {
-          console.log(`Largura da imagem: ${imageWidth}px`);
+            console.log(`Largura da imagem: ${imageWidth}px`);
         }
-      }, [imageWidth]);
+    }, [imageWidth]);
+
+
+    const Cadastrar = async () => {
+        try {
+            const resposta = await BeneficiarioService.Criar(beneficiario);
+            toast.success("Cadastro realizado com sucesso, faça o login!", {
+                position: "top-center",
+                autoClose: 3000
+            });
+            
+            setTimeout(() => {
+                navigate('../apresentacao');
+            }, 4000);
+        }
+        catch (error) {
+            console.log(error)
+            toast.error(
+                `Erro ao cadastrar o beneficiário: ${error.response.data}`,
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                }
+            );
+        }
+
+    }
 
     return (
         <>
+            <ToastContainer />
             <div className={styles.conteudoCadastroUsuario}>
                 <div className={styles.cadastroUsuario}>
-                    <div style={{marginRight: imageWidth? `calc(${imageWidth}px - ${(imageWidth * 0.6) / 100}%)`: '0'}} className={styles.formsCadastro}>
+                    <div style={{ marginRight: imageWidth ? `calc(${imageWidth}px - ${(imageWidth * 0.6) / 100}%)` : '0' }} className={styles.formsCadastro}>
                         <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
                             <div className={styles.cadastroForms}>
                                 Cadastro
@@ -438,7 +467,7 @@ const CadastroBeneficiario = () => {
                                     }
                                     className={styles.inputCadastro} />
                             </div>
-                            <Botao onClick={async () => { await BeneficiarioService.Criar(beneficiario) }} estilo='cadastrarConfirma'>Cadastra-se</Botao>
+                            <Botao onClick={Cadastrar} estilo='cadastrarConfirma'>Cadastra-se</Botao>
                         </form>
                     </div>
                     <img className={styles.fotoCadastro} onLoad={handleImageLoad} src={imagemCadastro} alt='imagemCadastro'></img>

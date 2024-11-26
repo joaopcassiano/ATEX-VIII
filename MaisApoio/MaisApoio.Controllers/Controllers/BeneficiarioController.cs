@@ -168,4 +168,19 @@ public class BeneficiarioController : ControllerBase
         }
 
     }
+
+    [HttpPost]
+    [Route("carregar-imagem/{id}")]
+    public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] ImagemCarregada imagem)
+    {
+        try
+        {
+            await _beneficiarioAplicacao.CarregarImagemAsync(imagem.Imagem, id);
+            return Ok("Imagem carregada com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }

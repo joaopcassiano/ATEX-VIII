@@ -4,7 +4,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
 import { useEffect, useState } from 'react';
 import Conteudo from '../../Componentes/Conteudo/Conteudo';
-import CorpoInferior from '../../Componentes/CorpoInferioe/CorpoInferior';
+import CorpoInferior from '../../Componentes/CorpoInferior/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
 import { ToastContainer, toast } from "react-toastify";
 import BeneficiarioService from '../../Services/BeneficiarioService'

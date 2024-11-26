@@ -51,7 +51,7 @@ const Home = () => {
 
             }
             else if (tipoUsuario === 2) {
-
+                navigate('../doador')
             }
             else if (tipoUsuario === 3) {
 
@@ -123,7 +123,7 @@ const Home = () => {
 
             }
             else if (tipoUsuario === 2) {
-
+                
             }
             else if (tipoUsuario === 3) {
 

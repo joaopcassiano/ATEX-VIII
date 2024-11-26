@@ -33,7 +33,6 @@ const CadastroDoador = () => {
         cpf: '',
         telefone: '',
         dataNascimento: '',
-        tipoDeDoacao: '',
         email: '',
         senha: '',
         rua: '',
@@ -52,7 +51,6 @@ const CadastroDoador = () => {
                 cpf: '',
                 telefone: '',
                 dataNascimento: '',
-                tipoDeDoacao: '',
                 email: '',
                 senha: '',
                 rua: '',
@@ -118,7 +116,6 @@ const CadastroDoador = () => {
                         dataNascimento: doador.dataNascimento,
                         email: doador.email,
                         senha: doador.senha,
-                        tipoDeDoacao: doador.tipoDeDoacao,
                         rua: '',
                         bairro: '',
                         cidade: '',
@@ -132,7 +129,6 @@ const CadastroDoador = () => {
                         cpf: doador.cpf,
                         telefone: doador.telefone,
                         dataNascimento: doador.dataNascimento,
-                        tipoDeDoacao: doador.tipoDeDoacao,
                         email: doador.email,
                         senha: doador.senha,
                         rua: response.data.logradouro || '',
@@ -181,7 +177,6 @@ const CadastroDoador = () => {
                 cpf: doador.cpf,
                 telefone: doador.telefone,
                 dataNascimento: doador.dataNascimento,
-                tipoDeDoacao: doador.tipoDeDoacao,
                 email: doador.email,
                 senha: doador.senha,
                 rua: '',
@@ -407,19 +402,6 @@ const CadastroDoador = () => {
                                         setDoador({ ...doador, telefone: event.target.value })
                                     }
                                 />
-                            </div>
-                            <div className={styles.cadaInput}>
-                                <label className={styles.labelCadastro}><BiDonateHeart className={styles.iconeCadastro} /></label>
-                                <InputMask
-                                    type='text'
-                                    placeholder='Tipo de doação'
-                                    className={styles.inputCadastro}
-                                    value={doador.tipoDeDoacao}
-                                    onChange={(event) =>
-                                        setDoador({ ...doador, tipoDeDoacao: event.target.value })
-                                    }
-                                />
-
                             </div>
                             <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
                         </form>

@@ -15,6 +15,7 @@ import CadastroDoador from './pages/CadastroDoadorPage/CadastroDoador';
 import CadastroEmpresa from './pages/CadastroEmpresaPage/CadastroEmpresa';
 import CadastroVoluntario from './pages/CadastroVoluntarioPage/CadastroVoluntario';
 import Beneficiario from './pages/BeneficiarioPage/Beneficiario';
+import Doador from './pages/DoadorPage/Doador';
 import Perfil from './Componentes/Perfil/Perfil';
 import ConsultarDoacoes from './pages/ConsultarDoacoesPage/ConsultarDoacoes';
 import ConsultaGeralBeneficiario from './pages/ConsultaGeralBeneficiario/ConsultaGeralBeneficiario';
@@ -25,29 +26,32 @@ import "react-toastify/dist/ReactToastify.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/home/apresentacao" />} />
-        <Route path="/home" element={<Home />}>
-          <Route path="apresentacao" element={<ConteudoApresentacao />} />
-          <Route path="quem-somos" element={<ConteudoQuemSomos />} />
-          <Route path="quero-ajudar" element={<ConteudoAreaParaAjudar />} />
-          <Route path="preciso-de-ajuda" element={<ConteudoAreaBeneficiario />} />
-          <Route path="todos-cadastros" element={<ConteudoTodosCadastros />} />
-          <Route path="cadastro-beneficiario" element={<CadastroBeneficiario />} />
-          <Route path="cadastro-doador" element={<CadastroDoador />} />
-          <Route path="cadastro-empresa" element={<CadastroEmpresa />} />
-          <Route path="cadastro-voluntario" element={<CadastroVoluntario />} />
-        </Route>
-        <Route path="/beneficiario" element={<Beneficiario />}>
-          <Route path="perfil" element={<Perfil tipoUsuario='Beneficiario' />} />
-          <Route path="consultar-doacoes" element={<ConsultarDoacoes />} />
-          <Route path="consulta-geral" element={<ConsultaGeralBeneficiario />} />
-          <Route path="informacoes" element={<informacoesBeneficiario />} />
-          <Route path="carregar-imagem" element={<CarregarImagem />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Navigate to="/home/apresentacao" />} />
+      <Route path="/home" element={<Home />}>
+        <Route path="apresentacao" element={<ConteudoApresentacao />} />
+        <Route path="quem-somos" element={<ConteudoQuemSomos />} />
+        <Route path="quero-ajudar" element={<ConteudoAreaParaAjudar />} />
+        <Route path="preciso-de-ajuda" element={<ConteudoAreaBeneficiario />} />
+        <Route path="todos-cadastros" element={<ConteudoTodosCadastros />} />
+        <Route path="cadastro-beneficiario" element={<CadastroBeneficiario />} />
+        <Route path="cadastro-doador" element={<CadastroDoador />} />
+        <Route path="cadastro-empresa" element={<CadastroEmpresa />} />
+        <Route path="cadastro-voluntario" element={<CadastroVoluntario />} />
+      </Route>
+      <Route path="/beneficiario" element={<Beneficiario />}>
+        <Route path="perfil" element={<Perfil tipoUsuario='Beneficiario' />} />
+        <Route path="consultar-doacoes" element={<ConsultarDoacoes />} />
+        <Route path="consulta-geral" element={<ConsultaGeralBeneficiario />} />
+        <Route path="informacoes" element={<informacoesBeneficiario />} />
+        <Route path="carregar-imagem" element={<CarregarImagem />} />
+      </Route>
+      <Route path="/doador" element={<Doador />}>
+        <Route path="perfil" element={<Perfil tipoUsuario='Doador' />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );
 
 reportWebVitals();

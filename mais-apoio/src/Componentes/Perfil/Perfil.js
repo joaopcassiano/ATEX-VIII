@@ -18,16 +18,28 @@ const Perfil = ({ tipoUsuario }) => {
                         to={"../carregar-imagem"}
                         className={styles.foto}
                         state={{ tipoUser: tipoUsuario, id: usuario.id }}>
-                        <div className={styles.botaoImagem}>
-                            <BsCamera className={styles.camera}></BsCamera>
-                            Alterar foto
-                        </div>
-                        <img className={styles.perfil} src={usuario.imagemPerfil} alt="Foto do Usuário">
-                        </img>
+                        {usuario.imagemPerfil ?
+                            <>
+                                <div className={styles.botaoImagem}>
+                                    <BsCamera className={styles.camera}></BsCamera>
+                                    Alterar foto
+                                </div>
+                                <img className={styles.perfil} src={usuario.imagemPerfil} alt="Foto do Usuário">
+                                </img>
+                            </>
+                            :
+                            <>
+                            <div className={styles.botaoImagemPermanente}>
+                                    <BsCamera className={styles.cameraPermanente}></BsCamera>
+                                    Alterar foto
+                                </div>
+                            </>
+                        }
+
                     </Link>
                     <div className={styles.cont}>
                         <p className={styles.nome} >{usuario.nome}</p>
-                        <Botao onClick={() => { editar() }} estilo='editar_perfil'>
+                        <Botao onClick={() => { editar()}} estilo='editar_perfil'>
                             Editar perfil
                         </Botao>
                     </div>

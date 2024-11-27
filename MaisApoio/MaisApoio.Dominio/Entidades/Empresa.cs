@@ -10,7 +10,6 @@ public class Empresa
     private string _telefone;
     private string _email;
     private string _senha;
-    private string? _imagemPerfil;
     private bool _ativo;
     private string _cnpj;
 

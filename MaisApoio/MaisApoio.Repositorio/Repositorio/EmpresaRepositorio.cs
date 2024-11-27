@@ -13,15 +13,15 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
             _banco = new MaisApoioContexto();
         }
 
-        // Método para carregar imagem de perfil para a empresa
-        public async Task CarregarImagemAsync(string imagemPerfil, int id)
-        {
-            string sql = "MATCH (e:Empresa {EmpresaID: $id}) SET e.ImagemPerfil = $imagemPerfil";
+        // // Método para carregar imagem de perfil para a empresa
+        // public async Task CarregarImagemAsync(string imagemPerfil, int id)
+        // {
+        //     string sql = "MATCH (e:Empresa {EmpresaID: $id}) SET e.ImagemPerfil = $imagemPerfil";
 
-            using var session = _banco.ConectarNeo4j();
+        //     using var session = _banco.ConectarNeo4j();
 
-            await session.RunAsync(sql, new { id, imagemPerfil });
-        }
+        //     await session.RunAsync(sql, new { id, imagemPerfil });
+        // }
 
         // Método para logar a empresa pelo e-mail e senha
         public async Task<Empresa> LogarAsync(string email, string senha)

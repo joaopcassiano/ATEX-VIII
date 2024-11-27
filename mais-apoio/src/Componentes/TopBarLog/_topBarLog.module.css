@@ -49,6 +49,7 @@
     height: 5rem;
     border-radius: 90px;
     cursor: pointer;
+    border: #007BFF solid 2px;
 }
 
 .semFoto{

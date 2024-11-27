@@ -63,13 +63,27 @@ export default {
     },
     async CarregarImagemo(imagem,id){
         try {
-            const response = await axios.post(`http://localhost:5233/Beneficiario/api/carregar-imagem/${id}`, {
+            const response = await axios.put(`http://localhost:5233/Beneficiario/api/carregar-imagem/${id}`, {
                 imagem: imagem
             });
             console.log(response)
         }
         catch (error) {
             console.error('Erro ao carregar imagem:', error);
+            throw error;
+        }
+    },
+    async TrocarSenha(id,confirmarSenha,senha){
+        try {
+            const response = await axios.put(`http://localhost:5233/Beneficiario/api/trocar-senha/${id}`, {
+                confirmarSenha: confirmarSenha,
+                senha: senha
+            });
+            console.log(response)
+        }
+        catch (error) {
+            console.log(error)
+            console.error('Erro ao trocar de senha:', error);
             throw error;
         }
     }

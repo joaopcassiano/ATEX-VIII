@@ -23,6 +23,12 @@ builder.Services.AddScoped<BeneficiarioAplicacao>();
 builder.Services.AddScoped<EnderecoBeneficiarioRepositorio>();
 builder.Services.AddScoped<EnderecoBeneficiarioAplicacao>();
 
+builder.Services.AddScoped<DoadorRepositorio>();
+builder.Services.AddScoped<DoadorAplicacao>();
+
+builder.Services.AddScoped<EnderecoDoadorRepositorio>();
+builder.Services.AddScoped<EnderecoDoadorAplicacao>();
+
 builder.Services.AddScoped<CodigoValidacaoUsuarioRepositorio>();
 
 var app = builder.Build();

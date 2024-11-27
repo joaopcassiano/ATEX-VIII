@@ -153,4 +153,25 @@ public class BeneficiarioAplicacao
         return beneficiario.ID;
     }
 
+    public async Task TrocarDeSenhaAsync(int id, string confirmarSenha, string senha)
+    {
+        var beneficiario = await _beneficiarioRepositorio.ObterPorIdAsync(id);
+
+        if (beneficiario == null)
+        {
+            throw new Exception("Beneficiario não encontrado");
+        }
+
+        if (confirmarSenha != senha)
+        {
+            throw new Exception("As senhas passadas não são iguais");
+        }
+
+        if(string.IsNullOrWhiteSpace(senha))
+        {
+            throw new Exception("Senha não pode ser vazia");
+        }
+
+        await _beneficiarioRepositorio.TrocarDeSenhaAsync(id,senha);
+    }
 }

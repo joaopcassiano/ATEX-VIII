@@ -73,13 +73,26 @@ public class BeneficiarioRepositorio
 
     public async Task AtualizarAsync(Beneficiario beneficiario)
     {
-        string sql = "UPDATE Beneficiario SET nome = @nome, necessidade = @necessidade, cpf = @cpf, telefone = @telefone, dataNascimento = @dataNascimento, situacaoEconomica = @situacaoEconomica, ativo = @ativo WHERE BebeficiarioID = @id";
+        string sql = "UPDATE Beneficiario SET nome = @nome, necessidade = @necessidade, cpf = @cpf, telefone = @telefone, dataNascimento = @dataNascimento, situacaoEconomica = @situacaoEconomica, ativo = @ativo WHERE BeneficiarioID = @id";
 
         var conexao = _banco.ConectarSqlServer();
 
         conexao.Open();
 
         await conexao.ExecuteAsync(sql, new { id = beneficiario.ID, necessidade = beneficiario.Necessidade, telefone = beneficiario.Telefone, cpf = beneficiario.CPF, ativo = beneficiario.Ativo, nome = beneficiario.Nome, dataNascimento = beneficiario.DataNascimento, situacaoEconomica = beneficiario.SituacaoEconomica });
+
+        conexao.Close();
+    }
+
+    public async Task TrocarDeSenhaAsync(int id, string senha)
+    {
+        string sql = "UPDATE Beneficiario SET senha = @senha WHERE BeneficiarioID = @id";
+
+        var conexao = _banco.ConectarSqlServer();
+
+        conexao.Open();
+
+        await conexao.ExecuteAsync(sql, new { id = id, senha = senha });
 
         conexao.Close();
     }

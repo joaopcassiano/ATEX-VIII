@@ -5,36 +5,37 @@ using MaisApoio.Models.Beneficiario.Requisicao;
 using System.Data.Common;
 using MaisApoio.Service;
 using MaisApoio.MaisApoio.Controllers.Models;
+using MaisApoio.Models.Doador.Requisicao;
 
 [ApiController]
 [Route("[controller]/api")]
-public class BeneficiarioController : ControllerBase
+public class DoadorController : ControllerBase
 {
-    private BeneficiarioAplicacao _beneficiarioAplicacao;
-    private EnderecoBeneficiarioAplicacao _enderecoAplicacao;
+    private DoadorAplicacao _doadorAplicacao;
+    private EnderecoDoadorAplicacao _enderecoAplicacao;
 
-    public BeneficiarioController(BeneficiarioAplicacao beneficiarioAplicacao, EnderecoBeneficiarioAplicacao enderecoAplicacao)
+    public DoadorController(DoadorAplicacao doadorAplicacao, EnderecoDoadorAplicacao enderecoAplicacao)
     {
-        _beneficiarioAplicacao = beneficiarioAplicacao;
+        _doadorAplicacao = doadorAplicacao;
         _enderecoAplicacao = enderecoAplicacao;
     }
 
     [HttpPost]
     [Route("criar")]
-    public async Task<IActionResult> CriarAsync([FromBody] BeneficiarioCriacao beneficiarioCriacao)
+    public async Task<IActionResult> CriarAsync([FromBody] DoadorCriacao doadorCriacao)
     {
         try
         {
-            var beneficiarioID = await _beneficiarioAplicacao.CriarAsync(new Beneficiario(beneficiarioCriacao.Nome, beneficiarioCriacao.Cpf, beneficiarioCriacao.Necessidade, beneficiarioCriacao.Telefone, beneficiarioCriacao.Email, beneficiarioCriacao.SituacaoEconomica, beneficiarioCriacao.DataNascimento, beneficiarioCriacao.Senha));
+            var doadorID = await _doadorAplicacao.CriarAsync(new Doador(doadorCriacao.Nome, doadorCriacao.Cpf, doadorCriacao.Telefone, doadorCriacao.Email,  doadorCriacao.DataNascimento, doadorCriacao.Senha));
 
             try
             {
-                var id = await _enderecoAplicacao.CriarAsync(new EnderecoBeneficiario(beneficiarioCriacao.Rua, beneficiarioCriacao.Bairro, beneficiarioCriacao.Numero, beneficiarioCriacao.Complemento, beneficiarioCriacao.Cidade, beneficiarioCriacao.Estado, beneficiarioCriacao.Cep, beneficiarioID));
+                var id = await _enderecoAplicacao.CriarAsync(new EnderecoDoador(doadorCriacao.Rua, doadorCriacao.Bairro, doadorCriacao.Numero, doadorCriacao.Complemento, doadorCriacao.Cidade, doadorCriacao.Estado, doadorCriacao.Cep, doadorID));
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Apagou");
-                await _beneficiarioAplicacao.ExclusaoFisicaAsync(beneficiarioID);
+                await _doadorAplicacao.ExclusaoFisicaAsync(doadorID);
                 throw new Exception(ex.Message);
             }
 
@@ -123,7 +124,7 @@ public class BeneficiarioController : ControllerBase
          </body>
          </html>";
 
-            EmailService.EnviarEmail(beneficiarioCriacao.Email, "Cadastro no sistema +Apoio", mensagem);
+            EmailService.EnviarEmail(doadorCriacao.Email, "Cadastro no sistema +Apoio", mensagem);
 
             return Ok("Usuário Criado com sucesso!");
         }
@@ -135,11 +136,11 @@ public class BeneficiarioController : ControllerBase
 
     [HttpPost]
     [Route("logar")]
-    public async Task<IActionResult> LogarAsync([FromBody] BeneficiarioLogar beneficiarioLogar)
+    public async Task<IActionResult> LogarAsync([FromBody] DoadorLogar doadorLogar)
     {
         try
         {
-            int id = await _beneficiarioAplicacao.LogarAsync(beneficiarioLogar.Email, beneficiarioLogar.Senha);
+            int id = await _doadorAplicacao.LogarAsync(doadorLogar.Email, doadorLogar.Senha);
 
             return Ok(id);
         }
@@ -156,11 +157,11 @@ public class BeneficiarioController : ControllerBase
     {
         try
         {
-            var beneficiario = await _beneficiarioAplicacao.ObterPorIdAsync(id);
+            var doador = await _doadorAplicacao.ObterPorIdAsync(id);
 
-            BeneficiarioLogado beneficiarioLogado = new BeneficiarioLogado(beneficiario);
+            DoadorLogado doadorLogado = new DoadorLogado(doador);
             
-            return Ok(beneficiarioLogado);
+            return Ok(doadorLogado);
         }
         catch (Exception ex)
         {
@@ -171,11 +172,11 @@ public class BeneficiarioController : ControllerBase
 
     [HttpPut]
     [Route("trocar-senha/{id}")]
-    public async Task<IActionResult> TrocarSenha([FromRoute] int id, [FromBody] BeneficiarioTrocarSenha beneficiarioTrocarSenha)
+    public async Task<IActionResult> TrocarSenha([FromRoute] int id, [FromBody] DoadorTrocarSenha doadorTrocarSenha)
     {
         try
         {
-            await _beneficiarioAplicacao.TrocarDeSenhaAsync(id,beneficiarioTrocarSenha.ConfirmarSenha, beneficiarioTrocarSenha.Senha);
+            await _doadorAplicacao.TrocarDeSenhaAsync(id,doadorTrocarSenha.ConfirmarSenha, doadorTrocarSenha.Senha);
 
             return Ok("Senha trocada com sucesso");
         }
@@ -192,7 +193,7 @@ public class BeneficiarioController : ControllerBase
     {
         try
         {
-            await _beneficiarioAplicacao.CarregarImagemAsync(imagem.Imagem, id);
+            await _doadorAplicacao.CarregarImagemAsync(imagem.Imagem, id);
             return Ok("Imagem carregada com sucesso!");
         }
         catch (Exception ex)
@@ -200,4 +201,5 @@ public class BeneficiarioController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
 }

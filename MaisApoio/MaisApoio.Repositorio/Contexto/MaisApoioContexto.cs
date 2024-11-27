@@ -10,6 +10,10 @@ public class MaisApoioContexto
 
     private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("maisapoio", "Anderson"));
     //Alterar                                                            localhost e porta                       Altere a senha
+    private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver(
+            "bolt://localhost:7687",  
+            AuthTokens.Basic("maisapoio", "Anderson") 
+        );
 
     public DbConnection ConectarSqlServer()
     {

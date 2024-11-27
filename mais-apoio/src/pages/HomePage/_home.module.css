@@ -151,6 +151,10 @@ cursor: pointer;
     gap: 0.8rem;
 }
 
+.esqueceuESenha{
+width: 100%;
+}
+
 .inputLogin{
     display: flex;
     align-items: center;
@@ -209,7 +213,6 @@ cursor: pointer;
 }
 
 .esqueceuLogin{
-    margin: 0.5rem 0 0 0;
     font-family: 'PoppinsSimples';
     display: flex;
     align-items: center;

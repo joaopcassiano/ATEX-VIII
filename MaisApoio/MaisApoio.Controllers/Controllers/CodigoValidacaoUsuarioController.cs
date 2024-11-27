@@ -2,6 +2,7 @@ using MaisApoio.Dominio.Enumeradores;
 using MaisApoio.MaisApoio.Repositorio.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using MaisApoio.Service;
+using MaisApoio.Models.CodigoValidacaoUsuario.Requisicao;
 
 [ApiController]
 [Route("[controller]/api")]
@@ -22,11 +23,13 @@ public class CodigoValidacaoUsuarioController : ControllerBase
 
     [HttpPost]
     [Route("criar")]
-    public async Task<IActionResult> criar([FromBody] string email, TipoUsuario tipoUsuario)
+    public async Task<IActionResult> criar([FromBody] EmailCodigo emailCodigo, TipoUsuario tipoUsuario)
     {
-        var aleatoria = await _codigoValidacaoUsuarioRepositorio.CriarCodigoAsync(email, tipoUsuario);
+        try
+        {
+            var aleatoria = await _codigoValidacaoUsuarioRepositorio.CriarCodigoAsync(emailCodigo.Email, tipoUsuario);
 
-        string mensagem = $@"
+            string mensagem = $@"
          <!DOCTYPE html>
          <html lang='pt-BR'>
          <head>
@@ -106,8 +109,30 @@ public class CodigoValidacaoUsuarioController : ControllerBase
          </body>
          </html>";
 
-        EmailService.EnviarEmail(email, "Mudar de Senha", mensagem);
+            EmailService.EnviarEmail(emailCodigo.Email, "Mudar de Senha", mensagem);
 
-        return Ok();
+            return Ok("Código enviado com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(400, ex.Message);
+        }
+
+    }
+
+    [HttpPost]
+    [Route("verificar-codigo")]
+    public async Task<IActionResult> VerificarCodigoAsync([FromBody] CodigoValidacaoUsuarioVerificar codigoValidacao, [FromQuery] TipoUsuario codigo)
+    {
+        try
+        {
+            Console.WriteLine(codigoValidacao.Codigo);
+            var id = await _codigoValidacaoUsuarioRepositorio.VerificarCodigoAsync(codigoValidacao.Email, codigo, int.Parse(codigoValidacao.Codigo.Replace(" ", "").Replace("-","")));
+            return Ok(id);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(400, ex.Message);
+        }
     }
 }

@@ -14,10 +14,12 @@ const Botao = ({ children, estilo , onClick, referencia}) => {
         cadastrarAjudado : styles.cadastrarAjudado,
         imagemCadastro: styles.imagemCadastro,
         cadastrarConfirma : styles.cadastrarConfirma,
+        editarConfirma : styles.editarConfirma,
         inputCadastro: styles.inputCadastro,
         boxAjuda: styles.boxAjuda,
         bolinhaLogin: styles.bolinhaLogin,
         confirmarLogin: styles.confirmarLogin,
+        confirmarLoginEntrar: styles.confirmarLoginEntrar,
         editar_perfil: styles.editar_perfil,
         sideBar: styles.sideBar,
         pesquisar: styles.pesquisar

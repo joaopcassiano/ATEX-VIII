@@ -23,22 +23,20 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                     <Link
                         className={styles.link}
                         to={
-                            tipoUsuario === 'Beneficiario' ?
-                                'perfil' : '/home'
+                            tipoUsuario === 'Voluntario' ? 'perfil' : '/home'
                         }
                         
                         state={usuario}>
-                        <h3 className={styles.nomePerfil}> Olá {usuario.nome.split(" ")[0]},</h3>
+                        <h3 className={styles.nomePerfil}> Olá {usuario.nome.split(" ")[0]}</h3>
                     </Link>
 
                     <Link
                         className={styles.link}
                         to={
-                            tipoUsuario === 'Beneficiario' ?
-                                'perfil' : '/home'
+                            tipoUsuario === 'Voluntario' ? 'perfil' : '/home'
                         }
                         state={usuario}>
-                        <img src={usuario.perfil} className={styles.fotoPerfil}></img>
+                        <img src={usuario.perfil} className={styles.fotoPerfil}/>
 
                     </Link>
                 </div>

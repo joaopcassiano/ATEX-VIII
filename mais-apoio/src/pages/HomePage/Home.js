@@ -116,10 +116,10 @@ const Home = () => {
                                                 Esqueceu sua senha?
                                             </div>
                                             <Link
-                                                to={tipoUsuario === 4 ? 
-                                                    '../beneficiario'
+                                                to={tipoUsuario === 1 ? 
+                                                    '../Voluntario'
                                                     :
-                                                    ''
+                                                    '../Beneficiario'
                                                 }
                                                 className={styles.link}>
                                                 <Botao estilo='confirmarLogin'>Entrar</Botao>

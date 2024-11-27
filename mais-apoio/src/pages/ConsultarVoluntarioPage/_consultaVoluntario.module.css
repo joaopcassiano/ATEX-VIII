@@ -1,0 +1,126 @@
+.corpo {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.filtro {
+    margin-bottom: 20px;
+}
+
+.filtro label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.filtroInputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filtroInputs select,
+.filtroInputs input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+}
+
+.searchButton {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.searchButton:hover {
+    background-color: #0056b3;
+}
+
+/* Colaborações */
+.colaboracoes {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.colaboracoes h2 {
+    margin-bottom: 16px;
+    font-size: 20px;
+    color: #333;
+}
+
+/* Card de beneficiário */
+.beneficiarioCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #fefefe;
+}
+
+.beneficiarioInfo h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #007bff;
+}
+
+.beneficiarioInfo p {
+    margin: 4px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.beneficiarioInfo .icon {
+    margin-right: 8px;
+    color: #007bff;
+}
+
+/* Status e imagem */
+.status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.ativo {
+    color: green;
+    font-weight: bold;
+}
+
+.inativo {
+    color: red;
+    font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .beneficiarioCard {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .status {
+        margin-top: 10px;
+        justify-content: flex-start;
+    }
+}

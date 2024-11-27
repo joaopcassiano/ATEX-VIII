@@ -1,52 +1,38 @@
 import TopBarLog from '../../Componentes/TopBarLog/TopBarLog';
-import styles from './_beneficiario.module.css';
-import fotoPerfil from '../../assets/fotoPerfil.png'
-import perfilExemplo from '../../assets/perfilExemplo.png'
-import perfilExemploVoluntario from '../../assets/perfilExemploVoluntario.png'
-import perfilExemploEmpresa from '../../assets/perfilExemploEmpresa.png'
+import styles from './styles.module.css';
+import fotoPerfil from '../../assets/fotoPerfil.png';
+import perfilExemplo from '../../assets/perfilExemplo.png';
+import perfilExemplo2 from '../../assets/FotoVoluntario2.png';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
 import Conteudo from '../../Componentes/Conteudo/Conteudo';
 import CorpoInferior from '../../Componentes/CorpoInferioe/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
 
-const Beneficiario = () => {
+const Voluntario = () => {
     const location = useLocation();
 
     const user = {
-        nome: 'Anderson Caproni de Oliveira',
+        nome: 'Pedro Henrique',
         perfil: fotoPerfil,
-        email: 'andersoncaproni@gmail.com',
-        dataNascimento: '28/09/2004',
-        doadores: [
+        email: 'pedrohenriquespadilha@gmail.com',
+        dataNascimento: '11/06/2005',
+        Beneficiario: [
             {
                 nome: 'Maria josé da Silva',
                 telefone: '(11) 99999-9999',
                 dataNascimento: '20/01/1990',
                 email: 'maria.jose@gmail.com',
-                itemDoado: 'Cesta básica',
+                perfil: perfilExemplo2,
+            },
+            {
+                nome: 'josé dos Santos Perreira',
+                telefone: '(22) 11111-1111',
+                dataNascimento: '11/06/1985',
+                email: 'jose.d.s.perreira@gmail.com',
                 perfil: perfilExemplo,
             }
         ],
-        necessidades: [
-            {
-                nome: 'Joao Victor Pereira',
-                telefone: '(10) 90309-2939',
-                dataNascimento: '28/01/2000',
-                email: 'joao@gmail.com',
-                necessidade: 'energia',
-                perfil: perfilExemploVoluntario,
-            }
-        ],
-        empregos: [
-            {
-                nome: 'Ipiranga',
-                telefone: '(10) 90309-2939',
-                email: 'ipiranga@gmail.com',
-                vaga: 'atendente',
-                perfil: perfilExemploEmpresa,
-            }
-        ]
     }
 
     return (
@@ -56,23 +42,23 @@ const Beneficiario = () => {
                 <SideBar>
                     <Link
                         className={styles.link}
-                        to='./consulta-geral'
+                        to='./Voluntariar-se'
                         state={user}>
                         <Botao estilo='sideBar'>
-                            Consultar histórico geral
+                            Voluntariar-se
                         </Botao>
                     </Link>
                     <Link
                         className={styles.link}
-                        to='./consultar-doacoes'
+                        to='./consulta'
                         state={user}>
                         <Botao estilo='sideBar'>
-                            Consultar histórico de doações
+                            Consultar histórico
                         </Botao>
                     </Link>
                 </SideBar>
                 <Conteudo>
-                    {location.pathname === '/beneficiario' ?
+                    {location.pathname === '/Voluntario' ?
                         <>
                         oi
                         </>
@@ -85,4 +71,4 @@ const Beneficiario = () => {
     )
 }
 
-export default Beneficiario;
+export default Voluntario;

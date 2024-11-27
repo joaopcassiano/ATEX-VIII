@@ -1,0 +1,92 @@
+.corpo {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    border: none;
+}
+
+.SideBar {
+    width: 15%;
+}
+
+.Conteudo {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cartoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 10px 50px;
+}
+
+.cartao {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cartao:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.imagemPerfil {
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    max-width: 280px;
+    margin: 0 auto;
+    display: block;
+    border: 3px solid #007bff;
+    object-fit: cover;
+}
+
+.info {
+    margin-top: 10px;
+}
+
+.nome {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.desafio {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+.voluntariarSe {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.voluntariarSe:hover {
+    background-color: #0056b3;
+}

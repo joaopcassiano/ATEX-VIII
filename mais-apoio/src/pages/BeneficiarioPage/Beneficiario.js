@@ -91,16 +91,14 @@ const Beneficiario = () => {
                                 <SideBar>
                                     <Link
                                         className={styles.link}
-                                        to='./consulta-geral'
-                                        state={{ beneficiario, atualizar: handleAtualizar }}>
+                                        to='./consulta-geral'>
                                         <Botao estilo='sideBar'>
                                             Consultar histórico geral
                                         </Botao>
                                     </Link>
                                     <Link
                                         className={styles.link}
-                                        to='./consultar-doacoes'
-                                        state={{ beneficiario, atualizar: handleAtualizar }}>
+                                        to='./consultar-doacoes'>
                                         <Botao estilo='sideBar'>
                                             Consultar histórico de doações
                                         </Botao>

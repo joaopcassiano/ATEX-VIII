@@ -28,6 +28,9 @@ import ConsultarEmpregos from './pages/ConsultaEmpregosPage/ConsultaEmpregos';
 import Empresa from './pages/EmpresaPage/Empresa';
 import RealizarDoacao from './pages/RealizarDoacaoPage/RealizarDoacao';
 import DoacoesDoador from './pages/DoacoesDoador/DoacoesDoador';
+import ConsultarHistorico from './pages/ConsultarVoluntarioPage/ConsultarVoluntario';
+import Voluntario from './pages/VoluntarioPage/Voluntario';
+import Voluntariar from './pages/VoluntariarPage/Voluntariar';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -65,6 +68,11 @@ root.render(
         <Route path="carregar-imagem" element={<CarregarImagem />} />
         <Route path="realizar-doacao" element={<RealizarDoacao />} />
         <Route path="doacoes" element={<DoacoesDoador />} />
+      </Route>
+      <Route path="/Voluntario" element={<Voluntario />}>
+        <Route path="perfil" element={<Perfil tipoUsuario="Voluntario" />} />
+        <Route path="voluntariar-se" element={<Voluntariar />} />
+        <Route path="consulta" element={<ConsultarHistorico />} />
       </Route>
     </Routes>
   </BrowserRouter>

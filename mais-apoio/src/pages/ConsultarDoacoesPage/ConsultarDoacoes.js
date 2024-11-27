@@ -1,8 +1,11 @@
+import { useOutletContext } from 'react-router-dom';
 import Botao from '../../Componentes/Botao/Botao';
 import styles from './_consultarDoacoes.module.css';
 import InputMask from 'react-input-mask';
 
 const ConsultarDoacoes = () => {
+    const { beneficiario, atualizar, editar } = useOutletContext();
+
     return (
         <div className={styles.conteudo}>
             <div className={styles.titulo_maior}>

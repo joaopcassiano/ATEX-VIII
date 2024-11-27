@@ -1,0 +1,79 @@
+.titulo {
+    width: 100%;
+    color: #007BFF;
+    font-family: 'Poppins';
+    font-size: 2.3rem;
+    text-align: left;
+    margin-bottom: 3rem;
+
+}
+
+.container {
+    display: flex;
+    padding: 0;
+    width: 90%;
+    height: auto;
+    justify-content: space-evenly;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.box {
+    width: 16rem;
+    max-width: 16rem;
+    min-width: 16rem;
+    height: auto;
+}
+
+.imagem {
+    width: 100%;
+    object-fit: cover;
+}
+
+.infos{
+    display: flex;
+    align-items: first baseline;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 0.4rem 1.3rem;
+    text-align: center;
+    border: #007BFF 2px solid;
+    gap: 0.1rem;
+}
+
+.nome{
+    margin: 0;
+    font-family: 'Poppins';
+    font-size: 0.8rem;
+    color: black;
+    margin-bottom: 0.1rem;
+}
+
+.demais{
+    font-family: 'PoppinsSimples';
+    font-size: 0.7rem;
+    color: #757575;
+    margin: 0;
+}
+
+.icone{
+    margin: 0;
+    font-size: 0.8rem;
+    color: #007BFF;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}

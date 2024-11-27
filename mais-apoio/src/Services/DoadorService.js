@@ -1,27 +1,25 @@
 import axios from 'axios';
 
 export default {
-    async Criar(beneficiario) {
+    async Criar(doador) {
         try {
-            const response = await axios.post("http://localhost:5233/Beneficiario/api/criar", {
-                nome: beneficiario.nome,
-                cpf: beneficiario.cpf,
-                telefone: beneficiario.telefone,
+            const response = await axios.post("http://localhost:5233/Doador/api/criar", {
+                nome: doador.nome,
+                cpf: doador.cpf,
+                telefone: doador.telefone,
                 dataNascimento: (() => {
-                    const data = beneficiario.dataNascimento ? new Date(beneficiario.dataNascimento) : null;
+                    const data = doador.dataNascimento ? new Date(doador.dataNascimento) : null;
                     return data instanceof Date && !isNaN(data) ? data.toISOString() : new Date().toISOString();
                 })(),
-                situacaoEconomica: parseFloat(beneficiario.situacaoEconomica.replace("R$ ", '').replace(".", '').replace(",", '.') || 0),
-                email: beneficiario.email,
-                senha: beneficiario.senha,
-                necessidade: beneficiario.necessidade,
-                rua: beneficiario.rua,
-                bairro: beneficiario.bairro,
-                cidade: beneficiario.cidade,
-                estado: beneficiario.estado,
-                numero: parseInt(beneficiario.numero) || 0,
-                complemento: beneficiario.complemento,
-                cep: beneficiario.cep.replace(/(\d{2})(\d{3})(\d{3})/, "$1.$2-$3")
+                email: doador.email,
+                senha: doador.senha,
+                rua: doador.rua,
+                bairro: doador.bairro,
+                cidade: doador.cidade,
+                estado: doador.estado,
+                numero: parseInt(doador.numero) || 0,
+                complemento: doador.complemento,
+                cep: doador.cep.replace(/(\d{2})(\d{3})(\d{3})/, "$1.$2-$3")
             });
             console.log("Cadastro realizado com sucesso!");
             return response;
@@ -38,7 +36,7 @@ export default {
 
     async Logar(email, senha) {
         try {
-            const response = await axios.post("http://localhost:5233/Beneficiario/api/logar", {
+            const response = await axios.post("http://localhost:5233/Doador/api/logar", {
                 email: email,
                 senha: senha
             });
@@ -53,7 +51,7 @@ export default {
 
     async ObterPorId(id) {
         try {
-            const response = await axios.get(`http://localhost:5233/Beneficiario/api/obterPorId/${id}`);
+            const response = await axios.get(`http://localhost:5233/Doador/api/obterPorId/${id}`);
             return response;
         }
         catch (error) {
@@ -61,19 +59,10 @@ export default {
             throw error;
         }
     },
-    async ObterTodos() {
-        try {
-            const response = await axios.get(`http://localhost:5233/Beneficiario/api/obter-todos`);
-            return response;
-        }
-        catch (error) {
-            console.error('Erro ao buscar:', error);
-            throw error;
-        }
-    },
     async CarregarImagem(imagem,id){
         try {
-            const response = await axios.put(`http://localhost:5233/Beneficiario/api/carregar-imagem/${id}`, {
+            console.log("Tentou");
+            const response = await axios.put(`http://localhost:5233/Doador/api/carregar-imagem/${id}`, {
                 imagem: imagem
             });
             console.log(response)
@@ -85,7 +74,7 @@ export default {
     },
     async TrocarSenha(id,confirmarSenha,senha){
         try {
-            const response = await axios.put(`http://localhost:5233/Beneficiario/api/trocar-senha/${id}`, {
+            const response = await axios.put(`http://localhost:5233/Doador/api/trocar-senha/${id}`, {
                 confirmarSenha: confirmarSenha,
                 senha: senha
             });

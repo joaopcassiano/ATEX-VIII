@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import BeneficiarioService from '../../Services/BeneficiarioService'
 import { ToastContainer, toast } from "react-toastify";
 import CodigoValidacaoUsuarioService from '../../Services/CodigoValidacaoUsuarioService';
+import DoadorService from '../../Services/DoadorService';
 
 const Home = () => {
     const [visivelLogin, setVisivelLogin] = useState(false)
@@ -36,14 +37,18 @@ const Home = () => {
     const fecharBoxLogin = (event) => {
         if (boxLoginRef.current && !boxLoginRef.current.contains(event.target)) {
             setVisivelLogin(false);
-            setTrocarSenha(1);
-            setEmailTrocar('');
-            setCodigo('');
-            setSenha('');
-            setConfirmarSenha('');
-            setId(0)
         }
     };
+
+    useEffect(() => {
+        console.log("entroui")
+        setTrocarSenha(1);
+        setEmailTrocar('');
+        setCodigo('');
+        setSenha('');
+        setConfirmarSenha('');
+        setId(0)
+    }, [visivelLogin]);
 
     const login = async () => {
         try {
@@ -51,7 +56,10 @@ const Home = () => {
 
             }
             else if (tipoUsuario === 2) {
-                navigate('../doador')
+                const response = await DoadorService.Logar(email, senha)
+                console.log(response)
+                console.log(`este é o id: ${response.data}`)
+                navigate('../doador', { state: response.data })
             }
             else if (tipoUsuario === 3) {
 
@@ -59,6 +67,7 @@ const Home = () => {
             else if (tipoUsuario === 4) {
                 const response = await BeneficiarioService.Logar(email, senha)
                 console.log(response)
+                console.log(`este é o id: ${response.data}`)
                 navigate('../beneficiario', { state: response.data })
 
             } else {
@@ -123,7 +132,26 @@ const Home = () => {
 
             }
             else if (tipoUsuario === 2) {
-                
+                try {
+                    const response = await DoadorService.TrocarSenha(id, senha, confirmarSenha)
+                    console.log(response);
+                    toast.success("Senha trocada com sucesso, você será redirecionado!", {
+                        position: "top-center",
+                        autoClose: 3000
+                    });
+                    setTimeout(() => {
+                        navigate('../doador', { state: id })
+                    }, 4000);
+                }
+                catch (error) {
+                    console.error(error);
+                    toast.error(`${error.response?.data}!`, {
+                        position: "top-center",
+                        autoClose: 2500
+                    });
+                    return;
+                }
+
             }
             else if (tipoUsuario === 3) {
 

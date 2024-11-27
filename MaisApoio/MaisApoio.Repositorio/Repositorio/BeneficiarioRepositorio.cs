@@ -15,7 +15,7 @@ public class BeneficiarioRepositorio
 
     public async Task<List<Beneficiario>> ObterTodosAsync()
     {
-        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario";
+        string sql = "SELECT BeneficiarioID AS ID, * FROM Beneficiario WHERE Ativo = 1";
 
         var conexao = _banco.ConectarSqlServer();
 

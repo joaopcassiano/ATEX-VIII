@@ -169,6 +169,25 @@ public class BeneficiarioController : ControllerBase
 
     }
 
+    [HttpGet]
+    [Route("obter-todos")]
+    public async Task<IActionResult> ObterTodos()
+    {
+        try
+        {
+            var beneficiario = await _beneficiarioAplicacao.ObterTodosAsync();
+
+            List<BeneficiarioLogado> beneficiariosLogado = beneficiario.Select( x => new BeneficiarioLogado(x)).ToList();
+            
+            return Ok(beneficiariosLogado);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
     [HttpPut]
     [Route("trocar-senha/{id}")]
     public async Task<IActionResult> TrocarSenha([FromRoute] int id, [FromBody] BeneficiarioTrocarSenha beneficiarioTrocarSenha)

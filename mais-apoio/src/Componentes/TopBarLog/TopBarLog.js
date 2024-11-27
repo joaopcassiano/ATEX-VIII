@@ -45,7 +45,7 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                                     <Link
                                         to={"carregar-imagem"}
                                         className={styles.semFoto}
-                                        state={{ tipoUser: tipoUsuario, id: usuario.id }}>
+                                        state={{ tipoUser: tipoUsuario, id: usuario?.id }}>
                                         <BsCamera className={styles.camera}></BsCamera>
                                         Adicionar foto
                                     </Link>

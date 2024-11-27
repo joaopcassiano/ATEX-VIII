@@ -26,7 +26,7 @@ public class EmpresaLogado
         Cnpj = empresa.CNPJ;
         Email = empresa.Email;
         Telefone = empresa.Telefone;
-        Segmento = empresa.Segmento;
+        Segmento = empresa.SegmentoMercado;
         Ativo = empresa.Ativo;
     }
 

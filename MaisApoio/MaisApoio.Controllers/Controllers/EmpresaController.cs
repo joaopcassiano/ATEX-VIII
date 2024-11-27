@@ -1,7 +1,7 @@
 using MaisApoio.Aplicacao;
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using Microsoft.AspNetCore.Mvc;
-using MaisApoio.Models.Beneficiario.Requisicao;
+using MaisApoio.Models.Empresa.Requisicao;
 using System.Data.Common;
 using MaisApoio.Service;
 using MaisApoio.MaisApoio.Controllers.Models;
@@ -25,11 +25,11 @@ public class EmpresaController : ControllerBase
     {
         try
         {
-            var empresaID = await _empresaAplicacao.CriarAsync(new Empresa(empresaCriacao.Nome, empresaCriacao.CNPJ, empresaCriacao.Telefone, empresaCriacao.Email, empresaCriacao.Segmento, empresaCriacao.Senha));
+            var empresaID = await _empresaAplicacao.CriarAsync(new Empresa(empresaCriacao.Nome, empresaCriacao.Cnpj, empresaCriacao.Telefone, empresaCriacao.Email, empresaCriacao.Segmento, empresaCriacao.Senha));
 
             try
             {
-                var id = await _enderecoAplicacao.CriarAsync(new Endereco(empresaCriacao.Rua, empresaCriacao.Bairro, empresaCriacao.Numero, empresaCriacao.Complemento, empresaCriacao.Cidade, empresaCriacao.Estado, empresaCriacao.Cep, empresaID));
+                var id = await _enderecoAplicacao.CriarAsync(new EnderecoEmpresa(empresaCriacao.Rua, empresaCriacao.Bairro, empresaCriacao.Numero, empresaCriacao.Complemento, empresaCriacao.Cidade, empresaCriacao.Estado, empresaCriacao.Cep, empresaID));
             }
             catch (Exception ex)
             {

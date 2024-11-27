@@ -8,8 +8,6 @@ public class EmpresaCriacao
     public string Segmento { get; set; }
     public string Email { get; set; }
     public string Senha { get; set; }
-    public string Email { get; set; }
-    public string Senha { get; set; }
     public string Rua { get; set; }
     public string Bairro { get; set; }
     public int Numero { get; set; }

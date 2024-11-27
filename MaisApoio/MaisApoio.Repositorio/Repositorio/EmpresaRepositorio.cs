@@ -201,5 +201,34 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 await session.RunAsync(sql, new { empresaId, empregoId });
             }
         }
+
+        public async Task<Empresa> ObterPorEmailAsync(string email)
+    {
+        var neo4j = "MATCH (d:Empresa {Email: $email}) RETURN d";
+
+        using (var conexao = _banco.ConectarNeo4j())
+        {
+            var empresaBanco = await conexao.RunAsync(neo4j, new { email });
+            var empresa = (await empresaBanco.ToListAsync()).FirstOrDefault();
+
+            if (empresa != null)
+            {
+                var empresaNode = empresa["d"].As<INode>();
+                return new Empresa
+                {
+                    ID = int.Parse(empresaNode.Properties["empresaID"].ToString()),
+                    Nome = empresaNode.Properties["Nome"].ToString(),
+                    Telefone = empresaNode.Properties["Telefone"].ToString(),
+                    Senha = empresaNode.Properties["Senha"].ToString(),
+                    Email = empresaNode.Properties["Email"].ToString(),
+                    CNPJ = empresaNode.Properties["Cnpj"].ToString(),
+                    SegmentoMercado = empresaNode.Properties["SegmentoMercado"].ToString(),
+                    Ativo = bool.Parse(empresaNode.Properties["Ativo"].ToString())
+                };
+            }
+
+            return null;
+        }
+    }
     }
 }

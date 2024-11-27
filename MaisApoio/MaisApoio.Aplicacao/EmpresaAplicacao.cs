@@ -50,7 +50,7 @@ public class EmpresaAplicacao
         empresaObtido.CNPJ = empresa.CNPJ;
         empresaObtido.Email = empresa.Email;
         empresaObtido.Ativo = empresa.Ativo;
-        empresaObtido.Segmento = empresa.Seguimento;
+        empresaObtido.SegmentoMercado = empresa.SegmentoMercado;
         empresaObtido.Telefone = empresa.Telefone;
 
         await _empresaRepositorio.AtualizarAsync(empresaObtido);
@@ -60,7 +60,7 @@ public class EmpresaAplicacao
     {
         Empresa empresaObtido = await _empresaRepositorio.ObterPorIdAsync(id);
 
-        if (empresaObtidoObtido == null)
+        if (empresaObtido == null)
         {
             throw new Exception("Empresa não encontrado.");
         }
@@ -91,7 +91,7 @@ public class EmpresaAplicacao
 
     public async Task<Empresa> ObterPorEmailAsync(string email)
     {
-        Empresa empresaObtido = await _beneficiarioRepositorio.ObterPorEmailAsync(email);
+        Empresa empresaObtido = await _empresaRepositorio.ObterPorEmailAsync(email);
 
         if (empresaObtido == null)
         {

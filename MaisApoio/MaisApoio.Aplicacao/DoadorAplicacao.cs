@@ -134,4 +134,28 @@ public class DoadorAplicacao
         return doador.ID;
     }
 
+    public async Task TrocarDeSenhaAsync(int id, string confirmarSenha, string senha)
+    {
+        var doador = await _doadorRepositorio.ObterPorIdAsync(id);
+
+        if (doador == null)
+        {
+            throw new Exception("Doador não encontrado");
+        }
+
+        if (confirmarSenha != senha)
+        {
+            throw new Exception("As senhas passadas não são iguais");
+        }
+
+        if(string.IsNullOrWhiteSpace(senha))
+        {
+            throw new Exception("Senha não pode ser vazia");
+        }
+
+        doador.Senha = senha;
+
+        await _doadorRepositorio.AtualizarAsync(doador);
+    }
+
 }

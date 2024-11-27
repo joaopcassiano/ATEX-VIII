@@ -1,43 +1,74 @@
-*.swp
-*.*~
-project.lock.json
-.DS_Store
-*.pyc
-nupkg/
+# Node.js
+/node_modules
+/.pnp
+.pnp.js
 
-# Visual Studio Code
+# React build
+/build
+
+# React cache e outros arquivos desnecessários
+.cache/
 .vscode/
-
-# Rider
 .idea/
+*.log
+*.tmp
+*.bak
+*.swp
 
-# Visual Studio
-.vs/
+# .env files
+.env
+.env.*.local
 
-# Fleet
-.fleet/
+# Coverage e relatórios de testes
+/coverage
+/lcov-report
 
-# Code Rush
-.cr/
+# Editor e sistema operacional
+.DS_Store
+Thumbs.db
 
-# User-specific files
+# npm / Yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de lock temporários
+package-lock.json
+yarn.lock
+
+# Windows
+*.lnk
 *.suo
+*.ntvs*
+*.njsproj
+*.sln
 *.user
-*.userosscache
-*.sln.docstates
+*.vs/
 
-# Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-build/
-bld/
-[Bb]in/
-[Oo]bj/
-[Oo]ut/
-msbuild.log
-msbuild.err
-msbuild.wrn
+# C# / .NET
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.nuget
+*.dbmdl
+*.log
+*.zip
+
+# Configurações de IDE e arquivos temporários
+.vscode/
+.idea/
+*.csproj.user
+*.userprefs
+*.resharper
+*.gitattributes
+
+# Logs do sistema
+*.stackdump
+*.pid
+
+# Publicação / Deploy
+.publish/
+out/

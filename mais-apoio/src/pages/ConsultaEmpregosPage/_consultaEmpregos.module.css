@@ -1,0 +1,102 @@
+.conteudo{
+    width: 100%;
+    height: auto;
+}
+
+.inputPesquisa {
+    all: unset;
+    border: #007BFF solid;
+    font-size: 0.9rem;
+    border-width: 0 0 2px 0;
+    padding: 5px;
+    width: 100%;
+    color: #757575;
+}
+
+.titulo_maior{
+    font-family: 'Poppins';
+    font-size: 1.8rem;
+    color: #007BFF;
+    width: 100%;
+    align-items: first baseline;
+    margin-bottom: 2rem;
+}
+
+
+.cabeca{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    color: #fff;
+    font-weight: bold;
+}
+
+.linha{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.corpo{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    height: auto;
+    margin: 4rem 0 0 0;
+    font-family: 'PoppinsSimples';
+}
+
+.itens{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    border: #007BFF 2px solid;
+    border-radius: 10px;
+    padding: 1rem 0;
+    overflow-x: auto;
+}
+
+.itens::-webkit-scrollbar {
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.itens::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 100%; 
+    
+}
+
+
+
+.titulo{
+    color: #007BFF;
+    font-size: 1.05rem;
+    font-family: 'Poppins';
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}

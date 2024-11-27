@@ -46,8 +46,49 @@
 
 .fotoPerfil{
     width: 5rem;
+    height: 5rem;
     border-radius: 90px;
     cursor: pointer;
+    border: #007BFF solid 2px;
+}
+
+.semFoto{
+    all: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 90px;
+    border: #007BFF solid 2px;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 0.7rem;
+    font-family: 'Poppins';
+}
+
+.camera{
+    width: 100%;
+    color: #007BFF;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.blocoFoto{
+    position: absolute;
+    display: flex;
+    top: 1%;
+    left: 1%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    width: 10rem;
+    height: 10rem;
+    cursor: pointer;
+    z-index: 100;
 }
 
 @font-face {

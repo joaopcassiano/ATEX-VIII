@@ -58,6 +58,7 @@
     justify-content: center;
     flex-direction: column;
     width: 25%;
+    min-width: 300px;
     height: auto;
     background-color: #ffffff;
     padding: 1rem 0;
@@ -109,11 +110,10 @@
 
 .botoesPainel{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: row;
     width: 100%;
-    gap: 1rem;
+    gap: 6%;
 }
 
 .botaoPainel{
@@ -149,6 +149,10 @@ cursor: pointer;
     flex-direction: column;
     width: 100%;
     gap: 0.8rem;
+}
+
+.esqueceuESenha{
+width: 100%;
 }
 
 .inputLogin{
@@ -209,7 +213,6 @@ cursor: pointer;
 }
 
 .esqueceuLogin{
-    margin: 0.5rem 0 0 0;
     font-family: 'PoppinsSimples';
     display: flex;
     align-items: center;
@@ -241,6 +244,9 @@ cursor: pointer;
 }
 
 .cadastrarLogin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'PoppinsSimples';
     display: flex;
     align-items: center;
@@ -257,13 +263,11 @@ cursor: pointer;
     color: #007BFF;
     margin-left: 5px;
     cursor: pointer;
-
+    font-size: 0.6rem;
 }
 
 .cadastroLogin:hover{
     color: #4b4b4b;
-    margin-left: 5px;
-
 }
 
 .bolaClara{

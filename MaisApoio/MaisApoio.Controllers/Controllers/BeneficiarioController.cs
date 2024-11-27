@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MaisApoio.Models.Beneficiario.Requisicao;
 using System.Data.Common;
 using MaisApoio.Service;
+using MaisApoio.MaisApoio.Controllers.Models;
 
 [ApiController]
 [Route("[controller]/api")]
@@ -136,8 +137,67 @@ public class BeneficiarioController : ControllerBase
     [Route("logar")]
     public async Task<IActionResult> LogarAsync([FromBody] BeneficiarioLogar beneficiarioLogar)
     {
-        int id = await _beneficiarioAplicacao.LogarAsync(beneficiarioLogar.Email, beneficiarioLogar.Senha);
+        try
+        {
+            int id = await _beneficiarioAplicacao.LogarAsync(beneficiarioLogar.Email, beneficiarioLogar.Senha);
 
-        return Ok(id);
+            return Ok(id);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
+    [HttpGet]
+    [Route("obterPorId/{id}")]
+    public async Task<IActionResult> ObterporIdAsync([FromRoute] int id)
+    {
+        try
+        {
+            var beneficiario = await _beneficiarioAplicacao.ObterPorIdAsync(id);
+
+            BeneficiarioLogado beneficiarioLogado = new BeneficiarioLogado(beneficiario);
+            
+            return Ok(beneficiarioLogado);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
+    [HttpPut]
+    [Route("trocar-senha/{id}")]
+    public async Task<IActionResult> TrocarSenha([FromRoute] int id, [FromBody] BeneficiarioTrocarSenha beneficiarioTrocarSenha)
+    {
+        try
+        {
+            await _beneficiarioAplicacao.TrocarDeSenhaAsync(id,beneficiarioTrocarSenha.ConfirmarSenha, beneficiarioTrocarSenha.Senha);
+
+            return Ok("Senha trocada com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
+    [HttpPut]
+    [Route("carregar-imagem/{id}")]
+    public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] ImagemCarregada imagem)
+    {
+        try
+        {
+            await _beneficiarioAplicacao.CarregarImagemAsync(imagem.Imagem, id);
+            return Ok("Imagem carregada com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 }

@@ -10,7 +10,7 @@ public class Empresa
     private string _telefone;
     private string _email;
     private string _senha;
-    private string? _imagemPerfil;
+    private string _imagemPerfil;
     private bool _ativo;
     private string _cnpj;
 
@@ -112,7 +112,7 @@ public class Empresa
 
     }
 
-    public Empresa(string nome, string cnpj, string segmentoMercado, string telefone, string email, DateTime dataNascimento, string senha)
+    public Empresa(string nome, string cnpj, string segmentoMercado, string telefone, string email, string senha)
     {
         Nome = nome;
         CNPJ = cnpj; 

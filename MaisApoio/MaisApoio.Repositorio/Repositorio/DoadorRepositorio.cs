@@ -56,9 +56,20 @@ public async Task<Doador> LogarAsync(string email, string senha)
     public async Task<int> CriarAsync(Doador doador)
     {
         var sql = @"
-                CREATE (d:Doador {DoadorID: randomUUID(), Nome: $nome, Telefone: $telefone, 
-                                  Email: $email, Senha: $senha, DataNascimento: $dataNascimento Cpf: $cpf, Ativo: $ativo})
-                RETURN d.ID as ID";
+    MATCH (s:Sequencia {tipo: 'Doador'})
+    SET s.ultimoID = s.ultimoID + 1
+    WITH s.ultimoID AS novoID
+    CREATE (d:Doador {
+        DoadorID: novoID, 
+        Nome: $nome, 
+        Telefone: $telefone, 
+        Email: $email, 
+        Senha: $senha, 
+        DataNascimento: $dataNascimento, 
+        Cpf: $cpf, 
+        Ativo: $ativo
+    })
+    RETURN d.DoadorID AS ID";;
 
         using (var session = _banco.ConectarNeo4j())
         {

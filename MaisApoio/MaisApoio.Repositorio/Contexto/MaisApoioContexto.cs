@@ -9,8 +9,8 @@ public class MaisApoioContexto
     private readonly string _conexaoSql = "Server=.\\SQLEXPRESS;Database=MaisApoio;Trusted_Connection=True;TrustServerCertificate=True;";
 
     private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver(
-            "neo4j+s://f608ef33.databases.neo4j.io",  
-            AuthTokens.Basic("neo4j", "2U5mpcCaq1tLGFj5CSgc3GQtNCUa9VRozCIkzxEr_Ic") 
+            "bolt://localhost:7687",  
+            AuthTokens.Basic("maisapoio", "Anderson") 
         );
 
     public DbConnection ConectarSqlServer()

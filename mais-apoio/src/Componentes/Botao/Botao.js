@@ -22,7 +22,8 @@ const Botao = ({ children, estilo , onClick, referencia}) => {
         confirmarLoginEntrar: styles.confirmarLoginEntrar,
         editar_perfil: styles.editar_perfil,
         sideBar: styles.sideBar,
-        pesquisar: styles.pesquisar
+        pesquisar: styles.pesquisar,
+        doar: styles.doar,
     }
 
     return (

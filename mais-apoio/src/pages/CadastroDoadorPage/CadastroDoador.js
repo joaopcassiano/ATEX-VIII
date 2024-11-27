@@ -13,6 +13,9 @@ import { IoCallOutline } from "react-icons/io5";
 import AcharCep from '../../Services/Endereco'
 import { BsArrowReturnRight } from "react-icons/bs";
 import { BiDonateHeart } from "react-icons/bi";
+import DoadorService from '../../Services/DoadorService';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const CadastroDoador = () => {
 
@@ -28,6 +31,7 @@ const CadastroDoador = () => {
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
     const [imageWidth, setImageWidth] = useState(0);
+    const navigate = useNavigate();
     const [doador, setDoador] = useState({
         nome: '',
         cpf: '',
@@ -226,6 +230,31 @@ const CadastroDoador = () => {
         }
       }, [imageWidth]);
 
+      const Cadastrar = async () => {
+        try {
+            const resposta = await DoadorService.Criar(doador);
+            toast.success("Cadastro realizado com sucesso, faça o login!", {
+                position: "top-center",
+                autoClose: 3000
+            });
+            
+            setTimeout(() => {
+                navigate('../apresentacao');
+            }, 4000);
+        }
+        catch (error) {
+            console.log(error)
+            toast.error(
+                `Erro ao cadastrar o doaodr: ${error.response.data}`,
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                }
+            );
+        }
+
+    }
+
     return (
         <>
             <div className={styles.conteudoCadastroUsuario}>
@@ -403,7 +432,7 @@ const CadastroDoador = () => {
                                     }
                                 />
                             </div>
-                            <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
+                            <Botao onClick={Cadastrar} estilo='cadastrarConfirma'>Cadastra-se</Botao>
                         </form>
                     </div>
                     <img className={styles.fotoCadastro} onLoad={handleImageLoad} src={imagemCadastro} alt='imagemCadastro'></img>

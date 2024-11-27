@@ -7,7 +7,7 @@ import Conteudo from '../../Componentes/Conteudo/Conteudo';
 import CorpoInferior from '../../Componentes/CorpoInferior/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
 import { ToastContainer, toast } from "react-toastify";
-// import DoadorService from '../../Services/DoadorService'
+import DoadorService from '../../Services/DoadorService'
 import Loader from '../../Componentes/Loader/Loader';
 import EditarDoador from '../EditarDoador/EditarDoador';
 
@@ -15,46 +15,46 @@ const Doador = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [atualizar, setAtualizar] = useState(false);
-    const [id] = useState(location.state);
     const [doador, setDoador] = useState(null);
     const [loading, setLoading] = useState(false);
     const [editar, setEditar] = useState(false);
     const escuroRef = useRef(null);
     const boxEditarRef = useRef(null);
+    const [id] = useState(location.state);
 
-    const user = {
-        nome: 'Anderson Caproni',
-        email: 'andersoncaproni@gmail.com',
-        dataNascimento: '2004-12-28T00:00:00.000'
+
+    useEffect(() => {
+        console.log(location.data)
+        toast.dismiss();
+        ObterDoador()
+        
+    }, [atualizar])
+
+    const ObterDoador = async () => {
+        try {
+            const resposta = await DoadorService.ObterPorId(id)
+            setDoador(resposta?.data)
+            setLoading(false)
+            toast.dismiss();
+            toast.success("Informações carregadas com sucesso!", {
+                position: "top-center",
+                autoClose: 3000
+            });
+        }
+        catch (error) {
+            const errorMessage = error.response?.data || "Erro desconhecido";
+            toast.dismiss();
+            toast.error(
+                `Erro ao carregar dados do beneficiário: ${errorMessage}`,
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                }
+            );
+            setLoading(false);
+            navigate('../home/apresentacao');
+        }
     }
-
-    // useEffect(() => {
-    //     ObterDoador()
-    // }, [atualizar])
-
-    // const ObterDoador = async () => {
-    //     try {
-    //         const resposta = await DoadorService.ObterPorId(id)
-    //         setDoador(resposta?.data)
-    //         setLoading(false)
-    //         toast.success("Informações carregadas com sucesso!", {
-    //             position: "top-center",
-    //             autoClose: 3000
-    //         });
-    //     }
-    //     catch (error) {
-    //         const errorMessage = error.response?.data || "Erro desconhecido";
-    //         toast.error(
-    //             `Erro ao carregar dados do beneficiário: ${errorMessage}`,
-    //             {
-    //                 position: "top-center",
-    //                 autoClose: 3000,
-    //             }
-    //         );
-    //         setLoading(false);
-    //         navigate('../home/apresentacao');
-    //     }
-    // }
 
     const fecharBoxEditar = (event) => {
         if (boxEditarRef.current && !boxEditarRef.current.contains(event.target)) {
@@ -72,12 +72,10 @@ const Doador = () => {
         console.log("Mudou")
     };
 
-    useEffect(() => {console.log("Mudou")},[editar])
-
 
     return (
         <>
-            <ToastContainer />
+            <ToastContainer limit={1}/>
             <div className={styles.corpo}>
                 {
                     (loading && !doador ?
@@ -95,21 +93,23 @@ const Doador = () => {
                                 </>
                             }
 
-                            <TopBarLog usuario={user} tipoUsuario='Doador' />
+                            <TopBarLog usuario={doador} tipoUsuario='Doador' />
                             <CorpoInferior>
                                 <SideBar>
                                     <Link
                                         className={styles.link}
-                                        to='./consulta-geral'>
+                                        state={doador?.id}
+                                        to='./realizar-doacao'>
                                         <Botao estilo='sideBar'>
-                                            Consultar histórico geral
+                                            Realizar Doação
                                         </Botao>
                                     </Link>
                                     <Link
                                         className={styles.link}
-                                        to='./consultar-doacoes'>
+                                        state={doador?.id}
+                                        to='./doacoes'>
                                         <Botao estilo='sideBar'>
-                                            Consultar histórico de doações
+                                            Consultar histórico
                                         </Botao>
                                     </Link>
                                 </SideBar>
@@ -119,7 +119,7 @@ const Doador = () => {
                                             oi
                                         </>
                                         :
-                                        <Outlet context={{ user, atualizar: handleAtualizar, editar: handleEditar}} />
+                                        <Outlet context={{ doador, atualizar: handleAtualizar, editar: handleEditar}} />
                                     }
                                 </Conteudo>
                             </CorpoInferior>

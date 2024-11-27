@@ -1,7 +1,7 @@
 import TopBarLog from '../../Componentes/TopBarLog/TopBarLog';
-import styles from './_empresa.module.css'; 
+import styles from './_empresa.module.css';
 import fotoPerfil from '../../assets/fotoPerfil.png';
-import perfilExemploEmpresa from '../../assets/perfilExemploEmpresa.png'; 
+import perfilExemploEmpresa from '../../assets/perfilExemploEmpresa.png';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import Conteudo from '../../Componentes/Conteudo/Conteudo';
 import CorpoInferior from '../../Componentes/CorpoInferior/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
 import { ToastContainer, toast } from "react-toastify";
-import EmpresaService from '../../Services/EmpresaService'; 
+import EmpresaService from '../../Services/EmpresaService';
 
 const Empresa = () => {
     const navigate = useNavigate();
@@ -18,37 +18,37 @@ const Empresa = () => {
     const id = location.state || 0; // O ID da empresa vem do estado passado via navegação
     const [empresa, setEmpresa] = useState({});
 
-    console.log("id da empresa " , id);
+    console.log("id da empresa ", id);
 
-    useEffect(() => {
-        const ObterEmpresa = async () => {
-            try {
-                const resposta = await EmpresaService.ObterPorId(id);
-                console.log("resposta " , resposta);
-                setEmpresa(resposta.data);
-                console.log("empresa", empresa);
-            } catch (error) {
-                console.log(error);
-                const errorMessage = error.response?.data || "Erro desconhecido";
-                toast.error(
-                    `Erro ao carregar dados da empresa: ${errorMessage}`,
-                    {
-                        position: "top-center",
-                        autoClose: 3000,
-                    }
-                );
-            }
-        };
+    // useEffect(() => {
+    //     const ObterEmpresa = async () => {
+    //         try {
+    //             const resposta = await EmpresaService.ObterPorId(id);
+    //             console.log("resposta ", resposta);
+    //             setEmpresa(resposta.data);
+    //             console.log("empresa", empresa);
+    //         } catch (error) {
+    //             console.log(error);
+    //             const errorMessage = error.response?.data || "Erro desconhecido";
+    //             toast.error(
+    //                 `Erro ao carregar dados da empresa: ${errorMessage}`,
+    //                 {
+    //                     position: "top-center",
+    //                     autoClose: 3000,
+    //                 }
+    //             );
+    //         }
+    //     };
 
-        console.log("Id da empresa: " + id);
-        toast.success("Login realizado com sucesso!", {
-            position: "top-center",
-            autoClose: 3000
-        });
+    //     console.log("Id da empresa: " + id);
+    //     toast.success("Login realizado com sucesso!", {
+    //         position: "top-center",
+    //         autoClose: 3000
+    //     });
 
-        ObterEmpresa();
+    //     ObterEmpresa();
 
-    }, [id, empresa]); // Adicione empresa na lista de dependências se precisar atualizar com os dados da empresa
+    // }, [id, empresa]); // Adicione empresa na lista de dependências se precisar atualizar com os dados da empresa
 
     const user = {
         nome: 'TechCorp Ltda.',

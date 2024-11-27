@@ -22,7 +22,7 @@ public class DoadorAplicacao
 
         Doador doadorObtido = await _doadorRepositorio.ObterPorEmailAsync(doador.Email);
 
-        if (doador != null)
+        if (doadorObtido != null)
         {
             throw new Exception("Já existe um doador com o mesmo email.");
         }

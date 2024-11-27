@@ -126,7 +126,6 @@ public class CodigoValidacaoUsuarioController : ControllerBase
     {
         try
         {
-            Console.WriteLine(codigoValidacao.Codigo);
             var id = await _codigoValidacaoUsuarioRepositorio.VerificarCodigoAsync(codigoValidacao.Email, codigo, int.Parse(codigoValidacao.Codigo.Replace(" ", "").Replace("-","")));
             return Ok(id);
         }

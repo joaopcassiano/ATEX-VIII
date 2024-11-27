@@ -6,9 +6,10 @@ import styles from "./_carregarImagem.module.css";
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import BeneficiarioService from '../../Services/BeneficiarioService';
 import Loader from '../../Componentes/Loader/Loader';
+import DoadorService from '../../Services/DoadorService';
 
-const CarregarImagem = (tipoUsuario, id) => {
-    const { beneficiario, atualizar } = useOutletContext();
+const CarregarImagem = () => {
+    const { beneficiario, doador, atualizar } = useOutletContext();
     const cropperRef = useRef(null);
     const [image, setImage] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
@@ -50,36 +51,50 @@ const CarregarImagem = (tipoUsuario, id) => {
 
                     if (response.status === 200) {
                         console.log("URL da imagem:", response.data.imageUrl);
-
+                        console.log(informacoesUsuario.id)
                         console.log(informacoesUsuario.tipoUser)
 
                         if (informacoesUsuario.tipoUser === 'Beneficiario') {
                             try {
-                                const resposta = await BeneficiarioService.CarregarImagemo(response?.data?.imageUrl, informacoesUsuario.id)
+                                const resposta = await BeneficiarioService.CarregarImagem(response?.data?.imageUrl, informacoesUsuario.id)
                                 console.log(resposta)
                                 atualizar();
                                 setLoading(false);
                             }
                             catch (error) {
                                 console.error("Erro ao carregar imagem:", error.message);
+                                setLoading(false);
                             }
 
                         }
-                        else if (informacoesUsuario.tipoUsuario === 'Doador') {
+                        else if (informacoesUsuario.tipoUser === 'Doador') {
+                            try {
+                                const resposta = await DoadorService.CarregarImagem(response?.data?.imageUrl, informacoesUsuario.id)
+                                console.log(resposta)
+                                atualizar();
+                                setLoading(false);
+                            }
+                            catch (error) {
+                                console.error("Erro ao carregar imagem:", error.message);
+                                setLoading(false);
+                            }
 
                         }
-                        else if (informacoesUsuario.tipoUsuario === 'Voluntario') {
+                        else if (informacoesUsuario.tipoUser === 'Voluntario') {
 
                         }
-                        else if (informacoesUsuario.tipoUsuario === 'Empresa') {
+                        else if (informacoesUsuario.tipoUser === 'Empresa') {
 
                         }
 
                     } else {
                         console.error("Erro ao fazer upload:", response.data.message);
+                        setLoading(false);
                     }
                 } catch (error) {
+                    console.log(error)
                     console.error("Erro:", error.response?.data?.message || error.message);
+                    setLoading(false);
                 }
             });
         }

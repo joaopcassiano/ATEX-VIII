@@ -369,6 +369,29 @@
     transition: 0.3s;
 }
 
+.doar{
+    all: unset;
+    background-color: #007BFF;
+    text-align: center;
+    width: auto;
+    height: auto;
+    font-family: 'PoppinsSimples';
+    margin: 0;
+    padding: 0.3rem 0.7rem;
+    color: #ffffff;
+    border-radius: 13px;
+    font-size: 0.8rem;
+    transition: 0.3s;
+    border: #007BFF 2px solid;
+    cursor: pointer;
+}
+.doar:hover{
+    background-color: #ffffff;
+    color: #007BFF;
+    border: #007BFF 2px solid;
+    transition: 0.3s;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');

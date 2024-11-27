@@ -25,6 +25,7 @@ const Doador = () => {
 
     useEffect(() => {
         console.log(location.data)
+        toast.dismiss();
         ObterDoador()
         
     }, [atualizar])
@@ -34,6 +35,7 @@ const Doador = () => {
             const resposta = await DoadorService.ObterPorId(id)
             setDoador(resposta?.data)
             setLoading(false)
+            toast.dismiss();
             toast.success("Informações carregadas com sucesso!", {
                 position: "top-center",
                 autoClose: 3000
@@ -41,6 +43,7 @@ const Doador = () => {
         }
         catch (error) {
             const errorMessage = error.response?.data || "Erro desconhecido";
+            toast.dismiss();
             toast.error(
                 `Erro ao carregar dados do beneficiário: ${errorMessage}`,
                 {
@@ -69,12 +72,10 @@ const Doador = () => {
         console.log("Mudou")
     };
 
-    useEffect(() => {console.log("Mudou")},[editar])
-
 
     return (
         <>
-            <ToastContainer />
+            <ToastContainer limit={1}/>
             <div className={styles.corpo}>
                 {
                     (loading && !doador ?
@@ -97,6 +98,7 @@ const Doador = () => {
                                 <SideBar>
                                     <Link
                                         className={styles.link}
+                                        state={doador?.id}
                                         to='./realizar-doacao'>
                                         <Botao estilo='sideBar'>
                                             Realizar Doação
@@ -104,7 +106,8 @@ const Doador = () => {
                                     </Link>
                                     <Link
                                         className={styles.link}
-                                        to='./consultar-doacoes'>
+                                        state={doador?.id}
+                                        to='./doacoes'>
                                         <Botao estilo='sideBar'>
                                             Consultar histórico
                                         </Botao>

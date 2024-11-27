@@ -71,3 +71,13 @@ CREATE TABLE EnderecoVoluntario(
 	Cep Varchar(10) not null,
 	Ativo Bit not null
 );
+
+create table Doacao(
+	DoacaoID int not null identity(1,1) primary key,
+	DescricaoDoacao varchar(200) not null,
+	Quantidade Decimal(18,2) not null,
+	DataDoacao date not null,
+	BeneficiarioID int not null,
+	DoadorID int not null,
+	Ativo bit not null
+)

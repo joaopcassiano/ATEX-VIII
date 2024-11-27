@@ -26,6 +26,9 @@ builder.Services.AddScoped<EnderecoBeneficiarioAplicacao>();
 builder.Services.AddScoped<DoadorRepositorio>();
 builder.Services.AddScoped<DoadorAplicacao>();
 
+builder.Services.AddScoped<DoacaoRepositorio>();
+builder.Services.AddScoped<DoacaoAplicacao>();
+
 builder.Services.AddScoped<EnderecoDoadorRepositorio>();
 builder.Services.AddScoped<EnderecoDoadorAplicacao>();
 

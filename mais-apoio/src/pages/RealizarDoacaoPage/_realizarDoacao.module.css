@@ -64,6 +64,13 @@
     color: #007BFF;
 }
 
+.botao{
+    display: flex;
+    justify-content:end;
+    width: 100%;
+    height: auto;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');

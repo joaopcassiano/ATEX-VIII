@@ -112,6 +112,7 @@ const Home = () => {
             console.log(resposta);
             setId(resposta.data);
             setTrocarSenha(4);
+            toast.dismiss();
             toast.success("Código válido com sucesso, troque sua senha!", {
                 position: "top-center",
                 autoClose: 2500
@@ -119,6 +120,7 @@ const Home = () => {
         }
         catch (error) {
             console.log('Erro ao validar código:', error);
+            toast.dismiss();
             toast.error(`Erro ao validar o código: ${error.response?.data}!`, {
                 position: "top-center",
                 autoClose: 2500
@@ -135,6 +137,7 @@ const Home = () => {
                 try {
                     const response = await DoadorService.TrocarSenha(id, senha, confirmarSenha)
                     console.log(response);
+                    toast.dismiss();
                     toast.success("Senha trocada com sucesso, você será redirecionado!", {
                         position: "top-center",
                         autoClose: 3000
@@ -145,6 +148,7 @@ const Home = () => {
                 }
                 catch (error) {
                     console.error(error);
+                    toast.dismiss();
                     toast.error(`${error.response?.data}!`, {
                         position: "top-center",
                         autoClose: 2500
@@ -160,6 +164,7 @@ const Home = () => {
                 try {
                     const response = await BeneficiarioService.TrocarSenha(id, senha, confirmarSenha)
                     console.log(response);
+                    toast.dismiss();
                     toast.success("Senha trocada com sucesso, você será redirecionado!", {
                         position: "top-center",
                         autoClose: 3000
@@ -170,6 +175,7 @@ const Home = () => {
                 }
                 catch (error) {
                     console.error(error);
+                    toast.dismiss();
                     toast.error(`${error.response?.data}!`, {
                         position: "top-center",
                         autoClose: 2500
@@ -177,6 +183,7 @@ const Home = () => {
                     return;
                 }
             } else {
+                toast.dismiss();
                 toast.error("Tipo de usuário inválido!", {
                     position: "top-center",
                     autoClose: 2500
@@ -185,6 +192,7 @@ const Home = () => {
         }
         catch (error) {
             console.log('Erro ao trocar senha:', error);
+            toast.dismiss();
             toast.error(`Erro ao trocar a senha: ${error.response?.data}!`, {
                 position: "top-center",
                 autoClose: 2500

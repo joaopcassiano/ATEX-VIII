@@ -97,14 +97,7 @@ public class CodigoValidacaoUsuarioRepositorio
 
         conexao.Open();
 
-        Console.WriteLine(tipoUsuario);
-        Console.WriteLine(email);
-        Console.WriteLine(codigo);
-
         var usuarioCodigo = await conexao.QueryFirstOrDefaultAsync<CodigoValidacaoUsuario>(sql, new { tipoUsuario = tipoUsuario, email = email });
-
-        Console.WriteLine(usuarioCodigo.DataExpiracao);
-        Console.WriteLine(usuarioCodigo.Email);
 
         if ((usuarioCodigo == null) || (usuarioCodigo.Codigo != codigo))
         {

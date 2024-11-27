@@ -27,6 +27,7 @@ import ConsultaGeralEmpresa from './pages/ConteudoAreaEmpresa/ConteudoAreaEmpres
 import ConsultarEmpregos from './pages/ConsultaEmpregosPage/ConsultaEmpregos';
 import Empresa from './pages/EmpresaPage/Empresa';
 import RealizarDoacao from './pages/RealizarDoacaoPage/RealizarDoacao';
+import DoacoesDoador from './pages/DoacoesDoador/DoacoesDoador';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -63,6 +64,7 @@ root.render(
         <Route path="perfil" element={<Perfil tipoUsuario='Doador' />} />
         <Route path="carregar-imagem" element={<CarregarImagem />} />
         <Route path="realizar-doacao" element={<RealizarDoacao />} />
+        <Route path="doacoes" element={<DoacoesDoador />} />
       </Route>
     </Routes>
   </BrowserRouter>

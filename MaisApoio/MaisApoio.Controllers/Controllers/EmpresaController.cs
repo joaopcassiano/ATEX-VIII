@@ -193,7 +193,7 @@ public class EmpresaController : ControllerBase
     {
         try
         {
-            await _emppresaAplicacao.TrocarDeSenhaAsync(id,empresaTrocarSenha.ConfirmarSenha, empresaTrocarSenha.Senha);
+            await _empresaAplicacao.TrocarDeSenhaAsync(id,empresaTrocarSenha.ConfirmarSenha, empresaTrocarSenha.Senha);
 
             return Ok("Senha trocada com sucesso");
         }

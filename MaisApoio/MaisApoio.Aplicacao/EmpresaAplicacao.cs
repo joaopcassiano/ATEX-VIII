@@ -113,12 +113,6 @@ public class EmpresaAplicacao
         return empresaObtido;
     }
 
-    public async Task<List<Empresa>> ObterPorSegmentoAsync(string segmento)
-    {
-        return await _empresaRepositorio.ObterPorSegmentoAsync(segmento);
-    }
-    
-
     public async Task CarregarImagemAsync(string imagem, int id)
     {
         if(imagem == null)

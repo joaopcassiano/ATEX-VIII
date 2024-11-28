@@ -33,6 +33,9 @@ builder.Services.AddScoped<EmpresaAplicacao>();
 builder.Services.AddScoped<EnderecoBeneficiarioRepositorio>();
 builder.Services.AddScoped<EnderecoBeneficiarioAplicacao>();
 
+builder.Services.AddScoped<EnderecoEmpresaRepositorio>();
+builder.Services.AddScoped<EnderecoEmpresaAplicacao>();
+
 builder.Services.AddScoped<DoadorRepositorio>();
 builder.Services.AddScoped<DoadorAplicacao>();
 

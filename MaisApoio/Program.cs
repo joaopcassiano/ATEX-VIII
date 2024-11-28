@@ -1,4 +1,5 @@
 using MaisApoio.Aplicacao;
+using MaisApoio.MaisApoio.Aplicacao;
 using MaisApoio.MaisApoio.Repositorio.Repositorio;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<BeneficiarioRepositorio>();
 builder.Services.AddScoped<BeneficiarioAplicacao>();
+
+builder.Services.AddScoped<VoluntarioRepositorio>();
+builder.Services.AddScoped<VoluntarioAplicacao>();
 
 builder.Services.AddScoped<EnderecoBeneficiarioRepositorio>();
 builder.Services.AddScoped<EnderecoBeneficiarioAplicacao>();

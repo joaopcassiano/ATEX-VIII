@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MaisApoio.MaisApoio.Controllers.Controllers
 {
+    [ApiController]
+    [Route("[controller]/api")]
     public class NecessidadeController : ControllerBase
     {
         private DoacaoAplicacao _doacaoAplicacao;

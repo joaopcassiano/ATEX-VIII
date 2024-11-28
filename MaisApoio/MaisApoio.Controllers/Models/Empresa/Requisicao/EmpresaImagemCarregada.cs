@@ -1,6 +1,6 @@
 namespace MaisApoio.Models.Empresa.Requisicao;
 
-public class ImagemCarregada
+public class EmpresaImagemCarregada
 {
     public string Imagem { get; set; }
 }

@@ -189,7 +189,7 @@ public class EmpresaController : ControllerBase
 
     [HttpPut]
     [Route("carregar-imagem/{id}")]
-    public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] MaisApoio.Models.Empresa.Requisicao.ImagemCarregada imagem)
+    public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] EmpresaImagemCarregada imagem)
     {
         try
         {

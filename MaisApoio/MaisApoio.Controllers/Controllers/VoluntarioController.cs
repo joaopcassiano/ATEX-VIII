@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MaisApoio.MaisApoio.Controllers.Controllers
 {
+    [ApiController]
+    [Route("[controller]/api")]
     public class VoluntarioController : ControllerBase
     {
         private VoluntarioAplicacao _voluntarioAplicacao;
@@ -18,7 +20,7 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
         public VoluntarioController(VoluntarioAplicacao voluntarioAplicacao)
         {
             _voluntarioAplicacao = voluntarioAplicacao;
-   
+
         }
 
         [HttpPost]

@@ -44,7 +44,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
 
         }
 
-        public async Task<List<Voluntario>> ObterPorBeneficiarioAsync(int id)
+        public async Task<List<NecessidadeBeneficiario>> ObterPorBeneficiarioAsync(int id)
         {
             string sql = "SELECT VoluntarioID AS ID, * FROM Voluntario WHERE BeneficiarioID = @id AND Ativo = 1";
 
@@ -52,7 +52,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
 
             conexao.Open();
 
-            var voluntario = (await conexao.QueryAsync<Voluntario>(sql, new { id = id })).ToList();
+            var voluntario = (await conexao.QueryAsync<NecessidadeBeneficiario>(sql, new { id = id })).ToList();
 
             conexao.Close();
 

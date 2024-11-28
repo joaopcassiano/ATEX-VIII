@@ -44,7 +44,7 @@ namespace MaisApoio.MaisApoio.Aplicacao
 
         }
 
-       /* public async Task<List<NecessidadeBeneficiario>> ObterPorBeneficiarioAsync(int id)
+        public async Task<List<NecessidadeBeneficiario>> ObterPorBeneficiarioAsync(int id)
         {
             Beneficiario beneficiario = await _beneficiarioAplicacao.ObterPorIdAsync(id);
 
@@ -55,54 +55,52 @@ namespace MaisApoio.MaisApoio.Aplicacao
 
             var lista = await _necessidadeRepositorio.ObterPorBeneficiarioAsync(id);
 
-            if (lista == null)
+            if (lista == null || !lista.Any())
             {
-                return null;
+                return new List<NecessidadeBeneficiario>();
             }
 
-            List<NecessidadeRepositorio> listaCompleta = (await Task.WhenAll(
-            lista.Select(async item =>
-            {
-                Voluntario voluntario = await _voluntarioAplicacao.ObterPorIdAsync(item.ID);
+            List<NecessidadeBeneficiario> listaCompleta = (await Task.WhenAll(
+                lista.Select(async item =>
+                {
+                    Voluntario voluntario = await _voluntarioAplicacao.ObterPorIdAsync(item.VoluntarioID);
 
-                if (voluntario == null)
-                {
-                    return null;
-                }
-                else
-                {
-*//*                    return new NecessidadeBeneficiario
+                    if (voluntario == null)
                     {
-                        NecessidadeID = item.ID,
-                        Descricao = item.,
-                        DataRegistro = item.DataDoacao,
-                        BeneficiarioID = item.BeneficiarioID,
-                        VoluntarioID = item.DoadorID,
+                        return null;
+                    }
+
+                    return new NecessidadeBeneficiario
+                    {
+                        NecessidadeID = item.NecessidadeID,
+                        Descricao = item.Descricao,
+                        DataRegistro = item.DataRegistro,
+                        Prioridade = item.Prioridade,
+                        VoluntarioID = voluntario.ID,
                         Nome = voluntario.Nome,
                         Telefone = voluntario.Telefone,
                         Email = voluntario.Email,
                         DataNascimento = voluntario.DataNascimento,
                         ImagemPerfil = voluntario?.ImagemPerfil,
                         Cpf = voluntario.CPF,
+                        AreaAtuacao = item.AreaAtuacao,
                         Ativo = voluntario.Ativo,
-                    };*//*
-
-                }
-            })
+                    };
+                })
             ))
-            .Where(doacao => doacao != null)
+            .Where(x => x != null)
             .ToList();
 
-*//*            return listaCompleta;*//*
-
+            return listaCompleta;
         }
-*/
-/*        public async Task<List<DoacaoDoador>> ObterPorDoadorAsync(int id)
+
+
+        public async Task<List<NecessidadeVoluntario>> ObterPorVoluntarioAsync(int id)
         {
-            List<DoacaoDoador> lista = await _doacaoRepositorio.ObterPorDoadorAsync(id);
+            List<NecessidadeVoluntario> lista = await _necessidadeRepositorio.ObterPorVoluntarioAsync(id);
 
             return lista;
-        }*/
+        }
 
     }
 }

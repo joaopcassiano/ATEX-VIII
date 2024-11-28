@@ -112,11 +112,24 @@ public class EmpresaAplicacao
 
         return empresaObtido;
     }
-    //NAO IREI UTILIZAR
-    // public async Task CarregarImagemAsync(string imagem, int id)
-    // {
-    //     await _empresaRepositorio.CarregarImagemAsync(imagem, id);
-    // }
+
+    public async Task CarregarImagemAsync(string imagem, int id)
+    {
+        if(imagem == null)
+        {
+            throw new Exception("Imagem não pode ser vazia.");
+        }
+
+        var empresaID = await _empresaRepositorio.ObterPorIdAsync(id);
+
+        if(empresaID == null)
+        {
+            throw new Exception("Empresa não encontrado.");
+        }
+
+        await _empresaRepositorio.CarregarImagemAsync(imagem, id);
+    }
+
 
     public async Task ExclusaoFisicaAsync(int id){
         await _empresaRepositorio.ExclusaoFisicaAsync(id);

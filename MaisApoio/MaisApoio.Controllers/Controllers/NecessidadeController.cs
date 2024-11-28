@@ -1,5 +1,7 @@
 ﻿using MaisApoio.Aplicacao;
+using MaisApoio.MaisApoio.Aplicacao;
 using MaisApoio.MaisApoio.Controllers.Models;
+using MaisApoio.MaisApoio.Controllers.Models.Necessidade.Requisicao;
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,20 +11,27 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
     [Route("[controller]/api")]
     public class NecessidadeController : ControllerBase
     {
-        private DoacaoAplicacao _doacaoAplicacao;
+        private NecessidadeAplicacao _necessidadeAplicacao;
 
-        public NecessidadeController(DoacaoAplicacao doacaoAplicacao)
+        public NecessidadeController(NecessidadeAplicacao necessidadeAplicacao)
         {
-            _doacaoAplicacao = doacaoAplicacao;
+            _necessidadeAplicacao = necessidadeAplicacao;
         }
 
         [HttpPost]
         [Route("criar")]
-        public async Task<IActionResult> CriarAsync([FromBody] DoacaoCriacao doacao)
+        public async Task<IActionResult> CriarAsync([FromBody] NecessidadeCriacao necessidade)
         {
             try
             {
-                var id = await _doacaoAplicacao.CriarAsync(new Doacao(doacao.DescricaoDoacao, doacao.Quantidade, doacao.DoadorID, doacao.BeneficiarioID));
+                var id = await _necessidadeAplicacao.CriarAsync(new Necessidade
+                {
+                    Descricao = necessidade.Descricao,
+                    DataRegistro = DateTime.Now,
+                    Prioridade = necessidade.Prioridade,
+                    BeneficiarioID = necessidade.BeneficiarioID,
+                    VoluntarioID = necessidade.VoluntarioID
+                });
                 return Ok(id);
 
             }
@@ -39,7 +48,7 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
         {
             try
             {
-                var doacao = await _doacaoAplicacao.ObterPorBeneficiarioAsync(id);
+                var doacao = await _necessidadeAplicacao.ObterPorBeneficiarioAsync(id);
 
                 return Ok(doacao);
             }
@@ -51,12 +60,12 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
         }
 
         [HttpGet]
-        [Route("obter-por-doador/{id}")]
-        public async Task<IActionResult> ObterPorDoadorAsync([FromRoute] int id)
+        [Route("obter-por-voluntario/{id}")]
+        public async Task<IActionResult> ObterPorVoluntarioAsync([FromRoute] int id)
         {
             try
             {
-                var doacao = await _doacaoAplicacao.ObterPorDoadorAsync(id);
+                var doacao = await _necessidadeAplicacao.ObterPorVoluntarioAsync(id);
 
                 return Ok(doacao);
             }

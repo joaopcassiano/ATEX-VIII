@@ -1,94 +1,95 @@
-// using Dapper;
-// using MaisApoio.MaisApoio.Controllers.Models;
-// using MaisApoio.MaisApoio.Dominio.Entidades;
-// using MaisApoio.MaisApoio.Repositorio.Contexto;
-// using System.Data.Common;
-// namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
+using Dapper;
+using MaisApoio.MaisApoio.Controllers.Models;
+using MaisApoio.MaisApoio.Dominio.Entidades;
+using MaisApoio.MaisApoio.Repositorio.Contexto;
+using System.Data.Common;
+namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
 
-// public class EmpregoRepositorio
-// {
-//     private MaisApoioContexto _banco;
+public class EmpregoRepositorio
+{
+    private MaisApoioContexto _banco;
 
-//     public EmpregoRepositorio()
-//     {
-//         _banco = new MaisApoioContexto();
-//     }
+    public EmpregoRepositorio()
+    {
+        _banco = new MaisApoioContexto();
+    }
 
 
-//     public async Task<int> CriarAsync(Emprego emprego)
-//     {
+    public async Task<int> CriarAsync(Emprego emprego)
+    {
 
-//         string sql = @"Insert into Emprego(DescricaoDoacao,Quantidade,DataDoacao,BeneficiarioID,DoadorID,Ativo) 
-//         OUTPUT INSERTED.DoacaoID as ID
-//         values (@DescricaoDoacao,@Quantidade,@DataDoacao,@BeneficiarioID,@DoadorID,@Ativo);";
+        string sql = @"Insert into Emprego(DescricaoEmprego,TipoEmprego,DataAdmissao,BeneficiarioID,EmpresaID,Ativo) 
+        OUTPUT INSERTED.EmpresaID as ID
+        values (@DescricaoEmprego,@TipoEmprego,@DataAdmissao,@BeneficiarioID,@EmpresaID,@Ativo);";
 
-//         var conexao = _banco.ConectarSqlServer();
+        var conexao = _banco.ConectarSqlServer();
 
-//         await conexao.OpenAsync();
+        await conexao.OpenAsync();
 
-//         var id = await conexao.QueryFirstAsync<int>(sql, new
-//         {
-//             DescricaoDoacao = doacao.DescricaoDoacao,
-//             Quantidade = doacao.Quantidade,
-//             DataDoacao = doacao.DataDoacao,
-//             BeneficiarioID = doacao.BeneficiarioID,
-//             DoadorID = doacao.DoadorID,
-//             Ativo = doacao.Ativo
-//         });
+        var id = await conexao.QueryFirstAsync<int>(sql, new
+        {
+            DescricaoEmprego = emprego.DescricaoEmprego,
+            TipoEmprego = emprego.TipoEmprego,
+            DataAdmissao = emprego.DataAdmissao,
+            BeneficiarioID = emprego.BeneficiarioID,
+            EmpresaID = emprego.EmpresaID,
+            Ativo = emprego.Ativo
+        });
 
-//         await conexao.CloseAsync();
+        await conexao.CloseAsync();
 
-//         return id;
+        return id;
 
-//     }
+    }
 
-//     public async Task<List<Doacao>> ObterPorBeneficiarioAsync(int id)
-//     {
-//         string sql = "SELECT DoacaoID AS ID, * FROM Doacao WHERE BeneficiarioID = @id AND Ativo = 1";
+    public async Task<List<Emprego>> ObterPorBeneficiarioAsync(int id)
+    {
+        string sql = "SELECT EmpregoID AS ID, * FROM Emprego WHERE BeneficiarioID = @id AND Ativo = 1";
 
-//         var conexao = _banco.ConectarSqlServer();
+        var conexao = _banco.ConectarSqlServer();
 
-//         conexao.Open();
+        conexao.Open();
 
-//         var doacao = (await conexao.QueryAsync<Doacao>(sql, new { id = id })).ToList();
+        var emprego = (await conexao.QueryAsync<Emprego>(sql, new { id = id })).ToList();
 
-//         conexao.Close();
+        conexao.Close();
 
-//         return doacao;
-//     }
+        return emprego;
+    }
 
-//     public async Task<List<DoacaoDoador>> ObterPorDoadorAsync(int id)
-//     {
-//         string sql = @"
-//         SELECT 
-//         d.DoacaoID,
-//         d.DescricaoDoacao,
-//         d.Quantidade,
-//         d.DataDoacao,
-//         d.BeneficiarioID,
-//         d.DoadorID,
-//         b.Nome,
-//         b.Email,
-//         b.Telefone,
-//         b.DataNascimento,
-//         b.ImagemPerfil,
-//         b.CPF,
-//         b.Necessidade,
-//         b.SituacaoEconomica,
-//         d.Ativo
-//         FROM Doacao d
-//         INNER JOIN Beneficiario b ON d.BeneficiarioID = b.BeneficiarioID
-//         WHERE DoadorID = @id AND d.Ativo = 1";
+    public async Task<List<EmpregoEmpresa>> ObterPorEmpresaAsync(int id)
+    {
+        string sql = @"
+        SELECT 
+        d.EmpregoID,
+        d.DescricaoEmprego,
+        d.TipoEmprego,
+        d.Salario,
+        d.DataAdmissao,
+        d.BeneficiarioID,
+        d.EmpresaID,
+        b.Nome,
+        b.Email,
+        b.Telefone,
+        b.DataNascimento,
+        b.ImagemPerfil,
+        b.CPF,
+        b.Necessidade,
+        b.SituacaoEconomica,
+        d.Ativo
+        FROM Emprego d
+        INNER JOIN Beneficiario b ON d.BeneficiarioID = b.BeneficiarioID
+        WHERE d.EmpresaID = @id AND d.Ativo = 1";
 
-//         var conexao = _banco.ConectarSqlServer();
+        var conexao = _banco.ConectarSqlServer();
 
-//         conexao.Open();
+        conexao.Open();
 
-//         var doacao = (await conexao.QueryAsync<DoacaoDoador>(sql, new { id = id })).ToList();
+        var empresa = (await conexao.QueryAsync<EmpregoEmpresa>(sql, new { id = id })).ToList();
 
-//         conexao.Close();
+        conexao.Close();
 
-//         return doacao;
-//     }
+        return empresa;
+    }
 
-// }
+}

@@ -36,6 +36,9 @@ builder.Services.AddScoped<DoadorAplicacao>();
 builder.Services.AddScoped<DoacaoRepositorio>();
 builder.Services.AddScoped<DoacaoAplicacao>();
 
+builder.Services.AddScoped<EmpregoRepositorio>();
+builder.Services.AddScoped<EmpregoAplicacao>();
+
 builder.Services.AddScoped<EnderecoDoadorRepositorio>();
 builder.Services.AddScoped<EnderecoDoadorAplicacao>();
 

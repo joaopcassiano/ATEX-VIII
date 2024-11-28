@@ -87,7 +87,8 @@ create table Emprego(
 	DescricaoEmprego varchar(200) not null,
 	TipoEmprego varchar(200) not null,
 	DataAdmissao date not null,
+	Salario decimal(18,2) not null,
 	BeneficiarioID int not null,
-	DoadorID int not null,
+	EmpresaID int not null,
 	Ativo bit not null
 );

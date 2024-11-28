@@ -24,6 +24,9 @@ builder.Services.AddScoped<BeneficiarioAplicacao>();
 builder.Services.AddScoped<VoluntarioRepositorio>();
 builder.Services.AddScoped<VoluntarioAplicacao>();
 
+builder.Services.AddScoped<NecessidadeRepositorio>();
+builder.Services.AddScoped<NecessidadeAplicacao>();
+
 builder.Services.AddScoped<EmpresaRepositorio>();
 builder.Services.AddScoped<EmpresaAplicacao>();
 

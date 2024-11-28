@@ -4,7 +4,6 @@ namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Necessidade
 {
-
     private int _id;
     private string _descricao;
     private DateTime _dataRegistro;

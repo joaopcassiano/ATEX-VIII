@@ -16,6 +16,7 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
     public class VoluntarioController : ControllerBase
     {
         private VoluntarioAplicacao _voluntarioAplicacao;
+        private EnderecoVoluntarioAplicacao _enderecoAplicacao;
 
         public VoluntarioController(VoluntarioAplicacao voluntarioAplicacao)
         {
@@ -33,7 +34,7 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
 
                 try
                 {
-                    //var id = await _enderecoAplicacao.CriarAsync(new EnderecoVoluntario(voluntarioCriacao.Rua, voluntarioCriacao.Bairro, voluntarioCriacao.Numero, voluntarioCriacao.Complemento, voluntarioCriacao.Cidade, voluntarioCriacao.Estado, voluntarioCriacao.Cep, doadorID));
+                    var id = await _enderecoAplicacao.CriarAsync(new EnderecoVoluntario(voluntarioCriacao.Rua, voluntarioCriacao.Bairro, voluntarioCriacao.Numero, voluntarioCriacao.Complemento, voluntarioCriacao.Cidade, voluntarioCriacao.Estado, voluntarioCriacao.Cep, doadorID));
                 }
                 catch (Exception ex)
                 {

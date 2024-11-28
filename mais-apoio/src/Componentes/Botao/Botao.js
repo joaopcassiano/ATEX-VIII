@@ -24,6 +24,7 @@ const Botao = ({ children, estilo , onClick, referencia}) => {
         sideBar: styles.sideBar,
         pesquisar: styles.pesquisar,
         doar: styles.doar,
+        DoarConfirma: styles.doarConfirma,
     }
 
     return (

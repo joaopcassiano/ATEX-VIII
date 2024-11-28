@@ -71,6 +71,85 @@
     height: auto;
 }
 
+.escuroTela{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 900;
+
+}
+
+.escuroTela::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.escuroTela::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+    border-radius: 10px;
+}
+
+.boxEditar{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: #007BFF solid 2px;
+    padding: 1.5rem;
+    gap: 1rem;
+}
+
+.tituloDoacao {
+    width: 100%;
+    color: #007BFF;
+    font-family: 'Poppins';
+    font-size: 1.6rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+
+}
+
+.cadaInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0 0 0.6rem 0;
+    width: 90%;
+
+}
+.inputCadastro {
+    all: unset;
+    border: #007BFF solid;
+    font-size: 0.9rem;
+    border-width: 0 0 2px 0;
+    padding: 5px;
+    width: 100%;
+    color: #757575;
+}
+
+.iconeCadastro {
+    color: #007BFF;
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+    font-style: normal;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');

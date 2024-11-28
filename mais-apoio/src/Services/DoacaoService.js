@@ -3,12 +3,7 @@ import axios from 'axios';
 export default {
     async Criar(doacao){
         try {
-            const resposta = await axios.post("http://localhost:5233/Doacao/api/criar",{
-                doadorId: doacao.doadorId,
-                beneficiarioId: doacao.beneficiarioId,
-                quantidade: doacao.quantidade,
-                descricaoDoacao: doacao.descricaoDoacao
-            })
+            const resposta = await axios.post("http://localhost:5233/Doacao/api/criar",doacao)
             return resposta;
         } catch (error) {
             console.error('Erro ao cadastrar doação:', error);

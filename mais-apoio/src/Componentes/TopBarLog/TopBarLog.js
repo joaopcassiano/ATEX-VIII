@@ -15,6 +15,8 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                     className={styles.linkLogo}
                     to={
                         tipoUsuario === 'Beneficiario' ?
+                            '' : 
+                            tipoUsuario === 'Doador' ?
                             '' : '/home'
                     }>
                     <Botao estilo='logoHome'>

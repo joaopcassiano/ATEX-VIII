@@ -1,17 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './_realizarDoacao.module.css'
 import { toast, ToastContainer } from 'react-toastify'
 import BeneficiarioService from '../../Services/BeneficiarioService'
 import Loader from '../../Componentes/Loader/Loader'
-import { BsChevronDoubleRight } from "react-icons/bs";
+import { BsChevronDoubleRight, BsPerson } from "react-icons/bs";
 import Botao from '../../Componentes/Botao/Botao'
 import { useLocation } from 'react-router-dom'
+import InputMask from 'react-input-mask';
+import DoacaoService from '../../Services/DoacaoService'
 
 const RealizarDoacao = () => {
     const [beneficiarios, setBeneficiarios] = useState([])
     const location = useLocation();
     const [id] = useState(location?.state)
     const [loader, setLoader] = useState(false)
+    const [blocoDoar, setBlocoDoar] = useState(false)
+    const escuroRef = useRef(null);
+    const boxDoarRef = useRef(null);
+    const [beneficiarioID, setBeneficiarioID] = useState(0);
+    const [quantidade, setQuantidade] = useState(null);
+    const [descricaoDoacao, setDescricaoDoacao] = useState('');
 
     useEffect(() => {
         console.log("Estou aqui tambem ")
@@ -20,17 +28,39 @@ const RealizarDoacao = () => {
         ObterBeneficiarios();
     }, [])
 
-    const Doar = (beneficiarioId) => {
-        try{
-            console.log(beneficiarioId)
-            console.log(id)
+    const fecharBoxDoar = (event) => {
+        if (boxDoarRef.current && !boxDoarRef.current.contains(event.target)) {
+            setBlocoDoar(false);
+            setBeneficiarioID(0)
+            setQuantidade(null)
+            setDescricaoDoacao('')
+        }
+    };
 
-        }catch(erro){
-            console.error(erro)
-            toast.dismiss();
-            toast.error(`Erro ao doar: ${erro.response.data}`, {
+    const Doar = async (beneficiarioId) => {
+        try {
+            const bene = {
+                doadorID: id, 
+                beneficiarioID:beneficiarioId, 
+                quantidade: quantidade || 0, 
+                descricaoDoacao: descricaoDoacao
+            }
+            const response = await DoacaoService.Criar(bene); 
+            toast.success(`Doação feita com sucesso!`, {
                 position: "top-center",
-                autoClose: 3000
+                autoClose: 1000
+            })
+            setBlocoDoar(false)
+            setBeneficiarioID(0)
+            setQuantidade(null)
+            setDescricaoDoacao('')
+
+        } catch (error) {
+            console.error(error)
+            toast.dismiss();
+            toast.error(`${error.response.data}`, {
+                position: "top-center",
+                autoClose: 2000
             })
         }
     }
@@ -64,6 +94,42 @@ const RealizarDoacao = () => {
                 :
                 <>
 
+                    {
+                        blocoDoar &&
+                        <>
+                            <div onClick={fecharBoxDoar} ref={escuroRef} className={styles.escuroTela}>
+                                <div ref={boxDoarRef} className={styles.boxEditar}>
+                                    <p className={styles.tituloDoacao}>Confirme sua doação</p>
+                                    <div className={styles.cadaInput}>
+                                        <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
+                                        <InputMask
+                                            type='text'
+                                            placeholder='Descrição da doação'
+                                            className={styles.inputCadastro}
+                                            value={descricaoDoacao}
+                                            onChange={(event) =>
+                                                setDescricaoDoacao(event.target.value)
+                                            }
+                                        />
+                                    </div>
+                                    <div className={styles.cadaInput}>
+                                        <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
+                                        <InputMask
+                                            type='text'
+                                            placeholder='Quantidades de itens'
+                                            className={styles.inputCadastro}
+                                            value={quantidade}
+                                            onChange={(event) =>
+                                                setQuantidade(event.target.value)
+                                            }
+                                        />
+                                    </div>
+                                    <Botao estilo='DoarConfirma' onClick={() => Doar(beneficiarioID)}>Confirmar</Botao>
+                                </div>
+                            </div>
+                        </>
+                    }
+
                     <p className={styles.titulo}>Escolha uma pessoa para doar</p>
                     <div className={styles.container}>
 
@@ -82,7 +148,7 @@ const RealizarDoacao = () => {
                                         <p className={styles.demais}><BsChevronDoubleRight className={styles.icone} />{beneficiario?.situacaoEconomica}</p>
                                         <p className={styles.demais}><BsChevronDoubleRight className={styles.icone} />{beneficiario?.necessidade}</p>
                                         <div className={styles.botao}>
-                                            <Botao onClick={() => Doar(beneficiario?.id)} estilo='doar'>Doar</Botao>
+                                            <Botao onClick={() => { setBeneficiarioID(beneficiario?.id); setBlocoDoar(true) }} estilo='doar'>Doar</Botao>
                                         </div>
                                     </div>
                                 </div>

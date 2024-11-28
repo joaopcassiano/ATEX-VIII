@@ -35,11 +35,7 @@ const Doador = () => {
             const resposta = await DoadorService.ObterPorId(id)
             setDoador(resposta?.data)
             setLoading(false)
-            toast.dismiss();
-            toast.success("Informações carregadas com sucesso!", {
-                position: "top-center",
-                autoClose: 3000
-            });
+            
         }
         catch (error) {
             const errorMessage = error.response?.data || "Erro desconhecido";

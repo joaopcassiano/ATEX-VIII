@@ -32,7 +32,7 @@ public class Doacao
         set
         {
             if (value <= 0)
-                throw new Exception("A Quantidade não pode ser zero ou negativa.");
+                throw new Exception("A Quantidade não pode estar vazia ou zerada.");
 
             _quantidade = value;
         }

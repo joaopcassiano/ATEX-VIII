@@ -181,6 +181,12 @@
     gap: 1rem;
 }
 
+.textos_adicionaisSem {
+    width: auto;
+    font-size: 1.4rem;
+    font-family: 'PoppinsSemiBold';
+}
+
 .texto_adicional {
     display: flex;
     justify-content: center;
@@ -201,6 +207,11 @@
     min-width: 1rem;
     font-size: 1rem;
     color: #007BFF
+}
+
+.texto_add{
+    font-family: 'PoppinsSemiBold';
+    margin: 0;
 }
 
 @font-face {

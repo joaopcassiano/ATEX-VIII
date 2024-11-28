@@ -168,4 +168,54 @@ public class EmpresaController : ControllerBase
         }
 
     }
+    [HttpGet]
+    [Route("obter-todos")]
+    public async Task<IActionResult> ObterTodos()
+    {
+        try
+        {
+            var empresa = await _empresaAplicacao.ObterTodosAsync();
+
+            List<EmpresaLogado> empresasLogadas = empresa.Select( x => new EmpresaLogado(x)).ToList();
+            
+            return Ok(empresasLogadas);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
+    [HttpPut]
+    [Route("trocar-senha/{id}")]
+    public async Task<IActionResult> TrocarSenha([FromRoute] int id, [FromBody] EmpresaTrocarSenha empresaTrocarSenha)
+    {
+        try
+        {
+            await _emppresaAplicacao.TrocarDeSenhaAsync(id,empresaTrocarSenha.ConfirmarSenha, empresaTrocarSenha.Senha);
+
+            return Ok("Senha trocada com sucesso");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
+    [HttpPut]
+    [Route("carregar-imagem/{id}")]
+    public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] ImagemCarregada imagem)
+    {
+        try
+        {
+            await _empresaAplicacao.CarregarImagemAsync(imagem.Imagem, id);
+            return Ok("Imagem carregada com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
 }

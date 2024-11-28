@@ -21,44 +21,55 @@ public class DoadorRepositorio
         await session.RunAsync(sql, new { id, imagemPerfil });
     }
 
-public async Task<Doador> LogarAsync(string email, string senha)
-{
-    string cypher = @"
+    public async Task<Doador> LogarAsync(string email, string senha)
+    {
+        string cypher = @"
         MATCH (d:Doador {Email: $email, Senha: $senha})
         RETURN d.DoadorID AS ID, d.Nome AS Nome, d.Email AS Email, 
                d.Telefone AS Telefone, d.Cpf AS Cpf, d.DataNascimento AS DataNascimento, d.ImagemPerfil AS ImagemPerfil,
                d.Ativo AS Ativo";
 
-    using (var conexao = _banco.ConectarNeo4j())
-    {
-        var doadorbanco = await conexao.RunAsync(cypher, new { email, senha });
-        var doador = (await doadorbanco.ToListAsync()).FirstOrDefault();
-
-        if (doador != null)
+        using (var conexao = _banco.ConectarNeo4j())
         {
-            return new Doador
-            {
-                ID = doador["ID"].As<int>(),
-                Nome = doador["Nome"].As<string>(),
-                Email = doador["Email"].As<string>(),
-                Telefone = doador["Telefone"].As<string>(),
-                DataNascimento = doador["DataNascimento"].As<DateTime>(),
-                CPF = doador["Cpf"].As<string>(),
-                ImagemPerfil = doador["ImagemPerfil"].As<string>(),
-                Ativo = doador["Ativo"].As<bool>()
-            };
-        }
+            var doadorbanco = await conexao.RunAsync(cypher, new { email, senha });
+            var doador = (await doadorbanco.ToListAsync()).FirstOrDefault();
 
-        return null; // Retorna null se o login não for encontrado
+            if (doador != null)
+            {
+                return new Doador
+                {
+                    ID = doador["ID"].As<int>(),
+                    Nome = doador["Nome"].As<string>(),
+                    Email = doador["Email"].As<string>(),
+                    Telefone = doador["Telefone"].As<string>(),
+                    DataNascimento = doador["DataNascimento"].As<DateTime>(),
+                    CPF = doador["Cpf"].As<string>(),
+                    ImagemPerfil = doador["ImagemPerfil"].As<string>(),
+                    Ativo = doador["Ativo"].As<bool>()
+                };
+            }
+
+            return null; // Retorna null se o login não for encontrado
+        }
     }
-}
 
     public async Task<int> CriarAsync(Doador doador)
     {
         var sql = @"
-                CREATE (d:Doador {DoadorID: randomUUID(), Nome: $nome, Telefone: $telefone, 
-                                  Email: $email, Senha: $senha, DataNascimento: $dataNascimento Cpf: $cpf, Ativo: $ativo})
-                RETURN d.ID as ID";
+    MATCH (s:Sequencia {tipo: 'Doador'})
+    SET s.ultimoID = s.ultimoID + 1
+    WITH s.ultimoID AS novoID
+    CREATE (d:Doador {
+        DoadorID: novoID, 
+        Nome: $nome, 
+        Telefone: $telefone, 
+        Email: $email, 
+        Senha: $senha, 
+        DataNascimento: $dataNascimento, 
+        Cpf: $cpf, 
+        Ativo: $ativo
+    })
+    RETURN d.DoadorID AS ID"; ;
 
         using (var session = _banco.ConectarNeo4j())
         {
@@ -66,7 +77,7 @@ public async Task<Doador> LogarAsync(string email, string senha)
             {
                 nome = doador.Nome,
                 telefone = doador.Telefone,
-                dataNascimento = doador.DataNascimento,
+                dataNascimento = doador.DataNascimento.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 cpf = doador.CPF,
                 email = doador.Email,
                 senha = doador.Senha,
@@ -98,7 +109,10 @@ public async Task<Doador> LogarAsync(string email, string senha)
                     Senha = record["d"].As<INode>().Properties["Senha"].ToString(),
                     CPF = record["d"].As<INode>().Properties["Cpf"].ToString(),
                     DataNascimento = DateTime.Parse(record["d"].As<INode>().Properties["DataNascimento"].ToString()),
-                    Ativo = bool.Parse(record["d"].As<INode>().Properties["Ativo"].ToString())
+                    Ativo = bool.Parse(record["d"].As<INode>().Properties["Ativo"].ToString()),
+                    ImagemPerfil = record["d"].As<INode>().Properties.ContainsKey("ImagemPerfil")
+    ? record["d"].As<INode>().Properties["ImagemPerfil"].ToString()
+    : null,
                 };
 
                 doadores.Add(doador);
@@ -130,6 +144,9 @@ public async Task<Doador> LogarAsync(string email, string senha)
                     Email = doadorNode.Properties["Email"].ToString(),
                     CPF = doadorNode.Properties["Cpf"].ToString(),
                     DataNascimento = DateTime.Parse(doadorNode.Properties["DataNascimento"].ToString()),
+                    ImagemPerfil = doadorNode.Properties.ContainsKey("ImagemPerfil")
+    ? doadorNode.Properties["ImagemPerfil"].ToString()
+    : null,
                     Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
                 };
             }
@@ -155,7 +172,7 @@ public async Task<Doador> LogarAsync(string email, string senha)
                 cpf = doador.CPF,
                 email = doador.Email,
                 senha = doador.Senha,
-                dataNascimento = doador.DataNascimento,
+                dataNascimento = doador.DataNascimento.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 ativo = doador.Ativo
             });
         }
@@ -202,6 +219,9 @@ public async Task<Doador> LogarAsync(string email, string senha)
                     Email = doadorNode.Properties["Email"].ToString(),
                     CPF = doadorNode.Properties["Cpf"].ToString(),
                     DataNascimento = DateTime.Parse(doadorNode.Properties["DataNascimento"].ToString()),
+                    ImagemPerfil = doadorNode.Properties.ContainsKey("ImagemPerfil")
+    ? doadorNode.Properties["ImagemPerfil"].ToString()
+    : null,
                     Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
                 };
             }
@@ -230,7 +250,10 @@ public async Task<Doador> LogarAsync(string email, string senha)
                     Email = doadorNode.Properties["Email"].ToString(),
                     CPF = doadorNode.Properties["Cpf"].ToString(),
                     DataNascimento = DateTime.Parse(doadorNode.Properties["DataNascimento"].ToString()),
-                    Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
+                    Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString()),
+                    ImagemPerfil = doadorNode.Properties.ContainsKey("ImagemPerfil")
+    ? doadorNode.Properties["ImagemPerfil"].ToString()
+    : null,
                 };
             }
             return null;
@@ -257,7 +280,10 @@ public async Task<Doador> LogarAsync(string email, string senha)
                     Email = doadorNode.Properties["Email"].ToString(),
                     CPF = doadorNode.Properties["Cpf"].ToString(),
                     DataNascimento = DateTime.Parse(doadorNode.Properties["DataNascimento"].ToString()),
-                    Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString())
+                    Ativo = bool.Parse(doadorNode.Properties["Ativo"].ToString()),
+                    ImagemPerfil = doadorNode.Properties.ContainsKey("ImagemPerfil")
+    ? doadorNode.Properties["ImagemPerfil"].ToString()
+    : null,
                 };
             }
             return null;

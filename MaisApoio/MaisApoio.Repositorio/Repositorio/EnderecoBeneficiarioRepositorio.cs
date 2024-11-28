@@ -47,7 +47,7 @@ public class EnderecoBeneficiarioRepositorio
 
     public async Task<EnderecoBeneficiario> ObterEnderecoAsync(int id)
     {
-        string sql = @"SELECT EnderecoBeneficiarioID AS ID, *
+        string sql = @"SELECT EnderecoID AS ID, *
         FROM EnderecoBeneficiario WHERE EnderecoBeneficiarioID = @ID";
 
         var conexao = _banco.ConectarSqlServer();
@@ -63,7 +63,7 @@ public class EnderecoBeneficiarioRepositorio
 
     public async Task<EnderecoBeneficiario> ObterEnderecoPorBeneficiarioAsync(int id)
     {
-        string sql = @"SELECT EnderecoBeneficiarioID AS ID, *
+        string sql = @"SELECT EnderecoID AS ID, *
         FROM EnderecoBeneficiario WHERE BeneficiarioID = @ID";
 
         var conexao = _banco.ConectarSqlServer();
@@ -79,7 +79,7 @@ public class EnderecoBeneficiarioRepositorio
 
     public async Task ExclusaoFisicaAsync(int id)
     {
-        string sql = "DELETE FROM EnderecoBeneficiario WHERE EnderecoBeneficiarioID = @id";
+        string sql = "DELETE FROM EnderecoBeneficiario WHERE EnderecoID = @id";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
         await conexao.ExecuteAsync(sql, new { id = id });

@@ -8,7 +8,7 @@ public class MaisApoioContexto
 {
     private readonly string _conexaoSql = "Server=.\\SQLEXPRESS;Database=MaisApoio;Trusted_Connection=True;TrustServerCertificate=True;";
 
-    private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "senha_do_neo4j"));
+    private readonly IDriver _conexaoNeo4j = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("maisapoio", "Anderson"));
     //Alterar                                                            localhost e porta                       Altere a senha
 
     public DbConnection ConectarSqlServer()

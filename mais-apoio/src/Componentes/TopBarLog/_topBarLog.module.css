@@ -17,11 +17,15 @@
 }
 
 .linkLogo{
+    position: relative;
     text-decoration: none;
     margin-left: 3%;
+    z-index: 10;
 }
 
 .link{
+    position: relative;
+    z-index: 10;
     all: unset;
     text-decoration: none;
 }
@@ -49,6 +53,7 @@
     height: 5rem;
     border-radius: 90px;
     cursor: pointer;
+    border: #007BFF solid 2px;
 }
 
 .semFoto{

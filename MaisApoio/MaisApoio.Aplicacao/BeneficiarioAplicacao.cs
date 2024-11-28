@@ -115,6 +115,18 @@ public class BeneficiarioAplicacao
 
     public async Task CarregarImagemAsync(string imagem, int id)
     {
+        if(imagem == null)
+        {
+            throw new Exception("Imagem não pode ser vazia.");
+        }
+
+        var beneficiarioID = await _beneficiarioRepositorio.ObterPorIdAsync(id);
+
+        if(beneficiarioID == null)
+        {
+            throw new Exception("Beneficiario não encontrado.");
+        }
+
         await _beneficiarioRepositorio.CarregarImagemAsync(imagem, id);
     }
 
@@ -141,4 +153,25 @@ public class BeneficiarioAplicacao
         return beneficiario.ID;
     }
 
+    public async Task TrocarDeSenhaAsync(int id, string confirmarSenha, string senha)
+    {
+        var beneficiario = await _beneficiarioRepositorio.ObterPorIdAsync(id);
+
+        if (beneficiario == null)
+        {
+            throw new Exception("Beneficiario não encontrado");
+        }
+
+        if (confirmarSenha != senha)
+        {
+            throw new Exception("As senhas passadas não são iguais");
+        }
+
+        if(string.IsNullOrWhiteSpace(senha))
+        {
+            throw new Exception("Senha não pode ser vazia");
+        }
+
+        await _beneficiarioRepositorio.TrocarDeSenhaAsync(id,senha);
+    }
 }

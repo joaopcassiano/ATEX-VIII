@@ -5,11 +5,11 @@ using System.Data.Common;
 
 namespace MaisApoio.MaisApoio.Repositorio.Repositorio;
 
-public class EnderecoBoadorRepositorio
+public class EnderecoDoadorRepositorio
 {
     private MaisApoioContexto _banco;
 
-    public EnderecoBoadorRepositorio()
+    public EnderecoDoadorRepositorio()
     {
         _banco = new MaisApoioContexto();
     }
@@ -32,7 +32,7 @@ public class EnderecoBoadorRepositorio
             Bairro = enderecoDoador.Bairro,
             Numero = enderecoDoador.Numero,
             Complemento = enderecoDoador.Complemento,
-            BeneficiarioID = enderecoDoador.DoadorID,
+            DoadorID = enderecoDoador.DoadorID,
             Cidade = enderecoDoador.Cidade,
             Estado = enderecoDoador.Estado,
             Cep = enderecoDoador.Cep,
@@ -47,8 +47,8 @@ public class EnderecoBoadorRepositorio
 
     public async Task<EnderecoDoador> ObterEnderecoAsync(int id)
     {
-        string sql = @"SELECT EnderecoDoadorID AS ID, *
-        FROM EnderecoDoador WHERE EnderecoDoadorID = @ID";
+        string sql = @"SELECT EnderecoID AS ID, *
+        FROM EnderecoDoador WHERE EnderecoID = @ID";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -63,7 +63,7 @@ public class EnderecoBoadorRepositorio
 
     public async Task<EnderecoDoador> ObterEnderecoPorDoadorAsync(int id)
     {
-        string sql = @"SELECT EnderecoDoadorID AS ID, *
+        string sql = @"SELECT EnderecoID AS ID, *
         FROM EnderecoDoador WHERE DoadorID = @ID";
 
         var conexao = _banco.ConectarSqlServer();
@@ -79,10 +79,35 @@ public class EnderecoBoadorRepositorio
 
     public async Task ExclusaoFisicaAsync(int id)
     {
-        string sql = "DELETE FROM EnderecoDoador WHERE EnderecoDoadorID = @id";
+        string sql = "DELETE FROM EnderecoDoador WHERE EnderecoID = @id";
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
         await conexao.ExecuteAsync(sql, new { id = id });
+        conexao.Close();
+    }
+
+    public async Task AtualizarAsync(EnderecoDoador enderecoDoador, int ID)
+    {
+        string sql = @"
+            UPDATE EnderecoDoador
+            SET Rua = @Rua, Bairro = @Bairro, Numero = @Numero, Complemento = @Complemento, Cidade = @Cidade, Estado = @Estado, Cep = @Cep, Ativo = @Ativo
+            WHERE DoadorID = @ID
+        ";
+
+        var conexao = _banco.ConectarSqlServer();
+        conexao.Open();
+        await conexao.ExecuteAsync(sql, new{
+            Rua = enderecoDoador.Rua,
+            Bairro = enderecoDoador.Bairro,
+            Numero = enderecoDoador.Numero,
+            Complemento = enderecoDoador.Complemento,
+            Cidade = enderecoDoador.Cidade,
+            Estado = enderecoDoador.Estado,
+            Cep = enderecoDoador.Cep,
+            Ativo = enderecoDoador.Ativo,
+            ID = ID
+        });
+
         conexao.Close();
     }
 }

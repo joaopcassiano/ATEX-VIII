@@ -22,7 +22,7 @@ public class DoadorAplicacao
 
         Doador doadorObtido = await _doadorRepositorio.ObterPorEmailAsync(doador.Email);
 
-        if (doador != null)
+        if (doadorObtido != null)
         {
             throw new Exception("Já existe um doador com o mesmo email.");
         }
@@ -108,6 +108,18 @@ public class DoadorAplicacao
 
     public async Task CarregarImagemAsync(string imagem, int id)
     {
+        if(imagem == null)
+        {
+            throw new Exception("Imagem não pode ser vazia.");
+        }
+
+        var doadorID = await _doadorRepositorio.ObterPorIdAsync(id);
+
+        if(doadorID == null)
+        {
+            throw new Exception("Doador não encontrado.");
+        }
+
         await _doadorRepositorio.CarregarImagemAsync(imagem, id);
     }
 
@@ -132,6 +144,30 @@ public class DoadorAplicacao
         }
 
         return doador.ID;
+    }
+
+    public async Task TrocarDeSenhaAsync(int id, string confirmarSenha, string senha)
+    {
+        var doador = await _doadorRepositorio.ObterPorIdAsync(id);
+
+        if (doador == null)
+        {
+            throw new Exception("Doador não encontrado");
+        }
+
+        if (confirmarSenha != senha)
+        {
+            throw new Exception("As senhas passadas não são iguais");
+        }
+
+        if(string.IsNullOrWhiteSpace(senha))
+        {
+            throw new Exception("Senha não pode ser vazia");
+        }
+
+        doador.Senha = senha;
+
+        await _doadorRepositorio.AtualizarAsync(doador);
     }
 
 }

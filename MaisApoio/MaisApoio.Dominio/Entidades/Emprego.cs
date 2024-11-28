@@ -3,11 +3,12 @@ namespace MaisApoio.MaisApoio.Dominio.Entidades;
 public class Emprego
 {
     private int _id;
-    private string _tituloVaga;
-    private string _descricaoVaga;
-    private double _salario;
+    private string _tipoEmprego;
+    private string _descricaoEmprego;
+    private decimal _salario;
     private int _empresaID;
     private int _beneficiarioID;
+    private DateTime _dataAdmissao;
     private bool _ativo;
 
     public int ID
@@ -16,25 +17,37 @@ public class Emprego
         set { _id = value; }
     }
 
-    public string TituloVaga
+    public DateTime DataAdmissao
     {
-        get { return _tituloVaga; }
-        set { _tituloVaga = value; }
+        get { return _dataAdmissao; }
+        set { _dataAdmissao = value; }
     }
 
-    public string DescricaoVaga 
+    public string TipoEmprego
     {
-        get { return _descricaoVaga; }
+        get { return _tipoEmprego; }
+        set
+        {
+            if(string.IsNullOrEmpty(value))
+                throw new Exception("o tipo do emprego não pode ser vazio.");
+
+            _tipoEmprego = value;
+        }
+    }
+
+    public string DescricaoEmprego 
+    {
+        get { return _descricaoEmprego; }
         set
         {
             if(string.IsNullOrEmpty(value))
                 throw new Exception("A Descrição não pode ser vaia.");
 
-            _descricaoVaga = value;
+            _descricaoEmprego = value;
         }
     }
 
-    public double Salario
+    public decimal Salario
     {
         get { return _salario; }
         set
@@ -52,7 +65,7 @@ public class Emprego
         set
         {
             if (value <= 0)
-                throw new ArgumentException("Empresa inválida.");
+                throw new Exception("Empresa inválida.");
 
             _empresaID = value;
         }
@@ -64,7 +77,7 @@ public class Emprego
         set 
         {
             if(value <= 0)
-                throw new Exception("O ID do Beneficiário não pode ser zero ou negativo.");
+                throw new Exception("O ID do Beneficiário não estar vazio ou zerado.");
                 
             _beneficiarioID = value;
         }
@@ -78,14 +91,15 @@ public class Emprego
 
     public Emprego() { }
 
-    public Emprego(string tituloVaga, string descricaoVaga, double salario, int empresaID, int beneficiarioID)
+    public Emprego(string tipoEmprego, string descricaoEmprego, decimal salario, int empresaID, int beneficiarioID)
     {
-        TituloVaga = tituloVaga;
-        DescricaoVaga = descricaoVaga;
+        TipoEmprego = tipoEmprego;
+        DescricaoEmprego = descricaoEmprego;
         Salario = salario;
         EmpresaID = empresaID;
         BeneficiarioID = beneficiarioID;
         Ativo = true;
+        DataAdmissao = DateTime.Now;
     }
 
     public void Deletar()

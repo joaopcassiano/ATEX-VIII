@@ -3,7 +3,6 @@ namespace MaisApoio.MaisApoio.Dominio.Entidades;
 public class Doacao
 {
     private int _id;
-    private string _tipoDoacao;
     private string _descricaoDoacao;
     private decimal _quantidade;
     private DateTime _dataDoacao;
@@ -15,17 +14,6 @@ public class Doacao
     {
         get { return _id; }
         set { _id = value; }
-    }
-    public string TipoDoacao
-    {
-        get { return _tipoDoacao; }
-        set
-        {
-            if (string.IsNullOrEmpty(value))
-                throw new Exception("O Tipo da Doação não pode ser vazio.");
-
-            _tipoDoacao = value;
-        }
     }
     public string DescricaoDoacao
     {
@@ -44,7 +32,7 @@ public class Doacao
         set
         {
             if (value <= 0)
-                throw new Exception("A Quantidade não pode ser zero ou negativa.");
+                throw new Exception("A Quantidade não pode estar vazia ou zerada.");
 
             _quantidade = value;
         }
@@ -65,7 +53,6 @@ public class Doacao
             _beneficiarioID = value;
         }
     }
-
     public int DoadorID
     {
         get { return _doadorID; }
@@ -77,7 +64,6 @@ public class Doacao
             _doadorID = value;
         }
     }
-
     public bool Ativo
     {
         get { return _ativo; }
@@ -86,12 +72,11 @@ public class Doacao
 
     public Doacao() { }
 
-    public Doacao(string tipoDoacao, string descricaoDoacao, decimal quantidade, DateTime dataDoacao,int doadorID, int beneficarioID)
+    public Doacao(string descricaoDoacao, decimal quantidade,int doadorID, int beneficarioID)
     {
-        TipoDoacao = tipoDoacao;
         DescricaoDoacao = descricaoDoacao;
         Quantidade = quantidade;
-        DataDoacao = dataDoacao;
+        DataDoacao = DateTime.Now;
         BeneficiarioID = beneficarioID;
         DoadorID = doadorID;
         Ativo = true;

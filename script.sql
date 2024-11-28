@@ -71,3 +71,34 @@ CREATE TABLE EnderecoVoluntario(
 	Cep Varchar(10) not null,
 	Ativo Bit not null
 );
+
+create table Doacao(
+	DoacaoID int not null identity(1,1) primary key,
+	DescricaoDoacao varchar(200) not null,
+	Quantidade Decimal(18,2) not null,
+	DataDoacao date not null,
+	BeneficiarioID int not null,
+	DoadorID int not null,
+	Ativo bit not null
+)
+
+create table Emprego(
+	EmpregoID int not null identity(1,1) primary key,
+	DescricaoEmprego varchar(200) not null,
+	TipoEmprego varchar(200) not null,
+	DataAdmissao date not null,
+	Salario decimal(18,2) not null,
+	BeneficiarioID int not null,
+	EmpresaID int not null,
+	Ativo bit not null
+);
+
+create table Necessidade(
+	NecessidadeID int not null identity(1,1) primary key,
+	Descricao varchar(200) not null,
+	DataRegistro date not null,
+	Prioridade varchar(200) not null,
+	BeneficiarioID int not null,
+	VoluntarioID int not null,
+	Ativo bit not null
+);

@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const TopBarLog = ({ usuario, tipoUsuario }) => {
     const [trocarfoto, setTrocarfoto] = useState(false);
-    console.log("usuario aqui " , usuario);
+    console.log("usuario aqui ", usuario);
     return (
         <>
             <div className={styles.topBar}>
@@ -15,6 +15,8 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                     className={styles.linkLogo}
                     to={
                         tipoUsuario === 'Beneficiario' ?
+                            '' : 
+                            tipoUsuario === 'Doador' ?
                             '' : '/home'
                     }>
                     <Botao estilo='logoHome'>
@@ -25,27 +27,17 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
 
                     <Link
                         className={styles.link}
-                        to={
-                            tipoUsuario === 'Beneficiario' ?
-                                'perfil' : '/home'
-                        }
-
+                        to='perfil'
                         state={usuario}>
-                        <h3 className={styles.nomePerfil}> Olá {usuario.nome.split(" ")[0]},</h3>
+                        <h3 className={styles.nomePerfil}> Olá {usuario?.nome?.split(" ")[0]},</h3>
                     </Link>
-
-
-
                     {
                         (
-                            usuario.imagemPerfil ?
+                            usuario?.imagemPerfil ?
                                 <>
                                     <Link
                                         className={styles.link}
-                                        to={
-                                            tipoUsuario === 'Beneficiario' ?
-                                                'perfil' : '/home'
-                                        }
+                                        to= 'perfil' 
                                         state={usuario}>
                                         <img src={usuario.imagemPerfil} className={styles.fotoPerfil}></img>
                                     </Link>
@@ -54,7 +46,8 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                                 <>
                                     <Link
                                         to={"carregar-imagem"}
-                                        className={styles.semFoto}>
+                                        className={styles.semFoto}
+                                        state={{ tipoUser: tipoUsuario, id: usuario?.id }}>
                                         <BsCamera className={styles.camera}></BsCamera>
                                         Adicionar foto
                                     </Link>

@@ -4,7 +4,6 @@ namespace MaisApoio.MaisApoio.Dominio.Entidades;
 
 public class Necessidade
 {
-
     private int _id;
     private string _descricao;
     private DateTime _dataRegistro;
@@ -77,10 +76,10 @@ public class Necessidade
     }
     public Necessidade() { }
 
-    public Necessidade(string descricao, DateTime dataRegistro, string prioridade, int beneficarioID, int voluntarioID)
+    public Necessidade(string descricao, string prioridade, int beneficarioID, int voluntarioID)
     {
         Descricao = descricao;
-        DataRegistro = dataRegistro;
+        DataRegistro = DateTime.Now;
         Prioridade = prioridade;
         BeneficiarioID = beneficarioID;
         VoluntarioID = voluntarioID;

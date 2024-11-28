@@ -13,6 +13,10 @@ import { IoCallOutline } from "react-icons/io5";
 import AcharCep from '../../Services/Endereco'
 import { BsArrowReturnRight } from "react-icons/bs";
 import { FaNetworkWired } from "react-icons/fa";
+import Voluntariar from '../VoluntariarPage/Voluntariar';
+import VoluntarioService from '../../Services/VoluntarioService';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const CadastroVoluntario = () => {
     const [visivelEndereco, setVisivelEndereco] = useState(false)
@@ -27,6 +31,7 @@ const CadastroVoluntario = () => {
     const [existeBairro, setExisteBairro] = useState(false);
     const [placeEndereco, setPlaceEndereco] = useState('Endereço');
     const [imageWidth, setImageWidth] = useState(0);
+    const navigate = useNavigate()
     const [voluntario, setVoluntario] = useState({
         nome: '',
         cpf: '',
@@ -220,21 +225,46 @@ const CadastroVoluntario = () => {
     };
 
     const handleImageLoad = (event) => {
-        const width = event.target.width; 
+        const width = event.target.width;
         setImageWidth(width);
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         if (imageWidth > 0) {
-          console.log(`Largura da imagem: ${imageWidth}px`);
+            console.log(`Largura da imagem: ${imageWidth}px`);
         }
-      }, [imageWidth]);
+    }, [imageWidth]);
+
+    const Cadastrar = async () => {
+        try {
+            const resposta = await VoluntarioService.Criar(voluntario);
+            toast.success("Cadastro realizado com sucesso, faça o login!", {
+                position: "top-center",
+                autoClose: 3000
+            });
+
+            setTimeout(() => {
+                navigate('../apresentacao');
+            }, 4000);
+        }
+        catch (error) {
+            console.log(error)
+            toast.error(
+                `Erro ao cadastrar o voluntário: ${error.response.data}`,
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                }
+            );
+        }
+
+    }
 
     return (
         <>
             <div className={styles.conteudoCadastroUsuario}>
                 <div className={styles.cadastroUsuario}>
-                <div style={{marginRight: imageWidth? `calc(${imageWidth}px - ${(imageWidth * 0.6) / 100}%)`: '0'}} className={styles.formsCadastro}>
+                    <div style={{ marginRight: imageWidth ? `calc(${imageWidth}px - ${(imageWidth * 0.6) / 100}%)` : '0' }} className={styles.formsCadastro}>
                         <form className={styles.formularioCadastro} onSubmit={(event) => event.preventDefault()}>
                             <div className={styles.cadastroForms}>
                                 Cadastro
@@ -419,7 +449,7 @@ const CadastroVoluntario = () => {
                                     }
                                 />
                             </div>
-                            <Botao estilo='cadastrarConfirma'>Cadastra-se</Botao>
+                            <Botao onClick={Cadastrar} estilo='cadastrarConfirma'>Cadastra-se</Botao>
                         </form>
                     </div>
                     <img className={styles.fotoCadastro} onLoad={handleImageLoad} src={imagemCadastro} alt='imagemCadastro'></img>

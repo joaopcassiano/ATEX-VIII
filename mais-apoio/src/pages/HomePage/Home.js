@@ -2,15 +2,18 @@ import Botao from '../../Componentes/Botao/Botao';
 import logo from '../../assets/logo.png';
 import styles from './_home.module.css';
 import TopBar from '../../Componentes/TopBar/TopBar';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import InputMask from 'react-input-mask';
 import { FiAtSign } from "react-icons/fi";
 import { GoLock } from "react-icons/go";
 import { BsX } from "react-icons/bs";
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import BeneficiarioService from '../../Services/BeneficiarioService'
 import { ToastContainer, toast } from "react-toastify";
+import CodigoValidacaoUsuarioService from '../../Services/CodigoValidacaoUsuarioService';
+import DoadorService from '../../Services/DoadorService';
+import VoluntarioService from '../../Services/VoluntarioService';
 
 const Home = () => {
     const [visivelLogin, setVisivelLogin] = useState(false)
@@ -20,7 +23,11 @@ const Home = () => {
     const [tipoUsuario, setTipoUsuario] = useState(1);
     const [trocarSenha, setTrocarSenha] = useState(1);
     const [email, setEmail] = useState('');
+    const [emailTrocar, setEmailTrocar] = useState('');
+    const [codigo, setCodigo] = useState('');
     const [senha, setSenha] = useState('');
+    const [confirmarSenha, setConfirmarSenha] = useState('');
+    const [id, setId] = useState(0);
     const navigate = useNavigate();
 
     const Cor = {
@@ -31,17 +38,32 @@ const Home = () => {
     const fecharBoxLogin = (event) => {
         if (boxLoginRef.current && !boxLoginRef.current.contains(event.target)) {
             setVisivelLogin(false);
-            setTrocarSenha(1);
         }
     };
+
+    useEffect(() => {
+        console.log("entroui")
+        setTrocarSenha(1);
+        setEmailTrocar('');
+        setCodigo('');
+        setSenha('');
+        setConfirmarSenha('');
+        setId(0)
+    }, [visivelLogin]);
 
     const login = async () => {
         try {
             if (tipoUsuario === 1) {
-
+                const response = await VoluntarioService.Logar(email, senha)
+                console.log(response)
+                console.log(`este é o id: ${response.data}`)
+                navigate('../voluntario', { state: response.data })
             }
             else if (tipoUsuario === 2) {
-
+                const response = await DoadorService.Logar(email, senha)
+                console.log(response)
+                console.log(`este é o id: ${response.data}`)
+                navigate('../doador', { state: response.data })
             }
             else if (tipoUsuario === 3) {
 
@@ -49,8 +71,14 @@ const Home = () => {
             else if (tipoUsuario === 4) {
                 const response = await BeneficiarioService.Logar(email, senha)
                 console.log(response)
+                console.log(`este é o id: ${response.data}`)
                 navigate('../beneficiario', { state: response.data })
 
+            } else {
+                toast.error("Tipo de usuário inválido!", {
+                    position: "top-center",
+                    autoClose: 2500
+                });
             }
         }
         catch (error) {
@@ -61,6 +89,139 @@ const Home = () => {
             });
         }
 
+    }
+
+    const CriarCodigo = async () => {
+        try {
+            const resposta = await CodigoValidacaoUsuarioService.CriarCodigo(emailTrocar, tipoUsuario);
+            console.log(resposta);
+            setTrocarSenha(3);
+            toast.success(`${resposta.data}!`, {
+                position: "top-center",
+                autoClose: 2500
+            });
+        }
+        catch (error) {
+            console.log('Erro ao gerar código:', error);
+            toast.error(`Erro ao gerar o código: ${error.response?.data}!`, {
+                position: "top-center",
+                autoClose: 2500
+            });
+        }
+    }
+
+    const ValidarCodigo = async () => {
+        try {
+            const resposta = await CodigoValidacaoUsuarioService.ValidarCodigo(codigo, emailTrocar, tipoUsuario);
+            console.log(resposta);
+            setId(resposta.data);
+            setTrocarSenha(4);
+            toast.dismiss();
+            toast.success("Código válido com sucesso, troque sua senha!", {
+                position: "top-center",
+                autoClose: 2500
+            });
+        }
+        catch (error) {
+            console.log('Erro ao validar código:', error);
+            toast.dismiss();
+            toast.error(`Erro ao validar o código: ${error.response?.data}!`, {
+                position: "top-center",
+                autoClose: 2500
+            });
+        }
+    }
+
+    const TrocaDeSenha = async () => {
+        try {
+            if (tipoUsuario === 1) {
+                try {
+                    const response = await VoluntarioService.TrocarSenha(id, senha, confirmarSenha)
+                    console.log(response);
+                    toast.dismiss();
+                    toast.success("Senha trocada com sucesso, você será redirecionado!", {
+                        position: "top-center",
+                        autoClose: 3000
+                    });
+                    setTimeout(() => {
+                        navigate('../voluntario', { state: id })
+                    }, 4000);
+                }
+                catch (error) {
+                    console.error(error);
+                    toast.dismiss();
+                    toast.error(`${error.response?.data}!`, {
+                        position: "top-center",
+                        autoClose: 2500
+                    });
+                    return;
+                }
+            }
+            else if (tipoUsuario === 2) {
+                try {
+                    const response = await DoadorService.TrocarSenha(id, senha, confirmarSenha)
+                    console.log(response);
+                    toast.dismiss();
+                    toast.success("Senha trocada com sucesso, você será redirecionado!", {
+                        position: "top-center",
+                        autoClose: 3000
+                    });
+                    setTimeout(() => {
+                        navigate('../doador', { state: id })
+                    }, 4000);
+                }
+                catch (error) {
+                    console.error(error);
+                    toast.dismiss();
+                    toast.error(`${error.response?.data}!`, {
+                        position: "top-center",
+                        autoClose: 2500
+                    });
+                    return;
+                }
+
+            }
+            else if (tipoUsuario === 3) {
+
+            }
+            else if (tipoUsuario === 4) {
+                try {
+                    const response = await BeneficiarioService.TrocarSenha(id, senha, confirmarSenha)
+                    console.log(response);
+                    toast.dismiss();
+                    toast.success("Senha trocada com sucesso, você será redirecionado!", {
+                        position: "top-center",
+                        autoClose: 3000
+                    });
+                    setTimeout(() => {
+                        navigate('../beneficiario', { state: id })
+                    }, 4000);
+                }
+                catch (error) {
+                    console.error(error);
+                    toast.dismiss();
+                    toast.error(`${error.response?.data}!`, {
+                        position: "top-center",
+                        autoClose: 2500
+                    });
+                    return;
+                }
+            } else {
+                toast.dismiss();
+                toast.error("Tipo de usuário inválido!", {
+                    position: "top-center",
+                    autoClose: 2500
+                });
+            }
+        }
+        catch (error) {
+            console.log('Erro ao trocar senha:', error);
+            toast.dismiss();
+            toast.error(`Erro ao trocar a senha: ${error.response?.data}!`, {
+                position: "top-center",
+                autoClose: 2500
+            });
+        }
     }
 
     return (
@@ -151,20 +312,22 @@ const Home = () => {
                                                     }
                                                 ></InputMask>
                                             </div>
-                                            <div className={styles.inputLogin}>
-                                                <GoLock className={styles.iconeLogin} />
-                                                <InputMask
-                                                    type='password'
-                                                    className={styles.inputL}
-                                                    placeholder='Digite sua senha'
-                                                    value={senha}
-                                                    onChange={(event) =>
-                                                        setSenha(event.target.value)
-                                                    }
-                                                ></InputMask>
-                                            </div>
-                                            <div onClick={() => { setTrocarSenha(2) }} className={styles.esqueceuLogin}>
-                                                Esqueceu sua senha?
+                                            <div className={styles.esqueceuESenha}>
+                                                <div className={styles.inputLogin}>
+                                                    <GoLock className={styles.iconeLogin} />
+                                                    <InputMask
+                                                        type='password'
+                                                        className={styles.inputL}
+                                                        placeholder='Digite sua senha'
+                                                        value={senha}
+                                                        onChange={(event) =>
+                                                            setSenha(event.target.value)
+                                                        }
+                                                    ></InputMask>
+                                                </div>
+                                                <div onClick={() => { setTrocarSenha(2) }} className={styles.esqueceuLogin}>
+                                                    Esqueceu sua senha?
+                                                </div>
                                             </div>
 
                                             <Botao onClick={login} estilo='confirmarLogin'>Entrar</Botao>
@@ -174,25 +337,70 @@ const Home = () => {
                                             <>
                                                 <div className={styles.inputLogin}>
                                                     <FiAtSign className={styles.iconeLogin} />
-                                                    <InputMask type='email' className={styles.inputL} placeholder='Digite seu email'></InputMask>
+                                                    <InputMask
+                                                        type='email'
+                                                        className={styles.inputL}
+                                                        placeholder='Digite seu email'
+                                                        value={emailTrocar}
+                                                        onChange={(event) =>
+                                                            setEmailTrocar(event.target.value)
+                                                        }></InputMask>
                                                 </div>
-                                                <div onClick={() => { setTrocarSenha(3) }} className={styles.mandarEmail}>
+                                                <div onClick={() => { CriarCodigo() }} className={styles.mandarEmail}>
                                                     Enviar código
                                                 </div>
                                             </>
                                             :
                                             trocarSenha === 3 ?
                                                 <>
-                                                    <InputMask type='text' mask="9 - 9 - 9 - 9 - 9 - 9" className={styles.inputTrocarSenha} placeholder='0 0 0 0 0 0'></InputMask>
+                                                    <InputMask
+                                                        type='text'
+                                                        mask="9 - 9 - 9 - 9 - 9 - 9"
+                                                        className={styles.inputTrocarSenha}
+                                                        placeholder='0 0 0 0 0 0'
+                                                        value={codigo}
+                                                        onChange={(event) =>
+                                                            setCodigo(event.target.value)
+                                                        }
+                                                    ></InputMask>
 
-                                                    <div onClick={() => { setTrocarSenha(3) }} className={styles.mandarEmail}>
+                                                    <div onClick={() => { CriarCodigo() }} className={styles.mandarEmail}>
                                                         Reenviar código
                                                     </div>
-                                                    <Botao onClick={() => { setTrocarSenha(1) }} estilo='confirmarLogin'>Confirmar código</Botao>
+                                                    <Botao onClick={() => { ValidarCodigo() }} estilo='confirmarLogin'>Confirmar código</Botao>
                                                 </>
                                                 :
-                                                <>
-                                                </>
+                                                trocarSenha === 4 ?
+                                                    <>
+                                                        <div className={styles.inputLogin}>
+                                                            <GoLock className={styles.iconeLogin} />
+                                                            <InputMask
+                                                                type='password'
+                                                                className={styles.inputL}
+                                                                placeholder='Digite sua nova senha'
+                                                                value={senha}
+                                                                onChange={(event) =>
+                                                                    setSenha(event.target.value)
+                                                                }
+                                                            ></InputMask>
+                                                        </div>
+                                                        <div className={styles.inputLogin}>
+                                                            <GoLock className={styles.iconeLogin} />
+                                                            <InputMask
+                                                                type='password'
+                                                                className={styles.inputL}
+                                                                placeholder='Confirme sua nova senha'
+                                                                value={confirmarSenha}
+                                                                onChange={(event) =>
+                                                                    setConfirmarSenha(event.target.value)
+                                                                }
+                                                            ></InputMask>
+                                                        </div>
+                                                        <Botao onClick={() => { TrocaDeSenha() }} estilo='confirmarLoginEntrar'>Confirmar e entrar</Botao>
+                                                    </>
+                                                    :
+                                                    <>
+                                                    </>
                                 }
 
 

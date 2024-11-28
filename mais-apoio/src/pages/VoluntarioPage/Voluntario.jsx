@@ -111,7 +111,7 @@ const Voluntario = () => {
                                 <Conteudo>
                                     {location.pathname === '/Voluntario' ?
                                         <>
-                                            oi
+                                             <p>Bem-vindo à área do Voluntário! Aqui você pode gerenciar suas ajudas e consultar o histórico.</p>
                                         </>
                                         :
                                         <Outlet context={{ voluntario, atualizar: handleAtualizar, editar: handleEditar}}/>

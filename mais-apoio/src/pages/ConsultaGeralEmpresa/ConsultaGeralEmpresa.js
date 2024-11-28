@@ -1,95 +1,172 @@
-import { useLocation } from 'react-router-dom';
-import styles from './_consultaGeralEmpresa.module.css';
-import { FiAtSign, FiNavigation2 } from 'react-icons/fi';
-import { BsBuilding } from 'react-icons/bs';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react'
+import styles from './_consultaGeralEmpresa.module.css'
+import { toast, ToastContainer } from 'react-toastify'
+import BeneficiarioService from '../../Services/BeneficiarioService'
+import Loader from '../../Componentes/Loader/Loader'
+import { BsChevronDoubleRight, BsPerson } from "react-icons/bs";
+import Botao from '../../Componentes/Botao/Botao'
+import { useLocation } from 'react-router-dom'
+import InputMask from 'react-input-mask';
+import DoacaoService from '../../Services/DoacaoService'
+import EmpregoService from '../../Services/EmpregoService'
 
 const ConsultaGeralEmpresa = () => {
-    const location = useLocation();
-    const [maior, setMaior] = useState(false);
-    const empresa = location.state || {};
+    // const [beneficiarios, setBeneficiarios] = useState([])
+    // const location = useLocation();
+    // const [id] = useState(location?.state)
+    // const [loader, setLoader] = useState(false)
+    // const [blocoDoar, setBlocoDoar] = useState(false)
+    // const escuroRef = useRef(null);
+    // const boxDoarRef = useRef(null);
+    // const [beneficiarioID, setBeneficiarioID] = useState(0);
+    // const [quantidade, setQuantidade] = useState(null);
+    // const [descricaoDoacao, setDescricaoDoacao] = useState('');
+    // const [tipoEmpregp, setTipoEmpregp] = useState('');
+
+    // useEffect(() => {
+    //     console.log("Estou aqui tambem ")
+    //     setLoader(true)
+    //     toast.dismiss();
+    //     ObterBeneficiarios();
+    // }, [])
+
+    // const fecharBoxDoar = (event) => {
+    //     if (boxDoarRef.current && !boxDoarRef.current.contains(event.target)) {
+    //         setBlocoDoar(false);
+    //         setBeneficiarioID(0)
+    //         setQuantidade(null)
+    //         setDescricaoDoacao('')
+    //     }
+    // };
+
+    // const Doar = async (beneficiarioId) => {
+    //     try {
+    //         const bene = {
+    //             empresaID: id, 
+    //             beneficiarioID:beneficiarioId, 
+    //             salario: quantidade || 0, 
+    //             descricaoEmprego: descricaoDoacao,
+    //             tipoEmprego: tipoEmprego
+    //         }
+    //         const response = await EmpregoService.Criar(bene); 
+    //         toast.success(`Emprego dado com sucesso!`, {
+    //             position: "top-center",
+    //             autoClose: 1000
+    //         })
+    //         setBlocoDoar(false)
+    //         setBeneficiarioID(0)
+    //         setQuantidade(null)
+    //         setDescricaoDoacao('')
+    //         setTipoEmpregp('')
+
+    //     } catch (error) {
+    //         console.error(error)
+    //         toast.dismiss();
+    //         toast.error(`${error.response.data}`, {
+    //             position: "top-center",
+    //             autoClose: 2000
+    //         })
+    //     }
+    // }
+
+    // const ObterBeneficiarios = async () => {
+    //     try {
+    //         const resposta = await BeneficiarioService.ObterTodos()
+    //         console.log(resposta)
+    //         setBeneficiarios(resposta?.data)
+    //         setLoader(false)
+
+    //     }
+    //     catch (error) {
+    //         console.error(error)
+    //         toast.dismiss();
+    //         toast.error(`Erro ao carregar os beneficiários: ${error.response.data}`, {
+    //             position: "top-center",
+    //             autoClose: 3000
+    //         })
+    //         setLoader(false)
+    //     }
+    // }
 
     return (
         <>
-            <div className={styles.corpo}>
-                <div className={styles.titulo_maior}>
-                    Histórico da Empresa
-                </div>
+            {/* <ToastContainer limit={1} />
+            {loader ?
+                <>
+                    <Loader />
+                </>
+                :
+                <>
 
-                {/* Última vaga preenchida */}
-                <div className={styles.box}>
-                    <div className={styles.item}>
-                        <div className={styles.titulo}>
-                            Última vaga preenchida:
-                        </div>
-                        <div className={styles.conteudo}>
-                            <div className={styles.texto_adicional}>
-                                <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.empregos[0]?.colaborador}</p>
+                    {
+                        blocoDoar &&
+                        <>
+                            <div onClick={fecharBoxDoar} ref={escuroRef} className={styles.escuroTela}>
+                                <div ref={boxDoarRef} className={styles.boxEditar}>
+                                    <p className={styles.tituloDoacao}>Confirme sua doação</p>
+                                    <div className={styles.cadaInput}>
+                                        <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
+                                        <InputMask
+                                            type='text'
+                                            placeholder='Descrição da doação'
+                                            className={styles.inputCadastro}
+                                            value={descricaoDoacao}
+                                            onChange={(event) =>
+                                                setDescricaoDoacao(event.target.value)
+                                            }
+                                        />
+                                    </div>
+                                    <div className={styles.cadaInput}>
+                                        <label className={styles.labelCadastro}><BsPerson className={styles.iconeCadastro} /></label>
+                                        <InputMask
+                                            type='text'
+                                            placeholder='Quantidades de itens'
+                                            className={styles.inputCadastro}
+                                            value={quantidade}
+                                            onChange={(event) =>
+                                                setQuantidade(event.target.value)
+                                            }
+                                        />
+                                    </div>
+                                    <Botao estilo='DoarConfirma' onClick={() => Doar(beneficiarioID)}>Confirmar</Botao>
+                                </div>
                             </div>
-                            <div className={styles.texto_adicional}>
-                                <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.empregos[0]?.emailColaborador}</p>
-                            </div>
-                            <div className={styles.texto_adicional}>
-                                <BsBuilding style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.empregos[0]?.cargo}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={empresa.empregos[0]?.fotoColaborador} alt="foto colaborador" className={styles.imagem}></img>
-                </div>
+                        </>
+                    }
 
-                {/* Último setor contratado */}
-                <div className={styles.box}>
-                    <div className={styles.item}>
-                        <div className={styles.titulo}>
-                            Último setor contratado:
-                        </div>
-                        <div className={styles.conteudo}>
-                            <div className={styles.texto_adicional}>
-                                <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.setores[0]?.nome}</p>
-                            </div>
-                            <div className={styles.texto_adicional}>
-                                <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.setores[0]?.emailContato}</p>
-                            </div>
-                            <div className={styles.texto_adicional}>
-                                <BsBuilding style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.setores[0]?.descricao}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={empresa.setores[0]?.imagem} alt="imagem setor" className={styles.imagem}></img>
-                </div>
+                    <p className={styles.titulo}>Escolha uma pessoa para doar</p>
+                    <div className={styles.container}>
 
-                {/* Colaborador mais recente */}
-                <div className={styles.box}>
-                    <div className={styles.item}>
-                        <div className={styles.titulo}>
-                            Colaborador mais recente:
-                        </div>
-                        <div className={styles.conteudo}>
-                            <div className={styles.texto_adicional}>
-                                <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.colaboradores[0]?.nome}</p>
+                        {beneficiarios.map(beneficiario => (
+                            <div key={beneficiario?.id}>
+                                <div className={styles.box}>
+                                    {
+                                        beneficiario?.imagemPerfil !== null ?
+                                            <img className={styles.imagem} alt='imagemBeneficiario' src={beneficiario?.imagemPerfil}></img>
+                                            :
+                                            <img className={styles.imagem} alt='imagemPagrao' src='https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png'></img>
+                                    }
+                                    <div className={styles.infos}>
+                                        <p className={styles.nome}>{beneficiario?.nome}</p>
+                                        <p className={styles.demais}><BsChevronDoubleRight className={styles.icone} />{beneficiario?.situacaoEconomica}</p>
+                                        <p className={styles.demais}><BsChevronDoubleRight className={styles.icone} />{beneficiario?.necessidade}</p>
+                                        <div className={styles.botao}>
+                                            <Botao onClick={() => { setBeneficiarioID(beneficiario?.id); setBlocoDoar(true) }} estilo='doar'>Doar</Botao>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className={styles.texto_adicional}>
-                                <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.colaboradores[0]?.email}</p>
-                            </div>
-                            <div className={styles.texto_adicional}>
-                                <BsBuilding style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                <p className={styles.texto_add}>{empresa.colaboradores[0]?.cargo}</p>
-                            </div>
-                        </div>
+                        ))}
+
+
+
                     </div>
-                    <img src={empresa.colaboradores[0]?.foto} alt="foto colaborador" className={styles.imagem}></img>
-                </div>
-            </div>
+
+                </>
+            } */}
+
         </>
-    );
-};
+    )
+}
 
-export default ConsultaGeralEmpresa;
+export default ConsultaGeralEmpresa

@@ -11,10 +11,10 @@ public class UploadimagemService
 {
     private readonly HttpClient _httpClient;
     private const string GitHubApiBaseUrl = "https://api.github.com";
-    private const string Owner = "AndersonCaproni";
-    private const string Repo = "FotosPerfil";
-    private const string Branch = "main";
-    private const string Token = "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";
+    private const string Owner = "sas";//se quiser rodar a aplicação me chame: Anderson
+    private const string Repo = "sa";//se quiser rodar a aplicação me chame: Anderson
+    private const string Branch = "sa";//se quiser rodar a aplicação me chame: Anderson
+    private const string Token = "ssas";//se quiser rodar a aplicação me chame: Anderson
 
     public UploadimagemService()
     {

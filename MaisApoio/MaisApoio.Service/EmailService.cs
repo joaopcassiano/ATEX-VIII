@@ -9,7 +9,7 @@ public static class EmailService
         using (var _smtpClient = new SmtpClient("smtp-relay.brevo.com"))
         {
             _smtpClient.Port = 587;
-            _smtpClient.Credentials = new NetworkCredential("7ed5e6003@smtp-brevo.com", "6kFIJjbxmhcnZOLW");
+            _smtpClient.Credentials = new NetworkCredential("sas", "as");//se quiser rodar a aplicação me chame: Anderson
             _smtpClient.EnableSsl = true;
 
             var mailMessage = new MailMessage

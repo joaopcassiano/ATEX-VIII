@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MaisApoio.MaisApoio.Controllers.Controllers
 {
-    public class NecessidadeController
+    public class NecessidadeController : ControllerBase
     {
         private DoacaoAplicacao _doacaoAplicacao;
 
-        public DoacaoController(DoacaoAplicacao doacaoAplicacao)
+        public NecessidadeController(DoacaoAplicacao doacaoAplicacao)
         {
             _doacaoAplicacao = doacaoAplicacao;
         }

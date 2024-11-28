@@ -60,39 +60,39 @@ public class DoacaoAplicacao
         }
 
         List<DoacaoBeneficiario> listaCompleta = (await Task.WhenAll(
-    lista.Select(async item =>
-    {
-        Doador doador = await _doadorAplicacao.ObterPorIdAsync(item.DoadorID);
+        lista.Select(async item =>
+        {
+            Doador doador = await _doadorAplicacao.ObterPorIdAsync(item.DoadorID);
 
-        if(doador == null){
-            return null;
-        }
-        else
-        {
-        return new DoacaoBeneficiario
-        {
-            DoacaoID = item.ID,
-            DescricaoDoacao = item.DescricaoDoacao,
-            Quantidade = item.Quantidade,
-            DataDoacao = item.DataDoacao,
-            BeneficiarioID = item.BeneficiarioID,
-            DoadorID = item.DoadorID,
-            Nome = doador.Nome,
-            Telefone = doador.Telefone,
-            Email = doador.Email,
-            DataNascimento = doador.DataNascimento,
-            ImagemPerfil = doador?.ImagemPerfil,
-            Cpf = doador.CPF,
-            Ativo = doador.Ativo,
-        };
+            if(doador == null){
+                return null;
+            }
+            else
+            {
+            return new DoacaoBeneficiario
+            {
+                DoacaoID = item.ID,
+                DescricaoDoacao = item.DescricaoDoacao,
+                Quantidade = item.Quantidade,
+                DataDoacao = item.DataDoacao,
+                BeneficiarioID = item.BeneficiarioID,
+                DoadorID = item.DoadorID,
+                Nome = doador.Nome,
+                Telefone = doador.Telefone,
+                Email = doador.Email,
+                DataNascimento = doador.DataNascimento,
+                ImagemPerfil = doador?.ImagemPerfil,
+                Cpf = doador.CPF,
+                Ativo = doador.Ativo,
+            };
         
-        }
-    })
-))
-.Where(doacao => doacao != null)
-.ToList();
+            }
+        })
+        ))
+        .Where(doacao => doacao != null)
+        .ToList();
 
-return listaCompleta;
+        return listaCompleta;
 
     }
 

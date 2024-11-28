@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import DoacaoService from '../../Services/DoacaoService';
 import { toast, ToastContainer } from 'react-toastify';
 import NecessidadeService from '../../Services/NecessidadeService';
+import EmpregoService from '../../Services/EmpregoService';
 
 const Perfil = ({ tipoUsuario }) => {
     const location = useLocation()
@@ -16,6 +17,7 @@ const Perfil = ({ tipoUsuario }) => {
     const [doacoes, setDoacoes] = useState([])
     const [doacoesBeneficiarios, setDoacoesBeneficiarios] = useState([])
     const [voluntarioBeneficiarios, setVoluntarioBeneficiarios] = useState([])
+    const [empregos, setEmpregos] = useState([])
 
     useEffect(() => {
         if (tipoUsuario === 'Doador') {
@@ -26,6 +28,8 @@ const Perfil = ({ tipoUsuario }) => {
             } else
                 if (tipoUsuario === 'Voluntario') {
                     BuscarDadoVoluntario()
+                } else {
+                    BuscarDadoEmpresa()
                 }
     }, [])
 
@@ -68,9 +72,21 @@ const Perfil = ({ tipoUsuario }) => {
         }
     }
 
+    const BuscarDadoEmpresa = async () => {
+        try {
+            const response = await EmpregoService.ObterEmpresa(usuario?.id);
+            setEmpregos(response.data)
+
+        } catch (error) {
+            toast.error(`Erro ao buscar empregado: ${error.response.data}`, {
+                position: "top-center",
+                autoClose: 3000
+            })
+        }
+    }
+
     return (
         <>
-            <ToastContainer />
             <div className={styles.box}>
                 <div className={styles.conteudo_principal}>
                     <Link
@@ -251,6 +267,45 @@ const Perfil = ({ tipoUsuario }) => {
                                 </>
                                 :
                                 <>
+                                    {
+                                        empregos.length === 0 ?
+                                            <div className={styles.infos_adicionais}>
+                                                <p className={styles.titulo_adicional}>
+                                                    Último empregado:
+                                                </p>
+                                                <div className={styles.textos_adicionaisSem}>
+                                                    Você ainda empregou ninguem
+                                                </div>
+                                            </div>
+                                            :
+                                            <>
+                                                <div className={styles.infos_adicionais}>
+                                                    <p className={styles.titulo_adicional}>
+                                                        Último empregado:
+                                                    </p>
+                                                    <div className={styles.textos_adicionais}>
+                                                        <div className={styles.texto_adicional}>
+                                                            <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
+                                                            <p className={styles.texto_add} >{empregos[empregos.length - 1]?.nome}</p>
+                                                        </div>
+                                                        <div className={styles.texto_adicional}>
+                                                            <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                            <p className={styles.texto_add} >{empregos[empregos.length - 1]?.email}</p>
+                                                        </div>
+                                                        <div className={styles.texto_adicional}>
+                                                            <BsBucket style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                            <p className={styles.texto_add}>{empregos[empregos.length - 1]?.necessidade}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {
+                                                    empregos[empregos.length - 1]?.imagemPerfil === null ?
+                                                        <img src='https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png' alt='foto doador' className={styles.imagem_adicional}></img>
+                                                        :
+                                                        <img src={empregos[empregos.length - 1]?.imagemPerfil} alt='foto doador' className={styles.imagem_adicional}></img>
+                                                }
+                                            </>
+                                    }
                                 </>
                 }
             </div>

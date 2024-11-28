@@ -108,7 +108,7 @@ const Beneficiario = () => {
                                 <Conteudo>
                                     {location.pathname === '/beneficiario' ?
                                         <>
-                                            oi
+                                             <p>Bem-vindo à área do beneficiário! Aqui você pode consultar o histórico de ajudas, empregos e doações.</p>
                                         </>
                                         :
                                         <Outlet context={{ beneficiario, atualizar: handleAtualizar, editar: handleEditar}} />

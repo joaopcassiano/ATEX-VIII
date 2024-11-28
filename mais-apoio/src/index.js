@@ -59,7 +59,7 @@ root.render(
       <Route path="/empresa" element={<Empresa />}>
         <Route path="perfil" element={<Perfil tipoUsuario='Empresa' />} />
         <Route path="consultar-empregos" element={<ConsultarEmpregos />} />
-        <Route path="consulta-geral" element={<ConsultaGeralEmpresa />} />
+        <Route path="empregar" element={<ConsultaGeralEmpresa />} />
         <Route path="informacoes" element={<InformacoesEmpresa />} />
         <Route path="carregar-imagem" element={<CarregarImagem />} />
       </Route>

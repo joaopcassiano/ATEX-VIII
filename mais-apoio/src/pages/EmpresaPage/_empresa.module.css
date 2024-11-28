@@ -6,3 +6,42 @@
 .link{
     all: unset;
 }
+
+
+.escuroTela{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 20;
+
+}
+
+.escuroTela::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.escuroTela::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+    border-radius: 10px;
+}
+
+.boxEditar{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: #007BFF solid 2px;
+}

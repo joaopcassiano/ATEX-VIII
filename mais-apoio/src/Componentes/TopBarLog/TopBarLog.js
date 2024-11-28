@@ -17,6 +17,10 @@ const TopBarLog = ({ usuario, tipoUsuario }) => {
                         tipoUsuario === 'Beneficiario' ?
                             '' : 
                             tipoUsuario === 'Doador' ?
+                            '' :
+                             tipoUsuario === 'Empresa' ?
+                            '' : 
+                             tipoUsuario === 'Voluntario' ?
                             '' : '/home'
                     }>
                     <Botao estilo='logoHome'>

@@ -12,6 +12,7 @@ public class EmpresaLogado
     public string Email { get; set; }
     public string Telefone { get; set; }
     public string SegmentoMercado { get; set; }
+    public string ImagemPerfil { get; set; }
     public bool Ativo { get; set; }
 
 
@@ -27,6 +28,7 @@ public class EmpresaLogado
         Email = empresa.Email;
         Telefone = empresa.Telefone;
         SegmentoMercado = empresa.SegmentoMercado;
+        ImagemPerfil = empresa.ImagemPerfil;
         Ativo = empresa.Ativo;
     }
 

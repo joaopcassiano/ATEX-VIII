@@ -66,7 +66,7 @@ const Home = () => {
                 navigate('../doador', { state: response.data })
             }
             else if (tipoUsuario === 3) {
-
+                navigate('../empresa')
             }
             else if (tipoUsuario === 4) {
                 const response = await BeneficiarioService.Logar(email, senha)

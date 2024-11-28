@@ -8,6 +8,7 @@ import BeneficiarioService from '../../Services/BeneficiarioService';
 import Loader from '../../Componentes/Loader/Loader';
 import DoadorService from '../../Services/DoadorService';
 import VoluntarioService from '../../Services/VoluntarioService';
+import EmpresaService from '../../Services/EmpresaService';
 
 const CarregarImagem = () => {
     const {voluntario,  beneficiario, doador, atualizar } = useOutletContext();
@@ -94,7 +95,16 @@ const CarregarImagem = () => {
                             }
                         }
                         else if (informacoesUsuario.tipoUser === 'Empresa') {
-
+                            try {
+                                const resposta = await EmpresaService.CarregarImagem(response?.data?.imageUrl, informacoesUsuario.id)
+                                console.log(resposta)
+                                atualizar();
+                                setLoading(false);
+                            }
+                            catch (error) {
+                                console.error("Erro ao carregar imagem:", error.message);
+                                setLoading(false);
+                            }
                         }
 
                     } else {

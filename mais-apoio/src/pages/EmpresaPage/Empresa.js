@@ -4,109 +4,121 @@ import fotoPerfil from '../../assets/fotoPerfil.png';
 import perfilExemploEmpresa from '../../assets/perfilExemploEmpresa.png';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Conteudo from '../../Componentes/Conteudo/Conteudo';
 import CorpoInferior from '../../Componentes/CorpoInferior/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
 import { ToastContainer, toast } from "react-toastify";
 import EmpresaService from '../../Services/EmpresaService';
+import Loader from '../../Componentes/Loader/Loader';
+import EditarEmpresa from '../EditarEmpresa/EditarEmpresa';
 
 const Empresa = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [atualizar, setAtualizar] = useState(false);
-    const id = location.state || 0; // O ID da empresa vem do estado passado via navegação
-    const [empresa, setEmpresa] = useState({});
+    const [id] = useState(2);
+    const [empresa, setEmpresa] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [editar, setEditar] = useState(false);
+    const escuroRef = useRef(null);
+    const boxEditarRef = useRef(null);
 
-    console.log("id da empresa ", id);
+    useEffect(() => {
+        ObterEmpresa()
+    }, [atualizar])
 
-    // useEffect(() => {
-    //     const ObterEmpresa = async () => {
-    //         try {
-    //             const resposta = await EmpresaService.ObterPorId(id);
-    //             console.log("resposta ", resposta);
-    //             setEmpresa(resposta.data);
-    //             console.log("empresa", empresa);
-    //         } catch (error) {
-    //             console.log(error);
-    //             const errorMessage = error.response?.data || "Erro desconhecido";
-    //             toast.error(
-    //                 `Erro ao carregar dados da empresa: ${errorMessage}`,
-    //                 {
-    //                     position: "top-center",
-    //                     autoClose: 3000,
-    //                 }
-    //             );
-    //         }
-    //     };
+    const ObterEmpresa = async () => {
+        try {
+            const resposta = await EmpresaService.ObterPorId(id)
+            setEmpresa(resposta?.data)
+            setLoading(false)
+            toast.success("Informações carregadas com sucesso!", {
+                position: "top-center",
+                autoClose: 3000
+            });
+        }
+        catch (error) {
+            const errorMessage = error.response?.data || "Erro desconhecido";
+            toast.error(
+                `Erro ao carregar dados da empresa: ${errorMessage}`,
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                }
+            );
+            setLoading(false);
+            navigate('../home/apresentacao');
+        }
+    }
 
-    //     console.log("Id da empresa: " + id);
-    //     toast.success("Login realizado com sucesso!", {
-    //         position: "top-center",
-    //         autoClose: 3000
-    //     });
+    const fecharBoxEditar = (event) => {
+        if (boxEditarRef.current && !boxEditarRef.current.contains(event.target)) {
+            setEditar(false);
+        }
+    };
 
-    //     ObterEmpresa();
+    const handleAtualizar = () => {
+        setAtualizar(prev => !prev);
+    };
 
-    // }, [id, empresa]); // Adicione empresa na lista de dependências se precisar atualizar com os dados da empresa
 
-    const user = {
-        nome: 'TechCorp Ltda.',
-        perfil: null,
-        email: 'contato@techcorp.com',
-        dataNascimento: '10/05/2000',
-        empregados: [
-            {
-                nome: 'Carlos Silva',
-                telefone: '(11) 12345-6789',
-                dataNascimento: '15/03/1985',
-                email: 'carlos.silva@techcorp.com',
-                cargo: 'Desenvolvedor',
-                perfil: perfilExemploEmpresa,
-            }
-        ],
-        vagas: [
-            {
-                cargo: 'Analista de TI',
-                localizacao: 'São Paulo',
-                requisitos: 'Experiência em segurança da informação',
-                perfil: perfilExemploEmpresa,
-            }
-        ]
+    const handleEditar = () => {
+        setEditar(true);
+        console.log("Mudou")
     };
 
     return (
         <>
             <ToastContainer />
             <div className={styles.corpo}>
-                <TopBarLog usuario={empresa || user} tipoUsuario='Empresa' />
-                <CorpoInferior>
-                    <SideBar>
-                        <Link
-                            className={styles.link}
-                            to='./consulta-geral'
-                            state={user}>
-                            <Botao estilo='sideBar'>
-                                Consultar histórico geral
-                            </Botao>
-                        </Link>
-                        <Link
-                            className={styles.link}
-                            to='./consultar-vagas'
-                            state={user}>
-                            <Botao estilo='sideBar'>
-                                Consultar vagas disponíveis
-                            </Botao>
-                        </Link>
-                    </SideBar>
-                    <Conteudo>
-                        {location.pathname === '/empresa' ? (
-                            <p>Bem-vindo à área da empresa! Aqui você pode gerenciar as vagas e consultar o histórico.</p>
-                        ) : (
-                            <Outlet />
-                        )}
-                    </Conteudo>
-                </CorpoInferior>
+                {
+                    (loading && !empresa ?
+                        <Loader />
+                        :
+                        <>
+                            {
+                                editar &&
+                                <>
+                                    <div onClick={fecharBoxEditar} ref={escuroRef} className={styles.escuroTela}>
+                                        <div ref={boxEditarRef} className={styles.boxEditar}>
+                                            <EditarEmpresa usuario={empresa} />
+                                        </div>
+                                    </div>
+                                </>
+                            }
+
+                            <TopBarLog usuario={empresa} tipoUsuario='Empresa' />
+                            <CorpoInferior>
+                                <SideBar>
+                                    <Link
+                                        className={styles.link}
+                                        to='./empregar'
+                                        state={empresa?.id}>
+                                        <Botao estilo='sideBar'>
+                                            Consultar histórico geral
+                                        </Botao>
+                                    </Link>
+                                    <Link
+                                        className={styles.link}
+                                        to='./consultar-vagas'
+                                        state={empresa?.id}>
+                                        <Botao estilo='sideBar'>
+                                            Consultar vagas disponíveis
+                                        </Botao>
+                                    </Link>
+                                </SideBar>
+                                <Conteudo>
+                                    {location.pathname === '/empresa' ? 
+                                        <p>Bem-vindo à área da empresa! Aqui você pode gerenciar as vagas e consultar o histórico.</p>
+                                     : 
+                                        <Outlet  context={{ empresa, atualizar: handleAtualizar, editar: handleEditar}}/>
+                                    }
+                                </Conteudo>
+                            </CorpoInferior>
+                        </>
+                    )
+                }
             </div>
         </>
     );

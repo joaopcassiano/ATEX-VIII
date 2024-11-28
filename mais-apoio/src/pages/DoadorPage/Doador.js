@@ -27,7 +27,7 @@ const Doador = () => {
         console.log(location.data)
         toast.dismiss();
         ObterDoador()
-        
+
     }, [atualizar])
 
     const ObterDoador = async () => {
@@ -35,7 +35,7 @@ const Doador = () => {
             const resposta = await DoadorService.ObterPorId(id)
             setDoador(resposta?.data)
             setLoading(false)
-            
+
         }
         catch (error) {
             const errorMessage = error.response?.data || "Erro desconhecido";
@@ -71,7 +71,7 @@ const Doador = () => {
 
     return (
         <>
-            <ToastContainer limit={1}/>
+            <ToastContainer limit={1} />
             <div className={styles.corpo}>
                 {
                     (loading && !doador ?
@@ -83,7 +83,7 @@ const Doador = () => {
                                 <>
                                     <div onClick={fecharBoxEditar} ref={escuroRef} className={styles.escuroTela}>
                                         <div ref={boxEditarRef} className={styles.boxEditar}>
-                                            <EditarDoador usuario={doador}/>
+                                            <EditarDoador usuario={doador} />
                                         </div>
                                     </div>
                                 </>
@@ -112,10 +112,11 @@ const Doador = () => {
                                 <Conteudo>
                                     {location.pathname === '/doador' ?
                                         <>
-                                            oi
+                                            <p>Bem-vindo à área do doador! Aqui você pode gerenciar suas doações e consultar o histórico.</p>
+
                                         </>
                                         :
-                                        <Outlet context={{ doador, atualizar: handleAtualizar, editar: handleEditar}} />
+                                        <Outlet context={{ doador, atualizar: handleAtualizar, editar: handleEditar }} />
                                     }
                                 </Conteudo>
                             </CorpoInferior>

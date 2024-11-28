@@ -24,14 +24,7 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
         {
             try
             {
-                var id = await _necessidadeAplicacao.CriarAsync(new Necessidade
-                {
-                    Descricao = necessidade.Descricao,
-                    DataRegistro = DateTime.Now,
-                    Prioridade = necessidade.Prioridade,
-                    BeneficiarioID = necessidade.BeneficiarioID,
-                    VoluntarioID = necessidade.VoluntarioID
-                });
+                var id = await _necessidadeAplicacao.CriarAsync(new Necessidade(necessidade.Descricao,necessidade.Prioridade,necessidade.BeneficiarioID,necessidade.VoluntarioID));
                 return Ok(id);
 
             }

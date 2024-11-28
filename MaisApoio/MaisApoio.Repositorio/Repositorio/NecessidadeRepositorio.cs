@@ -19,7 +19,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
 
             string sql = @"
             INSERT INTO Necessidade (Descricao, DataRegistro, Prioridade, BeneficiarioID, VoluntarioID, Ativo) 
-            OUTPUT INSERTED.Id AS ID
+            OUTPUT INSERTED.NecessidadeID AS ID
             VALUES (@Descricao, @DataRegistro, @Prioridade, @BeneficiarioID, @VoluntarioID, @Ativo);";
 
 
@@ -44,15 +44,15 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
 
         }
 
-        public async Task<List<NecessidadeBeneficiario>> ObterPorBeneficiarioAsync(int id)
+        public async Task<List<Necessidade>> ObterPorBeneficiarioAsync(int id)
         {
-            string sql = "SELECT VoluntarioID AS ID, * FROM Voluntario WHERE BeneficiarioID = @id AND Ativo = 1";
+            string sql = "SELECT NecessidadeID AS ID, * FROM Necessidade WHERE BeneficiarioID = @id AND Ativo = 1";
 
             var conexao = _banco.ConectarSqlServer();
 
             conexao.Open();
 
-            var voluntario = (await conexao.QueryAsync<NecessidadeBeneficiario>(sql, new { id = id })).ToList();
+            var voluntario = (await conexao.QueryAsync<Necessidade>(sql, new { id = id })).ToList();
 
             conexao.Close();
 
@@ -63,12 +63,12 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         {
             string sql = @"
             SELECT 
-            n.NecessidadeID,
-            n.Descricao,
-            n.Prioridade,
-            n.DataRegistro,
-            n.BeneficiarioID,
-            n.VoluntarioID,
+            d.NecessidadeID,
+            d.Descricao,
+            d.Prioridade,
+            d.DataRegistro,
+            d.BeneficiarioID,
+            d.VoluntarioID,
             b.Nome,
             b.Email,
             b.Telefone,
@@ -76,11 +76,10 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
             b.ImagemPerfil,
             b.CPF,
             b.Necessidade,
-            b.AreaAtuacao,
-            n.Ativo
-            FROM Doacao d
-            INNER JOIN Beneficiario b ON v.BeneficiarioID = b.BeneficiarioID
-            WHERE VoluntarioID = @id AND v.Ativo = 1";
+            d.Ativo
+            FROM Necessidade d
+            INNER JOIN Beneficiario b ON b.BeneficiarioID = d.BeneficiarioID
+            WHERE d.VoluntarioID = @id AND d.Ativo = 1";
 
             var conexao = _banco.ConectarSqlServer();
 

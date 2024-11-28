@@ -72,7 +72,7 @@ namespace MaisApoio.MaisApoio.Aplicacao
 
                     return new NecessidadeBeneficiario
                     {
-                        NecessidadeID = item.NecessidadeID,
+                        NecessidadeID = item.ID,
                         Descricao = item.Descricao,
                         DataRegistro = item.DataRegistro,
                         Prioridade = item.Prioridade,
@@ -83,7 +83,7 @@ namespace MaisApoio.MaisApoio.Aplicacao
                         DataNascimento = voluntario.DataNascimento,
                         ImagemPerfil = voluntario?.ImagemPerfil,
                         Cpf = voluntario.CPF,
-                        AreaAtuacao = item.AreaAtuacao,
+                        AreaAtuacao = voluntario.AreaAtuacao,
                         Ativo = voluntario.Ativo,
                     };
                 })

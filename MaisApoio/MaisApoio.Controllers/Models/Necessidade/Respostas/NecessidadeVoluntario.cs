@@ -14,7 +14,7 @@
         public DateTime DataNascimento { get; set; }
         public string? ImagemPerfil { get; set; }
         public string Cpf { get; set; }
-        public string AreaAtuacao { get; set; }
+        public string Necessidade { get; set; }
         public bool Ativo { get; set; }
 
         public NecessidadeVoluntario() { }

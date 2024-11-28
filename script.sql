@@ -92,3 +92,13 @@ create table Emprego(
 	EmpresaID int not null,
 	Ativo bit not null
 );
+
+create table Necessidade(
+	NecessidadeID int not null identity(1,1) primary key,
+	Descricao varchar(200) not null,
+	DataRegistro date not null,
+	Prioridade varchar(200) not null,
+	BeneficiarioID int not null,
+	VoluntarioID int not null,
+	Ativo bit not null
+);

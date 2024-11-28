@@ -18,9 +18,10 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
         private VoluntarioAplicacao _voluntarioAplicacao;
         private EnderecoVoluntarioAplicacao _enderecoAplicacao;
 
-        public VoluntarioController(VoluntarioAplicacao voluntarioAplicacao)
+        public VoluntarioController(VoluntarioAplicacao voluntarioAplicacao, EnderecoVoluntarioAplicacao enderecoVoluntario)
         {
             _voluntarioAplicacao = voluntarioAplicacao;
+            _enderecoAplicacao = enderecoVoluntario;
 
         }
 

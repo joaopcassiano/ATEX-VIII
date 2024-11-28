@@ -16,7 +16,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
 
         public async Task CarregarImagemAsync(string imagemPerfil, int id)
         {
-            string sql = "MATCH (v:Voluntario {VoluntarioID: $id}) SET d.ImagemPerfil = $imagemPerfil";
+            string sql = "MATCH (v:Voluntario {VoluntarioID: $id}) SET v.ImagemPerfil = $imagemPerfil";
 
             using var session = _banco.ConectarNeo4j();
 
@@ -27,8 +27,8 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         {
             string cypher = @"
             MATCH (v:Voluntario {Email: $email, Senha: $senha})
-            RETURN v.Voluntario AS ID, v.Nome AS Nome, v.Email AS Email, 
-            v.Telefone AS Telefone, v.Cpf AS Cpf, v.DataNascimento AS DataNascimento, v.ImagemPerfil AS ImagemPerfil,
+            RETURN v.VoluntarioID AS ID, v.Nome AS Nome, v.Email AS Email, 
+            v.Telefone AS Telefone, v.AreaAtuacao AS AreaAtuacao, v.Cpf AS Cpf, v.DataNascimento AS DataNascimento, v.ImagemPerfil AS ImagemPerfil,
             v.Ativo AS Ativo";
 
             using (var conexao = _banco.ConectarNeo4j())
@@ -40,11 +40,12 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 {
                     return new Voluntario
                     {
-                        ID = voluntario["VoluntarioID"].As<int>(),
+                        ID = voluntario["ID"].As<int>(),
                         Nome = voluntario["Nome"].As<string>(),
                         Email = voluntario["Email"].As<string>(),
                         Telefone = voluntario["Telefone"].As<string>(),
                         DataNascimento = voluntario["DataNascimento"].As<DateTime>(),
+                        AreaAtuacao = voluntario["AreaAtuacao"].As<string>(),
                         CPF = voluntario["Cpf"].As<string>(),
                         ImagemPerfil = voluntario["ImagemPerfil"].As<string>(),
                         Ativo = voluntario["Ativo"].As<bool>()
@@ -68,6 +69,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                 Email: $email, 
                 Senha: $senha, 
                 DataNascimento: $dataNascimento, 
+                AreaAtuacao: $areaAtuacao,
                 Cpf: $cpf, 
                 Ativo: $ativo
             })
@@ -83,6 +85,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                     cpf = voluntario.CPF,
                     email = voluntario.Email,
                     senha = voluntario.Senha,
+                    areaAtuacao = voluntario.AreaAtuacao,
                     ativo = voluntario.Ativo
                 });
 
@@ -109,6 +112,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                         Telefone = record["v"].As<INode>().Properties["Telefone"].ToString(),
                         Email = record["v"].As<INode>().Properties["Email"].ToString(),
                         Senha = record["v"].As<INode>().Properties["Senha"].ToString(),
+                        AreaAtuacao = record["v"].As<INode>().Properties["AreaAtuacao"].ToString(),
                         CPF = record["v"].As<INode>().Properties["Cpf"].ToString(),
                         DataNascimento = DateTime.Parse(record["v"].As<INode>().Properties["DataNascimento"].ToString()),
                         Ativo = bool.Parse(record["v"].As<INode>().Properties["Ativo"].ToString()),
@@ -145,6 +149,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                         Telefone = voluntarioNode.Properties["Telefone"].ToString(),
                         Senha = voluntarioNode.Properties["Senha"].ToString(),
                         Email = voluntarioNode.Properties["Email"].ToString(),
+                        AreaAtuacao = voluntarioNode.Properties["AreaAtuacao"].ToString(),
                         CPF = voluntarioNode.Properties["Cpf"].ToString(),
                         DataNascimento = DateTime.Parse(voluntarioNode.Properties["DataNascimento"].ToString()),
                         ImagemPerfil = voluntarioNode.Properties.ContainsKey("ImagemPerfil")
@@ -161,8 +166,8 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
         public async Task AtualizarAsync(Voluntario voluntario)
         {
             var sql = @"
-                MATCH (v:Voluntario {VoluntarioID: $id})
-                SET d.Nome = $nome, d.Telefone = $telefone, d.DataNascimento = $dataNascimento, d.Cpf = $cpf, d.Senha = $senha, d.Email = $email, d.Ativo = $ativo
+                MATCH (d:Voluntario {VoluntarioID: $id})
+                SET d.Nome = $nome, d.Telefone = $telefone, d.AreaAtuacao = $areaAtuacao, d.DataNascimento = $dataNascimento, d.Cpf = $cpf, d.Senha = $senha, d.Email = $email, d.Ativo = $ativo
                 RETURN d";
 
             using (var conexao = _banco.ConectarNeo4j())
@@ -174,6 +179,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                     telefone = voluntario.Telefone,
                     cpf = voluntario.CPF,
                     email = voluntario.Email,
+                    areaAtuacao = voluntario.AreaAtuacao,
                     senha = voluntario.Senha,
                     dataNascimento = voluntario.DataNascimento.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                     ativo = voluntario.Ativo
@@ -183,7 +189,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
 
         public async Task ExclusaoLogicaAsync(int id)
         {
-            var sql = "MATCH (v:Voluntario {VoluntarioID: $id}) SET d.Ativo = false RETURN d";
+            var sql = "MATCH (v:Voluntario {VoluntarioID: $id}) SET v.Ativo = false RETURN v";
 
             using (var session = _banco.ConectarNeo4j())
             {
@@ -193,7 +199,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
 
         public async Task ExclusaoFisicaAsync(int id)
         {
-            var sql = "MATCH (v:Voluntario {VoluntarioID: $id}) DETACH DELETE d";
+            var sql = "MATCH (v:Voluntario {VoluntarioID: $id}) DETACH DELETE v";
 
             using (var session = _banco.ConectarNeo4j())
             {
@@ -215,7 +221,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                     return new Voluntario
                     {
                         ID = int.Parse(voluntarioNode.Properties["VoluntarioID"].ToString()),
-                        Nome = voluntarioNode.Properties["NomeCompleto"].ToString(),
+                        Nome = voluntarioNode.Properties["Nome"].ToString(),
                         CPF = voluntarioNode.Properties["Cpf"].ToString(),
                         Telefone = voluntarioNode.Properties["Telefone"].ToString(),
                         AreaAtuacao = voluntarioNode.Properties["AreaAtuacao"].ToString(),

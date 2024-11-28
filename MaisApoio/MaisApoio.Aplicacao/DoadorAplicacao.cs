@@ -108,6 +108,18 @@ public class DoadorAplicacao
 
     public async Task CarregarImagemAsync(string imagem, int id)
     {
+        if(imagem == null)
+        {
+            throw new Exception("Imagem não pode ser vazia.");
+        }
+
+        var doadorID = await _doadorRepositorio.ObterPorIdAsync(id);
+
+        if(doadorID == null)
+        {
+            throw new Exception("Doador não encontrado.");
+        }
+
         await _doadorRepositorio.CarregarImagemAsync(imagem, id);
     }
 

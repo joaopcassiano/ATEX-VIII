@@ -108,6 +108,19 @@ namespace MaisApoio.MaisApoio.Aplicacao
 
         public async Task CarregarImagemAsync(string imagem, int id)
         {
+
+            if (imagem == null)
+            {
+                throw new Exception("Imagem não pode ser vazia.");
+            }
+
+            var voluntarioID = await _voluntarioRepositorio.ObterPorIdAsync(id);
+
+            if (voluntarioID == null)
+            {
+                throw new Exception("Voluntario não encontrado.");
+            }
+            
             await _voluntarioRepositorio.CarregarImagemAsync(imagem, id);
         }
 
@@ -158,6 +171,7 @@ namespace MaisApoio.MaisApoio.Aplicacao
 
             await _voluntarioRepositorio.AtualizarAsync(voluntario);
         }
+
 
     }
 }

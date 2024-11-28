@@ -18,9 +18,9 @@ public class EmpregoRepositorio
     public async Task<int> CriarAsync(Emprego emprego)
     {
 
-        string sql = @"Insert into Emprego(DescricaoEmprego,TipoEmprego,DataAdmissao,BeneficiarioID,EmpresaID,Ativo) 
+        string sql = @"Insert into Emprego(DescricaoEmprego,Salario,TipoEmprego,DataAdmissao,BeneficiarioID,EmpresaID,Ativo) 
         OUTPUT INSERTED.EmpresaID as ID
-        values (@DescricaoEmprego,@TipoEmprego,@DataAdmissao,@BeneficiarioID,@EmpresaID,@Ativo);";
+        values (@DescricaoEmprego,@Salario,@TipoEmprego,@DataAdmissao,@BeneficiarioID,@EmpresaID,@Ativo);";
 
         var conexao = _banco.ConectarSqlServer();
 
@@ -33,6 +33,7 @@ public class EmpregoRepositorio
             DataAdmissao = emprego.DataAdmissao,
             BeneficiarioID = emprego.BeneficiarioID,
             EmpresaID = emprego.EmpresaID,
+            Salario = emprego.Salario,
             Ativo = emprego.Ativo
         });
 

@@ -65,9 +65,8 @@ public class EmpresaRepositorio
         Telefone: $telefone, 
         Email: $email, 
         Senha: $senha, 
-        DataNascimento: $dataNascimento, 
         Cnpj: $cnpj, 
-        SegmentoMercado: $SegmentoMercado, 
+        SegmentoMercado: $segmentoMercado, 
         Ativo: $ativo
     })
     RETURN d.EmpresaID AS ID"; ;

@@ -90,8 +90,8 @@ public class EnderecoEmpresaAplicacao
             throw new Exception("O Estado não pode ser vazio.");
         }
 
-        await _enderecoEmpresaRepositorio.AtualizarAsync(enderecoEmpresa, id);
+        await _enderecoEmpresaRepositorio.AtualizarAsync(enderecoEmpresa, id);
 
-    }
+    }
 
 }

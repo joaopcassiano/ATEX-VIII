@@ -1,10 +1,11 @@
 using MaisApoio.Aplicacao;
 using MaisApoio.MaisApoio.Dominio.Entidades;
 using Microsoft.AspNetCore.Mvc;
-using MaisApoio.Models.Empresa.Requisicao;
+using MaisApoio.Models.Beneficiario.Requisicao;
 using System.Data.Common;
 using MaisApoio.Service;
 using MaisApoio.MaisApoio.Controllers.Models;
+using MaisApoio.Models.Empresa.Requisicao;
 
 [ApiController]
 [Route("[controller]/api")]
@@ -25,7 +26,7 @@ public class EmpresaController : ControllerBase
     {
         try
         {
-            var empresaID = await _empresaAplicacao.CriarAsync(new Empresa(empresaCriacao.Nome, empresaCriacao.Cnpj, empresaCriacao.Telefone, empresaCriacao.Email, empresaCriacao.Segmento, empresaCriacao.Senha));
+            var empresaID = await _empresaAplicacao.CriarAsync(new Empresa(empresaCriacao.Nome, empresaCriacao.Cnpj, empresaCriacao.SegmentoMercado, empresaCriacao.Telefone, empresaCriacao.Email, empresaCriacao.Senha));
 
             try
             {
@@ -125,7 +126,7 @@ public class EmpresaController : ControllerBase
 
             EmailService.EnviarEmail(empresaCriacao.Email, "Cadastro no sistema +Apoio", mensagem);
 
-            return Ok("Empresa Criada com sucesso!");
+            return Ok("Usuário Criado com sucesso!");
         }
         catch (Exception ex)
         {
@@ -168,24 +169,6 @@ public class EmpresaController : ControllerBase
         }
 
     }
-    [HttpGet]
-    [Route("obter-todos")]
-    public async Task<IActionResult> ObterTodos()
-    {
-        try
-        {
-            var empresa = await _empresaAplicacao.ObterTodosAsync();
-
-            List<EmpresaLogado> empresasLogadas = empresa.Select( x => new EmpresaLogado(x)).ToList();
-            
-            return Ok(empresasLogadas);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500,ex.Message);
-        }
-
-    }
 
     [HttpPut]
     [Route("trocar-senha/{id}")]
@@ -206,7 +189,7 @@ public class EmpresaController : ControllerBase
 
     [HttpPut]
     [Route("carregar-imagem/{id}")]
-    public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] ImagemCarregada imagem)
+    public async Task<IActionResult> Carregarimagem([FromRoute] int id, [FromBody] MaisApoio.Models.Empresa.Requisicao.ImagemCarregada imagem)
     {
         try
         {
@@ -218,4 +201,5 @@ public class EmpresaController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
 }

@@ -13,14 +13,18 @@ const Perfil = ({ tipoUsuario }) => {
     const usuario = location.state || {};
     const { beneficiario, atualizar, editar } = useOutletContext();
     const [doacoes, setDoacoes] = useState([])
+    const [doacoesBeneficiarios, setDoacoesBeneficiarios] = useState([])
 
     useEffect(() => {
         if (tipoUsuario === 'Doador') {
-            BuscarDado()
-        }
+            BuscarDadoDoador()
+        } else
+            if (tipoUsuario === 'Beneficiario') {
+                BuscarDadoBeneficiario()
+            }
     }, [])
 
-    const BuscarDado = async () => {
+    const BuscarDadoDoador = async () => {
         try {
             const response = await DoacaoService.ObterDoador(usuario?.id);
             setDoacoes(response.data)
@@ -32,6 +36,20 @@ const Perfil = ({ tipoUsuario }) => {
             })
         }
     }
+
+    const BuscarDadoBeneficiario = async () => {
+        try {
+            const response = await DoacaoService.ObterBeneficiario(usuario?.id);
+            setDoacoesBeneficiarios(response.data)
+
+        } catch (error) {
+            toast.error(`Erro ao buscar doador: ${error.response.data}`, {
+                position: "top-center",
+                autoClose: 3000
+            })
+        }
+    }
+
 
     return (
         <>
@@ -87,26 +105,45 @@ const Perfil = ({ tipoUsuario }) => {
                 {
                     tipoUsuario === 'Beneficiario' ?
                         <>
-                            <div className={styles.infos_adicionais}>
-                                <p className={styles.titulo_adicional}>
-                                    Última doação recebida:
-                                </p>
-                                <div className={styles.textos_adicionais}>
-                                    <div className={styles.texto_adicional}>
-                                        <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
-                                        <p className={styles.texto_add} >Nome completo</p>
+                            {
+                                doacoesBeneficiarios.length === 0 ?
+                                    <div className={styles.infos_adicionais}>
+                                        <p className={styles.titulo_adicional}>
+                                            Última doação recebida:
+                                        </p>
+                                        <div className={styles.textos_adicionaisSem}>
+                                            Você ainda não recebeu nenhuma doação
+                                        </div>
                                     </div>
-                                    <div className={styles.texto_adicional}>
-                                        <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                        <p className={styles.texto_add} >emaildapessoa@gmail.com</p>
-                                    </div>
-                                    <div className={styles.texto_adicional}>
-                                        <BsBucket style={{ color: '#007BFF', fontSize: '1.3rem' }} />
-                                        <p className={styles.texto_add}>item doado</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <img src='https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png' alt='foto doador' className={styles.imagem_adicional}></img>
+                                    :
+                                    <>
+                                        <div className={styles.infos_adicionais}>
+                                            <p className={styles.titulo_adicional}>
+                                                Última doação recebida:
+                                            </p>
+                                            <div className={styles.textos_adicionais}>
+                                                <div className={styles.texto_adicional}>
+                                                    <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
+                                                    <p className={styles.texto_add} >{doacoesBeneficiarios[doacoesBeneficiarios.length - 1]?.nome}</p>
+                                                </div>
+                                                <div className={styles.texto_adicional}>
+                                                    <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                    <p className={styles.texto_add} >{doacoesBeneficiarios[doacoesBeneficiarios.length - 1]?.email}</p>
+                                                </div>
+                                                <div className={styles.texto_adicional}>
+                                                    <BsBucket style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                    <p className={styles.texto_add}>{doacoesBeneficiarios[doacoesBeneficiarios.length - 1]?.descricaoDoacao}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {
+                                            doacoesBeneficiarios[doacoesBeneficiarios.length - 1]?.imagemPerfil === null ?
+                                                <img src='https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png' alt='foto doador' className={styles.imagem_adicional}></img>
+                                                :
+                                                <img src={doacoesBeneficiarios[doacoesBeneficiarios.length - 1]?.imagemPerfil} alt='foto doador' className={styles.imagem_adicional}></img>
+                                        }
+                                    </>
+                            }
                         </>
                         :
                         tipoUsuario === 'Doador' ?

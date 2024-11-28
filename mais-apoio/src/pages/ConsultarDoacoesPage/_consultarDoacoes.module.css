@@ -87,6 +87,78 @@
     font-family: 'Poppins';
 }
 
+
+
+.info_adicional {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    border: 2px solid #007BFF;
+    border-radius: 13px;
+    padding: 1.5rem;
+}
+
+.titulo_adicional {
+    font-family: 'Poppins';
+    font-size: 1.7rem;
+    color: #007BFF;
+}
+
+.infos_adicionais {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    gap: 1rem;
+
+}
+
+.textos_adicionais {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.textos_adicionaisSem {
+    width: auto;
+    font-size: 1.4rem;
+    font-family: 'PoppinsSemiBold';
+}
+
+.texto_adicional {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    font-family: 'PoppinsSimples';
+}
+
+
+.imagem_adicional {
+    width: 8rem;
+    border-radius: 90px;
+    border: 1px solid #007BFF;
+}
+
+.iconeMenor {
+    min-width: 1rem;
+    font-size: 1rem;
+    color: #007BFF
+}
+
+.texto_add{
+    font-family: 'PoppinsSemiBold';
+    margin: 0;
+}
+
 @font-face {
     font-family: 'Poppins';
     src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');

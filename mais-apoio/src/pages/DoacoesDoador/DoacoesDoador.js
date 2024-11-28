@@ -95,7 +95,6 @@ const DoacoesDoador = () => {
                                         }
                                     </div>
                             </div>
-
                         ))}
                     </div>
 

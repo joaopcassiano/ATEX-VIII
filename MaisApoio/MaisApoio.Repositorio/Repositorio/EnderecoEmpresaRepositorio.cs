@@ -32,7 +32,7 @@ public class EnderecoEmpresaRepositorio
             Bairro = enderecoEmpresa.Bairro,
             Numero = enderecoEmpresa.Numero,
             Complemento = enderecoEmpresa.Complemento,
-            BeneficiarioID = enderecoEmpresa.EmpresaID,
+            EmpresaID = enderecoEmpresa.EmpresaID,
             Cidade = enderecoEmpresa.Cidade,
             Estado = enderecoEmpresa.Estado,
             Cep = enderecoEmpresa.Cep,
@@ -96,7 +96,8 @@ public class EnderecoEmpresaRepositorio
 
         var conexao = _banco.ConectarSqlServer();
         conexao.Open();
-        await conexao.ExecuteAsync(sql, new{
+        await conexao.ExecuteAsync(sql, new
+        {
             Rua = enderecoEmpresa.Rua,
             Bairro = enderecoEmpresa.Bairro,
             Numero = enderecoEmpresa.Numero,
@@ -109,6 +110,6 @@ public class EnderecoEmpresaRepositorio
         });
 
         conexao.Close();
-    }
+    }
 
 }

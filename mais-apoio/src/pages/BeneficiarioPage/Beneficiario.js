@@ -11,6 +11,7 @@ import BeneficiarioService from '../../Services/BeneficiarioService'
 import Loader from '../../Componentes/Loader/Loader';
 import EditarBeneficiario from '../EditarBeneficiario/EditarBeneficiario';
 
+
 const Beneficiario = () => {
     const navigate = useNavigate();
     const location = useLocation();

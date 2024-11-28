@@ -11,7 +11,7 @@ public class EmpresaLogado
     public string Cnpj { get; set; }
     public string Email { get; set; }
     public string Telefone { get; set; }
-    public string Segmento { get; set; }
+    public string SegmentoMercado { get; set; }
     public bool Ativo { get; set; }
 
 
@@ -26,7 +26,7 @@ public class EmpresaLogado
         Cnpj = empresa.CNPJ;
         Email = empresa.Email;
         Telefone = empresa.Telefone;
-        Segmento = empresa.SegmentoMercado;
+        SegmentoMercado = empresa.SegmentoMercado;
         Ativo = empresa.Ativo;
     }
 

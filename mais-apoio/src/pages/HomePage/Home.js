@@ -53,7 +53,7 @@ const Home = () => {
     const login = async () => {
         try {
             if (tipoUsuario === 1) {
-
+                navigate('../voluntario')
             }
             else if (tipoUsuario === 2) {
                 const response = await DoadorService.Logar(email, senha)

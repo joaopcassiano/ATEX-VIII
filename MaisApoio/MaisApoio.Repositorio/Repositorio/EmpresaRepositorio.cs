@@ -134,7 +134,7 @@ namespace MaisApoio.MaisApoio.Repositorio.Repositorio
                         Senha = empresaNode.Properties["Senha"].ToString(),
                         Email = empresaNode.Properties["Email"].ToString(),
                         CNPJ = empresaNode.Properties["Cnpj"].ToString(),
-                        Segmento = empresaNode.Properties["Segmento"].ToString(),
+                        SegmentoMercado = empresaNode.Properties["Segmento"].ToString(),
                         ImagemPerfil = empresaNode.Properties["ImagemPerfil"].ToString(),
                         Ativo = bool.Parse(empresaNode.Properties["Ativo"].ToString())
                     };

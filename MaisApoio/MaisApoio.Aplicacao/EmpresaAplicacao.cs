@@ -13,7 +13,7 @@ public class EmpresaAplicacao
     }
 
     public async Task<int> CriarAsync(Empresa empresa)
-    {   
+    {
 
         if (empresa == null)
         {
@@ -31,7 +31,7 @@ public class EmpresaAplicacao
 
     }
 
-   
+
     public async Task AtualizarAsync(Empresa empresa)
     {
         Empresa empresaObtido = await _empresaRepositorio.ObterPorIdAsync(empresa.ID);
@@ -72,7 +72,7 @@ public class EmpresaAplicacao
 
     public async Task RestaurarAsync(int id)
     {
-            Empresa empresaObtido = await _empresaRepositorio.ObterPorIdAsync(id);
+        Empresa empresaObtido = await _empresaRepositorio.ObterPorIdAsync(id);
 
         if (empresaObtido == null)
         {
@@ -115,14 +115,14 @@ public class EmpresaAplicacao
 
     public async Task CarregarImagemAsync(string imagem, int id)
     {
-        if(imagem == null)
+        if (imagem == null)
         {
             throw new Exception("Imagem não pode ser vazia.");
         }
 
         var empresaID = await _empresaRepositorio.ObterPorIdAsync(id);
 
-        if(empresaID == null)
+        if (empresaID == null)
         {
             throw new Exception("Empresa não encontrado.");
         }
@@ -131,10 +131,11 @@ public class EmpresaAplicacao
     }
 
 
-    public async Task ExclusaoFisicaAsync(int id){
+    public async Task ExclusaoFisicaAsync(int id)
+    {
         await _empresaRepositorio.ExclusaoFisicaAsync(id);
     }
-    
+
     public async Task<int> LogarAsync(string email, string senha)
     {
         Empresa empresaObtido = await _empresaRepositorio.ObterPorEmailAsync(email);
@@ -153,5 +154,30 @@ public class EmpresaAplicacao
 
         return empresa.ID;
     }
+
+    public async Task TrocarDeSenhaAsync(int id, string confirmarSenha, string senha)
+    {
+        var doador = await _empresaRepositorio.ObterPorIdAsync(id);
+
+        if (doador == null)
+        {
+            throw new Exception("Empresa não encontrada");
+        }
+
+        if (confirmarSenha != senha)
+        {
+            throw new Exception("As senhas passadas não são iguais");
+        }
+
+        if (string.IsNullOrWhiteSpace(senha))
+        {
+            throw new Exception("Senha não pode ser vazia");
+        }
+
+        doador.Senha = senha;
+
+        await _empresaRepositorio.AtualizarAsync(doador);
+    }
+
 
 }

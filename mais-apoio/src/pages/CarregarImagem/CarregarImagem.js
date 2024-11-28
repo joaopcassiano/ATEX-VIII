@@ -7,9 +7,10 @@ import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import BeneficiarioService from '../../Services/BeneficiarioService';
 import Loader from '../../Componentes/Loader/Loader';
 import DoadorService from '../../Services/DoadorService';
+import VoluntarioService from '../../Services/VoluntarioService';
 
 const CarregarImagem = () => {
-    const { beneficiario, doador, atualizar } = useOutletContext();
+    const {voluntario,  beneficiario, doador, atualizar } = useOutletContext();
     const cropperRef = useRef(null);
     const [image, setImage] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
@@ -81,7 +82,16 @@ const CarregarImagem = () => {
 
                         }
                         else if (informacoesUsuario.tipoUser === 'Voluntario') {
-
+                            try {
+                                const resposta = await VoluntarioService.CarregarImagem(response?.data?.imageUrl, informacoesUsuario.id)
+                                console.log(resposta)
+                                atualizar();
+                                setLoading(false);
+                            }
+                            catch (error) {
+                                console.error("Erro ao carregar imagem:", error.message);
+                                setLoading(false);
+                            }
                         }
                         else if (informacoesUsuario.tipoUser === 'Empresa') {
 

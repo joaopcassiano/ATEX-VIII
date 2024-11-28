@@ -1,110 +1,107 @@
-import React, { useEffect, useState } from 'react';
-import styles from './_consultaVoluntario.module.css';
-import { FiSearch } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
+import styles from './_consultaVoluntario.module.css'
+import { useLocation } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify';
+import Loader from '../../Componentes/Loader/Loader';
+import { FiAtSign, FiNavigation2 } from 'react-icons/fi';
+import { BsBucket } from 'react-icons/bs';
+import NecessidadeService from '../../Services/NecessidadeService';
 
-const ConsultarHistorico = () => {
-    const [filtro, setFiltro] = useState('Nome');
-    const [busca, setBusca] = useState('');
-    const [beneficiarios, setBeneficiarios] = useState([
-        {
-            nome: 'Maria José da Silva',
-            email: 'maria.jose@gmail.com',
-            perfil: 'https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png',
-            status: 'ATIVO',
-        },
-        {
-            nome: 'Geraldo M. Nunes',
-            email: 'geraldonunes@gmail.com',
-            perfil: 'https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png',
-            status: 'INATIVO',
-        },
-        {
-            nome: 'Gabriela P. Moraes',
-            email: 'gabriela.moraes@gmail.com',
-            perfil: 'https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png',
-            status: 'INATIVO',
-        },
-    ]);
+const ConsultarVoluntario = () => {
+    const location = useLocation();
+    const [id] = useState(location.state)
+    const [necessidades, setNecessidades] = useState([])
+    const [loader, setLoader] = useState(false)
 
     useEffect(() => {
-        setBusca('');
-    }, [filtro]);
+        console.log(id)
+        setLoader(true)
+        BuscarDado()
+    }, [])
 
-    const beneficiariosFiltrados = beneficiarios.filter((beneficiario) => {
-        if (filtro === 'Nome') {
-            return beneficiario.nome.toLowerCase().includes(busca.toLowerCase());
-        } else if (filtro === 'Email') {
-            return beneficiario.email.toLowerCase().includes(busca.toLowerCase());
-        } else if (filtro === 'Status') {
-            return beneficiario.status.toLowerCase() === busca.toLowerCase();
-        }        
-        return true;
-    });
+    const BuscarDado = async () => {
+        try {
+            console.log(id)
+            const response = await NecessidadeService.ObterVoluntario(id);
+            console.log(response)
+            setNecessidades(response.data)
+            setLoader(false)
+
+        } catch (error) {
+            toast.error(`Erro ao doar: ${error.response.data}`, {
+                position: "top-center",
+                autoClose: 3000
+            })
+            setLoader(false)
+        }
+    }
 
     return (
-        <div className={styles.corpo}>
-            <div className={styles.filtro}>
-                <label htmlFor="filtro">Filtrar beneficiários:</label>
-                <div className={styles.filtroInputs}>
-                    <select
-                        value={filtro}
-                        onChange={(e) => setFiltro(e.target.value)}
-                    >
-                        <option value="Nome">Nome</option>
-                        <option value="Email">Email</option>
-                        <option value="Status">Status</option>
-                    </select>
-                    {filtro === 'Status' ? (
-                        <select
-                            value={busca}
-                            onChange={(e) => setBusca(e.target.value)}
-                        >
-                            <option value="" disabled>Selecione</option>
-                            <option value="ativo">Ativo</option>
-                            <option value="inativo">Inativo</option>
-                        </select>
-                    ) : (
-                        <input
-                            type="text"
-                            placeholder="Digite para filtrar..."
-                            value={busca}
-                            onChange={(e) => setBusca(e.target.value)}
-                        />
-                    )}
-                    <button className={styles.searchButton}>
-                        <FiSearch />
-                    </button>
-                </div>
-            </div>
-            <div className={styles.colaboracoes}>
-                <h2>Suas últimas colaborações:</h2>
-                {beneficiariosFiltrados.map((beneficiario, index) => (
-                    <div className={styles.beneficiarioCard} key={index}>
-                        <div className={styles.beneficiarioInfo}>
-                            <h3>Beneficiário</h3>
-                            <p>
-                                <span className={styles.icon}><FiSearch /></span>
-                                {beneficiario.nome}
-                            </p>
-                            <p>@ {beneficiario.email}</p>
-                        </div>
-                        <div className={styles.status}>
-                            <span
-                                className={
-                                    beneficiario.status === 'ATIVO'
-                                        ? styles.ativo
-                                        : styles.inativo
-                                }
-                            >
-                                ● {beneficiario.status}
-                            </span>
-                            <img src={beneficiario.perfil} alt="Perfil" />
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+        <>
+            <ToastContainer limit={1} />
+            {loader ?
+                <>
+                    <Loader />
+                </>
+                :
+                <>
 
-export default ConsultarHistorico;
+                    <p className={styles.titulo}>Suas Ajudas</p>
+                    <div className={styles.container}>
+                        {necessidades.map(necessidade => (
+                            <div className={styles.info_adicional} key={necessidade?.NecessidadeId}>
+
+                                    <div className={styles.infos_adicionais}>
+                                        <div className={styles.textos_adicionais}>
+                                            <div className={styles.texto_adicional}>
+                                                <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
+                                                <p className={styles.texto_add1} >{necessidade?.nome}</p>
+                                            </div>
+                                            <div className={styles.texto_adicional}>
+                                                <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                <p className={styles.texto_add} >{necessidade?.email}</p>
+                                            </div>
+                                            <div className={styles.texto_adicional}>
+                                                <BsBucket style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                <p className={styles.texto_add}>{necessidade?.descricao}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={styles.direita}>
+                                        <div className={styles.ativos}>
+
+                                            {
+                                                necessidade?.ativo ?
+                                                    <>
+                                                        <div className={styles.bolinhaVerde}></div>
+                                                        <p className={styles.ativo}>Ativo</p>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <div className={styles.bolinhaVermelha}></div>
+                                                        <p className={styles.ativo}>Inativo</p>
+                                                    </>
+                                            }
+
+
+                                        </div>
+
+                                        {
+                                            necessidade?.imagemPerfil !== null ?
+
+                                                <img alt='foto doador' className={styles.imagem_adicional} src={necessidade?.imagemPerfil}></img>
+                                                :
+                                                <img src='https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png' alt='foto doador' className={styles.imagem_adicional}></img>
+                                        }
+                                    </div>
+                            </div>
+                        ))}
+                    </div>
+
+                </>
+            }
+        </>
+    )
+}
+
+export default ConsultarVoluntario;

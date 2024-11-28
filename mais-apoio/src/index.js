@@ -73,6 +73,7 @@ root.render(
         <Route path="perfil" element={<Perfil tipoUsuario="Voluntario" />} />
         <Route path="voluntariar-se" element={<Voluntariar />} />
         <Route path="consulta" element={<ConsultarHistorico />} />
+        <Route path="carregar-imagem" element={<CarregarImagem />} />
       </Route>
     </Routes>
   </BrowserRouter>

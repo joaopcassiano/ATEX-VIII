@@ -1,71 +1,128 @@
 import TopBarLog from '../../Componentes/TopBarLog/TopBarLog';
 import styles from './styles.module.css';
 import fotoPerfil from '../../assets/fotoPerfil.png';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SideBar from '../../Componentes/SideBar/SideBar';
 import Conteudo from '../../Componentes/Conteudo/Conteudo';
 import CorpoInferior from '../../Componentes/CorpoInferior/CorpoInferior';
 import Botao from '../../Componentes/Botao/Botao';
+import { useEffect, useRef, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import VoluntarioService from '../../Services/VoluntarioService';
+import EditarVoluntario from '../EditarVoluntario/EditarVoluntario';
+import Loader from '../../Componentes/Loader/Loader';
 
 const Voluntario = () => {
+    const navigate = useNavigate();
     const location = useLocation();
+    const [atualizar, setAtualizar] = useState(false);
+    const [voluntario, setVoluntario] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [editar, setEditar] = useState(false);
+    const escuroRef = useRef(null);
+    const boxEditarRef = useRef(null);
+    const [id] = useState(location.state);
 
-    const user = {
-        nome: 'Pedro Henrique',
-        perfil: fotoPerfil,
-        email: 'pedrohenriquespadilha@gmail.com',
-        dataNascimento: '11/06/2005',
-        Beneficiario: [
-            {
-                nome: 'Maria josé da Silva',
-                telefone: '(11) 99999-9999',
-                dataNascimento: '20/01/1990',
-                email: 'maria.jose@gmail.com',
-                perfil: 'https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png',
-            },
-            {
-                nome: 'josé dos Santos Perreira',
-                telefone: '(22) 11111-1111',
-                dataNascimento: '11/06/1985',
-                email: 'jose.d.s.perreira@gmail.com',
-                perfil: 'https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png',
-            }
-        ],
+
+    useEffect(() => {
+        console.log(location.data)
+        toast.dismiss();
+        ObterVoluntario()
+
+    }, [atualizar])
+
+    const ObterVoluntario = async () => {
+        try {
+            const resposta = await VoluntarioService.ObterPorId(id)
+            setVoluntario(resposta?.data)
+            setLoading(false)
+
+        }
+        catch (error) {
+            const errorMessage = error.response?.data || "Erro desconhecido";
+            toast.dismiss();
+            toast.error(
+                `Erro ao carregar dados do voluntario: ${errorMessage}`,
+                {
+                    position: "top-center",
+                    autoClose: 3000,
+                }
+            );
+            setLoading(false);
+            navigate('../home/apresentacao');
+        }
     }
 
+    const fecharBoxEditar = (event) => {
+        if (boxEditarRef.current && !boxEditarRef.current.contains(event.target)) {
+            setEditar(false);
+        }
+    };
+
+    const handleAtualizar = () => {
+        setAtualizar(prev => !prev);
+    };
+
+
+    const handleEditar = () => {
+        setEditar(true);
+        console.log("Mudou")
+    };
+
     return (
-        <div className={styles.corpo}>
-            <TopBarLog usuario={user} tipoUsuario='Voluntario' />
-            <CorpoInferior>
-                <SideBar>
-                    <Link
-                        className={styles.link}
-                        to='./Voluntariar-se'
-                        state={user}>
-                        <Botao estilo='sideBar'>
-                            Voluntariar-se
-                        </Botao>
-                    </Link>
-                    <Link
-                        className={styles.link}
-                        to='./consulta'
-                        state={user}>
-                        <Botao estilo='sideBar'>
-                            Consultar histórico
-                        </Botao>
-                    </Link>
-                </SideBar>
-                <Conteudo>
-                    {location.pathname === '/Voluntario' ?
-                        <>
-                        oi
-                        </>
+        <>
+            <ToastContainer limit={1} />
+            <div className={styles.corpo}>
+                {
+                    (loading && !voluntario ?
+                        <Loader />
                         :
-                        <Outlet />
-                    }
-                </Conteudo>
-            </CorpoInferior>
-        </div>
+                        <>
+                            {
+                                editar &&
+                                <>
+                                    <div onClick={fecharBoxEditar} ref={escuroRef} className={styles.escuroTela}>
+                                        <div ref={boxEditarRef} className={styles.boxEditar}>
+                                            <EditarVoluntario usuario={voluntario} />
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                            <TopBarLog usuario={voluntario} tipoUsuario='Voluntario' />
+                            <CorpoInferior>
+                                <SideBar>
+                                    <Link
+                                        className={styles.link}
+                                        to='./Voluntariar-se'
+                                        state={voluntario?.id}>
+                                        <Botao estilo='sideBar'>
+                                            Voluntariar-se
+                                        </Botao>
+                                    </Link>
+                                    <Link
+                                        className={styles.link}
+                                        to='./consulta'
+                                        state={voluntario?.id}>
+                                        <Botao estilo='sideBar'>
+                                            Consultar histórico
+                                        </Botao>
+                                    </Link>
+                                </SideBar>
+                                <Conteudo>
+                                    {location.pathname === '/Voluntario' ?
+                                        <>
+                                            oi
+                                        </>
+                                        :
+                                        <Outlet context={{ voluntario, atualizar: handleAtualizar, editar: handleEditar}}/>
+                                    }
+                                </Conteudo>
+                            </CorpoInferior>
+                        </>
+                    )
+                }
+            </div>
+        </>
     )
 }
 

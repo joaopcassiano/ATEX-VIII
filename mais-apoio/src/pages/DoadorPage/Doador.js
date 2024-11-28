@@ -41,7 +41,7 @@ const Doador = () => {
             const errorMessage = error.response?.data || "Erro desconhecido";
             toast.dismiss();
             toast.error(
-                `Erro ao carregar dados do beneficiário: ${errorMessage}`,
+                `Erro ao carregar dados do voluntario: ${errorMessage}`,
                 {
                     position: "top-center",
                     autoClose: 3000,

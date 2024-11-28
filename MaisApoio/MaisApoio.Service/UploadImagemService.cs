@@ -14,7 +14,7 @@ public class UploadimagemService
     private const string Owner = "AndersonCaproni";
     private const string Repo = "FotosPerfil";
     private const string Branch = "main";
-    private const string Token = "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";
+    private const string Token = "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";
 
     public UploadimagemService()
     {

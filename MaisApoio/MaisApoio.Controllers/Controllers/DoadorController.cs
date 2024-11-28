@@ -202,4 +202,23 @@ public class DoadorController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Route("obter-todos")]
+    public async Task<IActionResult> ObterTodos()
+    {
+        try
+        {
+            var doador = await _doadorAplicacao.ObterTodosAsync();
+
+            List<DoadorLogado> doadorLogados = doador.Select( x => new DoadorLogado(x)).ToList();
+            
+            return Ok(doadorLogados);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
 }

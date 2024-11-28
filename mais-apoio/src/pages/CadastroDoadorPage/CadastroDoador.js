@@ -245,7 +245,7 @@ const CadastroDoador = () => {
         catch (error) {
             console.log(error)
             toast.error(
-                `Erro ao cadastrar o doaodr: ${error.response.data}`,
+                `Erro ao cadastrar o doador: ${error.response.data}`,
                 {
                     position: "top-center",
                     autoClose: 3000,

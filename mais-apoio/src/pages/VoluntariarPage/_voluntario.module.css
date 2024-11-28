@@ -1,92 +1,165 @@
-.corpo {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
-    border: none;
-}
-
-.SideBar {
-    width: 15%;
-}
-
-.Conteudo {
-    flex-grow: 1;
-    padding: 20px;
-}
-
 .titulo {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #007bff;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.cartoes {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding: 10px 50px;
-}
-
-.cartao {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    width: 300px;
-    text-align: center;
-    padding: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cartao:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.imagemPerfil {
-    border-radius: 10px;
     width: 100%;
+    color: #007BFF;
+    font-family: 'Poppins';
+    font-size: 2.3rem;
+    text-align: left;
+    margin-bottom: 3rem;
+
+}
+
+.container {
+    display: flex;
+    padding: 0;
+    width: 90%;
     height: auto;
-    max-width: 280px;
-    margin: 0 auto;
-    display: block;
-    border: 3px solid #007bff;
+    justify-content: space-evenly;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.box {
+    width: 16rem;
+    max-width: 16rem;
+    min-width: 16rem;
+    height: auto;
+}
+
+.imagem {
+    width: 100%;
     object-fit: cover;
 }
 
-.info {
-    margin-top: 10px;
+.infos{
+    display: flex;
+    align-items: first baseline;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 0.4rem 1.3rem;
+    text-align: center;
+    border: #007BFF 2px solid;
+    gap: 0.1rem;
 }
 
-.nome {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
+.nome{
+    margin: 0;
+    font-family: 'Poppins';
+    font-size: 0.8rem;
+    color: black;
+    margin-bottom: 0.1rem;
 }
 
-.desafio {
+.demais{
+    font-family: 'PoppinsSimples';
+    font-size: 0.7rem;
+    color: #757575;
+    margin: 0;
+}
+
+.icone{
+    margin: 0;
+    font-size: 0.8rem;
+    color: #007BFF;
+}
+
+.botao{
+    display: flex;
+    justify-content:end;
+    width: 100%;
+    height: auto;
+}
+
+.escuroTela{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 900;
+
+}
+
+.escuroTela::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.escuroTela::-webkit-scrollbar-thumb {
+    background-color: #007BFF;
+    border-radius: 10px;
+}
+
+.boxEditar{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: #007BFF solid 2px;
+    padding: 1.5rem;
+    gap: 1rem;
+}
+
+.tituloDoacao {
+    width: 100%;
+    color: #007BFF;
+    font-family: 'Poppins';
+    font-size: 1.6rem;
+    text-align: left;
+    margin-bottom: 1.5rem;
+
+}
+
+.cadaInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0 0 0.6rem 0;
+    width: 90%;
+
+}
+.inputCadastro {
+    all: unset;
+    border: #007BFF solid;
     font-size: 0.9rem;
-    color: #666;
-    margin: 5px 0;
+    border-width: 0 0 2px 0;
+    padding: 5px;
+    width: 100%;
+    color: #757575;
 }
 
-.voluntariarSe {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-    margin-top: 15px;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+.iconeCadastro {
+    color: #007BFF;
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+    font-style: normal;
 }
 
-.voluntariarSe:hover {
-    background-color: #0056b3;
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
 }

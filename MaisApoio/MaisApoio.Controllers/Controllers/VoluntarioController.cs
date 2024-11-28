@@ -206,5 +206,25 @@ namespace MaisApoio.MaisApoio.Controllers.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("obter-todos")]
+        public async Task<IActionResult> ObterTodos()
+        {
+            try
+            {
+                var voluntario = await _voluntarioAplicacao.ObterTodosAsync();
+
+                List<VoluntarioLogado> voluntarioLogados = voluntario.Select(x => new VoluntarioLogado(x)).ToList();
+
+                return Ok(voluntarioLogados);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+
     }
 }

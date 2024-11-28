@@ -1,126 +1,149 @@
-.corpo {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+.titulo {
     width: 100%;
-    height: 100%;
+    color: #007BFF;
+    font-family: 'Poppins';
+    font-size: 2.3rem;
+    text-align: left;
+    margin-bottom: 3rem;
+
 }
 
-.filtro {
-    margin-bottom: 20px;
+.container {
+    display: flex;
+    padding: 0;
+    width: 90%;
+    height: auto;
+    justify-content: space-evenly;
+    gap: 4rem;
+    flex-wrap: wrap;
 }
 
-.filtro label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 8px;
-}
 
-.filtroInputs {
+
+.info_adicional {
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-.filtroInputs select,
-.filtroInputs input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 200px;
-}
-
-.searchButton {
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.searchButton:hover {
-    background-color: #0056b3;
-}
-
-/* Colaborações */
-.colaboracoes {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.colaboracoes h2 {
-    margin-bottom: 16px;
-    font-size: 20px;
-    color: #333;
-}
-
-/* Card de beneficiário */
-.beneficiarioCard {
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    width: 100%;
+    height: auto;
+    border: 2px solid #007BFF;
+    border-radius: 13px;
+    padding: 1.5rem;
+}
+
+.titulo_adicional {
+    font-family: 'Poppins';
+    font-size: 1.7rem;
+    color: #007BFF;
+}
+
+.infos_adicionais {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    gap: 1rem;
+
+}
+
+.textos_adicionais {
+    display: flex;
+    justify-content: center;
+    align-items: first baseline;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.texto_adicional {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    background-color: #fefefe;
+    flex-direction: row;
+    gap: 1rem;
+    font-family: 'PoppinsSimples';
 }
 
-.beneficiarioInfo h3 {
-    margin: 0 0 8px 0;
-    font-size: 18px;
-    color: #007bff;
+.texto_add{
+    margin:0;
+    font-family: 'PoppinsSimples';
 }
 
-.beneficiarioInfo p {
-    margin: 4px 0;
-    color: #666;
-    font-size: 14px;
+.texto_add1{
+    margin:0;
+    font-family: 'Poppins';
 }
 
-.beneficiarioInfo .icon {
-    margin-right: 8px;
-    color: #007bff;
+
+.imagem_adicional {
+    width: 8rem;
+    border-radius: 90px;
+    border: 1px solid #007BFF;
 }
 
-/* Status e imagem */
-.status {
+.iconeMenor {
+    min-width: 1rem;
+    font-size: 1rem;
+    color: #007BFF
+}
+
+.direita{
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    flex-direction: row;
+    gap: 2rem;
 }
 
-.status img {
-    width: 64px;
-    height: 64px;
+.ativos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.bolinhaVerde{
+    width: 10px;
+    height: 10px;
+    background-color: #0ad82f;
     border-radius: 50%;
-    object-fit: cover;
+    margin-right: 0.5rem;
 }
 
-.ativo {
-    color: green;
-    font-weight: bold;
+.bolinhaVermelha{
+    width: 10px;
+    height: 10px;
+    background-color: #b20000;
+    border-radius: 50%;
+    margin-right: 0.5rem;
 }
 
-.inativo {
-    color: red;
-    font-weight: bold;
+.ativo{
+    color: #000000;
+    margin:0;
+    font-size: 1.7rem;
+    font-family: 'PoppinsSemiBold';
 }
 
-/* Responsividade */
-@media (max-width: 600px) {
-    .beneficiarioCard {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+@font-face {
+    font-family: 'Poppins';
+    src: url('../../Fontes/Poppins/Poppins-Bold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
 
-    .status {
-        margin-top: 10px;
-        justify-content: flex-start;
-    }
+@font-face {
+    font-family: 'PoppinsSemiBold';
+    src: url('../../Fontes/Poppins/Poppins-SemiBold.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PoppinsSimples';
+    src: url('../../Fontes/Poppins/Poppins-Regular.ttf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
 }

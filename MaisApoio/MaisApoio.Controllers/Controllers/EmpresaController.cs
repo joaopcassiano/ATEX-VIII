@@ -202,4 +202,23 @@ public class EmpresaController : ControllerBase
         }
     }
 
+            [HttpGet]
+    [Route("obter-todos")]
+    public async Task<IActionResult> ObterTodos()
+    {
+        try
+        {
+            var empresa = await _empresaAplicacao.ObterTodosAsync();
+
+            List<EmpresaLogado> empresaLogados = empresa.Select( x => new EmpresaLogado(x)).ToList();
+            
+            return Ok(empresaLogados);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,ex.Message);
+        }
+
+    }
+
 }

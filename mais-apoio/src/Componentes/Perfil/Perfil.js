@@ -7,21 +7,26 @@ import { FiAtSign, FiNavigation2 } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import DoacaoService from '../../Services/DoacaoService';
 import { toast, ToastContainer } from 'react-toastify';
+import NecessidadeService from '../../Services/NecessidadeService';
 
 const Perfil = ({ tipoUsuario }) => {
     const location = useLocation()
     const usuario = location.state || {};
-    const { beneficiario, atualizar, editar } = useOutletContext();
+    const { voluntario, beneficiario, atualizar, editar } = useOutletContext();
     const [doacoes, setDoacoes] = useState([])
     const [doacoesBeneficiarios, setDoacoesBeneficiarios] = useState([])
+    const [voluntarioBeneficiarios, setVoluntarioBeneficiarios] = useState([])
 
     useEffect(() => {
         if (tipoUsuario === 'Doador') {
             BuscarDadoDoador()
         } else
             if (tipoUsuario === 'Beneficiario') {
-                BuscarDadoBeneficiario()
-            }
+                BuscarDadosBeneficiario()
+            } else
+                if (tipoUsuario === 'Voluntario') {
+                    BuscarDadoVoluntario()
+                }
     }, [])
 
     const BuscarDadoDoador = async () => {
@@ -37,7 +42,7 @@ const Perfil = ({ tipoUsuario }) => {
         }
     }
 
-    const BuscarDadoBeneficiario = async () => {
+    const BuscarDadosBeneficiario = async () => {
         try {
             const response = await DoacaoService.ObterBeneficiario(usuario?.id);
             setDoacoesBeneficiarios(response.data)
@@ -50,6 +55,18 @@ const Perfil = ({ tipoUsuario }) => {
         }
     }
 
+    const BuscarDadoVoluntario = async () => {
+        try {
+            const response = await NecessidadeService.ObterVoluntario(usuario?.id);
+            setVoluntarioBeneficiarios(response.data)
+
+        } catch (error) {
+            toast.error(`Erro ao buscar doador: ${error.response.data}`, {
+                position: "top-center",
+                autoClose: 3000
+            })
+        }
+    }
 
     return (
         <>
@@ -189,8 +206,52 @@ const Perfil = ({ tipoUsuario }) => {
                                 }
                             </>
                             :
-                            <>
-                            </>
+
+                            tipoUsuario === 'Voluntario' ?
+                                <>
+                                    {
+                                        voluntarioBeneficiarios.length === 0 ?
+                                            <div className={styles.infos_adicionais}>
+                                                <p className={styles.titulo_adicional}>
+                                                    Última ajuda realizada:
+                                                </p>
+                                                <div className={styles.textos_adicionaisSem}>
+                                                    Você ainda não realizou nenhuma ajuda
+                                                </div>
+                                            </div>
+                                            :
+                                            <>
+                                                <div className={styles.infos_adicionais}>
+                                                    <p className={styles.titulo_adicional}>
+                                                        Última ajuda realizada:
+                                                    </p>
+                                                    <div className={styles.textos_adicionais}>
+                                                        <div className={styles.texto_adicional}>
+                                                            <FiNavigation2 style={{ transform: 'rotate(90deg)', color: '#007BFF', fontSize: '1.3rem' }} />
+                                                            <p className={styles.texto_add} >{voluntarioBeneficiarios[voluntarioBeneficiarios.length - 1]?.nome}</p>
+                                                        </div>
+                                                        <div className={styles.texto_adicional}>
+                                                            <FiAtSign style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                            <p className={styles.texto_add} >{voluntarioBeneficiarios[voluntarioBeneficiarios.length - 1]?.email}</p>
+                                                        </div>
+                                                        <div className={styles.texto_adicional}>
+                                                            <BsBucket style={{ color: '#007BFF', fontSize: '1.3rem' }} />
+                                                            <p className={styles.texto_add}>{voluntarioBeneficiarios[voluntarioBeneficiarios.length - 1]?.descricao}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {
+                                                    voluntarioBeneficiarios[voluntarioBeneficiarios.length - 1]?.imagemPerfil === null ?
+                                                        <img src='https://raw.githubusercontent.com/AndersonCaproni/FotosPerfil/main/images/990265ca-9b83-4306-a0c1-3c27daa9e525_27/11/2024%2015%3A03%3A51_59208-perfil.png' alt='foto doador' className={styles.imagem_adicional}></img>
+                                                        :
+                                                        <img src={voluntarioBeneficiarios[voluntarioBeneficiarios.length - 1]?.imagemPerfil} alt='foto doador' className={styles.imagem_adicional}></img>
+                                                }
+                                            </>
+                                    }
+                                </>
+                                :
+                                <>
+                                </>
                 }
             </div>
         </>

@@ -13,6 +13,7 @@ import BeneficiarioService from '../../Services/BeneficiarioService'
 import { ToastContainer, toast } from "react-toastify";
 import CodigoValidacaoUsuarioService from '../../Services/CodigoValidacaoUsuarioService';
 import DoadorService from '../../Services/DoadorService';
+import VoluntarioService from '../../Services/VoluntarioService';
 
 const Home = () => {
     const [visivelLogin, setVisivelLogin] = useState(false)
@@ -53,7 +54,10 @@ const Home = () => {
     const login = async () => {
         try {
             if (tipoUsuario === 1) {
-                navigate('../voluntario')
+                const response = await VoluntarioService.Logar(email, senha)
+                console.log(response)
+                console.log(`este é o id: ${response.data}`)
+                navigate('../voluntario', { state: response.data })
             }
             else if (tipoUsuario === 2) {
                 const response = await DoadorService.Logar(email, senha)
@@ -131,7 +135,27 @@ const Home = () => {
     const TrocaDeSenha = async () => {
         try {
             if (tipoUsuario === 1) {
-
+                try {
+                    const response = await VoluntarioService.TrocarSenha(id, senha, confirmarSenha)
+                    console.log(response);
+                    toast.dismiss();
+                    toast.success("Senha trocada com sucesso, você será redirecionado!", {
+                        position: "top-center",
+                        autoClose: 3000
+                    });
+                    setTimeout(() => {
+                        navigate('../voluntario', { state: id })
+                    }, 4000);
+                }
+                catch (error) {
+                    console.error(error);
+                    toast.dismiss();
+                    toast.error(`${error.response?.data}!`, {
+                        position: "top-center",
+                        autoClose: 2500
+                    });
+                    return;
+                }
             }
             else if (tipoUsuario === 2) {
                 try {

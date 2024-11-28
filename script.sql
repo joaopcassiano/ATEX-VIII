@@ -81,3 +81,13 @@ create table Doacao(
 	DoadorID int not null,
 	Ativo bit not null
 )
+
+create table Emprego(
+	EmpregoID int not null identity(1,1) primary key,
+	DescricaoEmprego varchar(200) not null,
+	TipoEmprego varchar(200) not null,
+	DataAdmissao date not null,
+	BeneficiarioID int not null,
+	DoadorID int not null,
+	Ativo bit not null
+);
